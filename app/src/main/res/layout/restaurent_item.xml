@@ -9,47 +9,59 @@
     <!-- Dish Name -->
 
     <ImageView
-        android:id="@+id/food_image"
+        android:id="@+id/image_restaurent"
         android:layout_width="104dp"
         android:layout_height="120dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="16dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/paneer" />
+         />
 
     <TextView
-        android:id="@+id/dish_name"
+        android:id="@+id/restaurent_name_resto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="26dp"
         android:layout_marginTop="12dp"
-        android:layout_toEndOf="@+id/food_image"
+        android:layout_toEndOf="@+id/image_restaurent"
         android:text="Domino's Pizza"
         android:textSize="25sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/dishTitle"
+        android:id="@+id/dishOrResto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dish_name"
+        android:layout_below="@+id/restaurent_name_resto"
         android:layout_marginStart="26dp"
         android:layout_marginTop="4dp"
-        android:layout_toEndOf="@+id/food_image"
+        android:layout_toEndOf="@+id/image_restaurent"
         android:text="Restaurent"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/cuisines_restaurent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dishTitle"
+        android:layout_below="@+id/dishOrResto"
         android:layout_marginStart="26dp"
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@+id/food_image"
+        android:layout_toEndOf="@+id/image_restaurent"
         android:text="Pizza, Bread, Rolls, Burgers"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarinRestaurentItem"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/image_restaurent"
+        android:layout_alignEnd="@+id/image_restaurent"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="30dp" />
 
 </RelativeLayout>
 

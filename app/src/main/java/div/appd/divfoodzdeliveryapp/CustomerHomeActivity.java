@@ -53,6 +53,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CustomerHomeActivity.this, CustomerDetailsActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -61,6 +62,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CustomerHomeActivity.this, DishtypeExploreActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("actionExplore", "exploreDishtypes");
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -68,7 +72,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
         openExploreRestoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(CustomerHomeActivity.this, DishtypeExploreActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("actionExplore", "exploreRestaurents");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
