@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="div.appd.divfoodzdeliveryapp.RestaurentDetailsActivity">
+
+    <EditText
+        android:id="@+id/restaurentNameField"
+        android:layout_width="329dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="Name Of Your Restaurent"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/cityField"
+        android:layout_width="133dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="City"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/stateField"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurentNameField" />
+
+    <EditText
+        android:id="@+id/stateField"
+        android:layout_width="185dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="44dp"
+        android:ems="10"
+        android:hint="State"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/cityField"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/setAddressButton"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:enabled="false"
+        android:text="Set Address As Current Location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseImageButton" />
+
+    <Button
+        android:id="@+id/saveRestaurentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:enabled="false"
+        android:text="Save Details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setAddressButton"
+        app:layout_constraintVertical_bias="0.09" />
+
+    <EditText
+        android:id="@+id/foodServiceField"
+        android:layout_width="329dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Cuisines You Provide"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressField" />
+
+    <Button
+        android:id="@+id/chooseImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:enabled="false"
+        android:text="Choose Image"
+        app:layout_constraintEnd_toStartOf="@+id/uploadRestoImageButton"
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foodServiceField" />
+
+    <EditText
+        android:id="@+id/contactField"
+        android:layout_width="329dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Enter Contact Number"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityField" />
+
+    <Button
+        android:id="@+id/uploadRestoImageButton"
+        android:layout_width="157dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="44dp"
+        android:text="Upload Img"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="@+id/chooseImageButton"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/addressField"
+        android:layout_width="329dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Address Of Restaurent"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactField" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

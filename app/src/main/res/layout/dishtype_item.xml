@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="20dp"
+    >
+
+    <!-- Food Image -->
+    <ImageView
+        android:id="@+id/food_image_type_user"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/paneer" />
+
+    <!-- Dish Name -->
+
+    <TextView
+        android:id="@+id/dish_type_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/food_image_type_user"
+        android:text="Paneer Butter Masala"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/dish_or_resto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dish_type_name"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="7dp"
+        android:layout_toEndOf="@+id/food_image_type_user"
+        android:text="Dish"
+        android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarForDishType"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/food_image_type_user"
+        android:layout_alignBottom="@+id/dish_type_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="-23dp" />
+
+</RelativeLayout>
+
+
+
+
+
+
+
