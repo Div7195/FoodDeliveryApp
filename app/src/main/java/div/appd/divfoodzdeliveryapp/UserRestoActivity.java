@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fooddelivery.R;
 import com.google.firebase.database.DataSnapshot;
@@ -89,7 +90,7 @@ public class UserRestoActivity extends AppCompatActivity {
                             // Attach the adapter to a ListView
                             ListView listView = (ListView) findViewById(R.id.dishListRestoUser);
                             listView.setAdapter(adapter);
-
+                            Toast.makeText(UserRestoActivity.this, "userrestoactvity and adapter is restoviewofadapter", Toast.LENGTH_SHORT).show();
                             getListViewSize(listView);
                             progressBarForDish.setVisibility(View.GONE);
                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,6 +151,7 @@ public class UserRestoActivity extends AppCompatActivity {
                     // Attach the adapter to a ListView
                     ListView listView = (ListView) findViewById(R.id.dishListRestoUser);
                     listView.setAdapter(adapter);
+                    Toast.makeText(UserRestoActivity.this, "userrestoactivity", Toast.LENGTH_SHORT).show();
                     progressBarForDish.setVisibility(View.GONE);
                     getListViewSize(listView);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

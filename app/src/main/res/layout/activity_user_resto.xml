@@ -26,21 +26,20 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="left|center_vertical"
-                    android:text="TextView"
+                    android:text="Fetching.."
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
                 <TextView
-                android:id="@+id/user_resto_cuisines"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="10dp"
-                android:gravity="left|center_vertical"
-                android:text="Cuisines"
-                android:textSize="22sp"
-                android:textStyle="italic"
-                />
+                    android:id="@+id/user_resto_cuisines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="left|center_vertical"
+                    android:text="Fetching.."
+                    android:textSize="22sp"
+                    android:textStyle="italic" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,13 +56,12 @@
                         android:textStyle="bold" />
 
                     <TextView
-                android:id="@+id/user_resto_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                        android:id="@+id/user_resto_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                android:text="TextView"
-                android:textSize="22sp"
-                 />
+                        android:text="Fetching.."
+                        android:textSize="22sp" />
                 </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,9 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="13dp"
                 android:gravity="left|center_vertical"
-                android:text="TextView"
-                android:textSize="22sp"
-                 />
+                android:text="Fetching.."
+                android:textSize="22sp" />
         </LinearLayout>
 
             <ListView

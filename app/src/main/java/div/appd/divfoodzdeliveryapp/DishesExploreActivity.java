@@ -57,6 +57,7 @@ public class DishesExploreActivity extends AppCompatActivity {
                 // Attach the adapter to a ListView
                 ListView listView = (ListView) findViewById(R.id.dish_foodItemListView_res);
                 listView.setAdapter(adapter);
+                Toast.makeText(DishesExploreActivity.this, "dishesexploreactivity and adapter is dishadapteruser", Toast.LENGTH_SHORT).show();
                 progressBarForDish.setVisibility(View.GONE);
 
             }
