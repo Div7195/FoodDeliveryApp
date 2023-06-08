@@ -106,9 +106,9 @@ public class DishtypeExploreActivity extends AppCompatActivity {
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                Intent mIntent = new Intent(DishtypeExploreActivity.this, DishesExploreActivity.class);
+                                Intent mIntent = new Intent(DishtypeExploreActivity.this, UserRestoActivity.class);
 //                        mIntent.putExtra("action", "edit");
-                                mIntent.putExtra("dishTypeObj", (Dishtype) adapterView.getItemAtPosition(i));
+                                mIntent.putExtra("restaurentObj", (Restaurent) adapterView.getItemAtPosition(i));
 //                        Toast.makeText(DishtypeExploreActivity.this,String.valueOf( ((Dishtype) adapterView.getItemAtPosition(i)).getDishIds().size()) , Toast.LENGTH_SHORT).show();
                                 startActivity(mIntent);
                             }
