@@ -22,18 +22,26 @@ import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.example.fooddelivery.R;
+import com.google.android.gms.common.internal.ServiceSpecificExtraArgs;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DishAdapterUser extends ArrayAdapter<Dish> {
     Integer gg;
+    Double d = 0.0;
+    Integer q = 0;
+    String resId = "";
+    HashMap<String, CartItemInfo> hashMapSameDish = new HashMap<String, CartItemInfo>();
     public DishAdapterUser(Context context, ArrayList<Dish> dishes){
         super(context, 0 , dishes );
     }
@@ -52,8 +60,8 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
 
 
 //        **************************************
-        TextView cartPrice = (TextView) layout.findViewById(R.id.priceInCart);
-        TextView cartItems = (TextView) layout.findViewById(R.id.itemInCart);
+        TextView cartTotalPriceView = (TextView) layout.findViewById(R.id.priceInCart);
+        TextView cartTotalItemsView = (TextView) layout.findViewById(R.id.itemInCart);
         ViewFlipper viewFlipper = (ViewFlipper)convertView.findViewById(R.id.add_flipper);
         TextView restaurentNameView = (TextView) convertView.findViewById(R.id.restaurant_name_user);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.veg_icon_user);
@@ -96,6 +104,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
             }
         }
 
+
         restaurentNameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,74 +118,89 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
             }
         });
 
-//        ViewTreeObserver vto = layout.getViewTreeObserver();
-//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//
-//            @Override
-//            public void onGlobalLayout() {
-//                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-//                    this.layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                } else {
-//                    this.layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                }
-//                int width  = layout.getMeasuredWidth();
-//                int height = layout.getMeasuredHeight();
-//
-//            }
-//        });
 
 
-//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                layout2.getViewTreeObserver().removeOnGlobalLayoutListener (this);
-//
-//                gg = layout2.getHeight();
-//            }
-//        });
         addButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFlipper.showNext();
-                if(layout2 != null) {
-                    ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                    int h = layout1.getHeight() - 116;
-                    int w = params1.width;
-                    params1.height = h;
-                    params1.width = w;
-                    layout1.setLayoutParams(params1);
-                    layout2.setVisibility(View.VISIBLE);
+                if(resId.equals("") || resId.equals(dish.getRestaurentId())){
+                        viewFlipper.showNext();
+                        if(layout2 != null) {
+                            if(hashMapSameDish.size() == 0) {
+                                ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
+                                int h = layout1.getHeight() - 116;
+                                int w = params1.width;
+                                params1.height = h;
+                                params1.width = w;
+                                layout1.setLayoutParams(params1);
+                                layout2.setVisibility(View.VISIBLE);
+                            }
+                            hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0, dish.getVegOrNonveg()));
+                            resId = dish.getRestaurentId();
+                            CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
+                            Integer quantity = cartItemInfo.getQuanity() + 1;
+                            Double price = cartItemInfo.getPrice() + Double.valueOf(dish.getPrice());
+                            cartItemInfo.setQuanity(quantity);
+                            cartItemInfo.setPrice(price);
+                            d = d + Double.valueOf(dish.getPrice());
+                            q = q + 1;
+                            cartTotalPriceView.setText(String.valueOf(d));
+                            cartTotalItemsView.setText(String.valueOf(q));
+                            quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
+                        }else{
+                            Toast.makeText(getContext(), "fsadf", Toast.LENGTH_SHORT).show();
+                        }
                 }else{
-                    Toast.makeText(getContext(), "fsadf", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Select same restaurent", Toast.LENGTH_SHORT).show();
                 }
+
+
+
             }
         });
 
         imageButtonSubView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Integer.valueOf(quantityView.getText().toString()) == 1){
+                CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
+                Integer quantity = cartItemInfo.getQuanity() - 1;
+                Double price = cartItemInfo.getPrice() - Double.valueOf(dish.getPrice());
+                cartItemInfo.setQuanity(quantity);
+                cartItemInfo.setPrice(price);
+                d = d - Double.valueOf(dish.getPrice());
+                q = q - 1;
+                cartTotalPriceView.setText(String.valueOf(d));
+                cartTotalItemsView.setText(String.valueOf(q));
+                quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
+                if(cartItemInfo.getQuanity() == 0){
                     viewFlipper.showPrevious();
-                    ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                    int h = layout1.getHeight() + layout2.getHeight();
-                    int w = params1.width;
-                    layout2.setVisibility(View.GONE);
-                    params1.height = h;
-                    params1.width = w;
-                    layout1.setLayoutParams(params1);
-                }
-                else{
-                    int quantityValueToBeSet = Integer.valueOf(quantityView.getText().toString()) - 1;
-                    quantityView.setText(String.valueOf(quantityValueToBeSet));
+                    hashMapSameDish.remove(dish.getDishId());
+                    if(hashMapSameDish.size() == 0){
+                        resId = "";
+                        ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
+                        int h = layout1.getHeight() + layout2.getHeight();
+                        int w = params1.width;
+                        layout2.setVisibility(View.GONE);
+                        params1.height = h;
+                        params1.width = w;
+                        layout1.setLayoutParams(params1);
+                    }
                 }
             }
         });
         imageButtonAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    int quantityValueToBeSet = Integer.valueOf(quantityView.getText().toString()) + 1;
-                    quantityView.setText(String.valueOf(quantityValueToBeSet));
-
+                    CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
+                    Integer quantity = cartItemInfo.getQuanity() + 1;
+                    Double price = cartItemInfo.getPrice() + Double.valueOf(dish.getPrice());
+                    cartItemInfo.setQuanity(quantity);
+                    cartItemInfo.setPrice(price);
+                    d = d + Double.valueOf(dish.getPrice());
+                    q = q + 1;
+                    cartTotalPriceView.setText(String.valueOf(d));
+                    cartTotalItemsView.setText(String.valueOf(q));
+                    quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
 
             }
         });
