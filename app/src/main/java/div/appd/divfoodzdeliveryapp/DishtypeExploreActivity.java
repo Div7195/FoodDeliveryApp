@@ -103,6 +103,7 @@ public class DishtypeExploreActivity extends AppCompatActivity {
                         ListView listView = (ListView) findViewById(R.id.dishtype_foodItemListView_res);
                         listView.setAdapter(adapter);
                         progressBarForDishTypes.setVisibility(View.GONE);
+
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

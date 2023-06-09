@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -23,6 +26,7 @@ import java.util.List;
 public class DishesExploreActivity extends AppCompatActivity {
     ProgressBar progressBarForDish;
     Dishtype dishtypeObj;
+    LinearLayout ll;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
     ArrayList<Dish> arrayOfDishes = new ArrayList<Dish>();
@@ -31,6 +35,7 @@ public class DishesExploreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dishes_explore);
         progressBarForDish = findViewById(R.id.progressBarExploreDish);
+        ll = findViewById(R.id.ll_parent_1);
         dishtypeObj = (Dishtype) getIntent().getSerializableExtra("dishTypeObj");
         databaseReference.child("dishes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -57,6 +62,8 @@ public class DishesExploreActivity extends AppCompatActivity {
                 // Attach the adapter to a ListView
                 ListView listView = (ListView) findViewById(R.id.dish_foodItemListView_res);
                 listView.setAdapter(adapter);
+                listView.setTag(ll);
+                getListViewSize(listView);
                 Toast.makeText(DishesExploreActivity.this, "dishesexploreactivity and adapter is dishadapteruser", Toast.LENGTH_SHORT).show();
                 progressBarForDish.setVisibility(View.GONE);
 
@@ -67,6 +74,27 @@ public class DishesExploreActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+    private void getListViewSize(ListView myListView) {
+        ListAdapter myListAdapter = myListView.getAdapter();
+        if (myListAdapter == null) {
+            //do nothing return null
+            return;
+        }
+        //set listAdapter in loop for getting final size
+        int totalHeight = 0;
+        for (int size = 0; size < myListAdapter.getCount(); size++) {
+            View listItem = myListAdapter.getView(size, null, myListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        //setting listview item in adapter
+        ViewGroup.LayoutParams params = myListView.getLayoutParams();
+        params.height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
+        myListView.setLayoutParams(params);
+        // print height of adapter on log
+        Log.i("height of listItem:", String.valueOf(totalHeight));
 
     }
 }

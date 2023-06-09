@@ -9,8 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
@@ -31,6 +33,16 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.restaurent_dish_item, parent, false);
         }
+        LinearLayout layout = (LinearLayout) parent.getTag();
+        LinearLayout layout1 = (LinearLayout) layout.getChildAt(0);
+        LinearLayout layout2 = (LinearLayout) layout.getChildAt(1);
+//        ***********************
+
+
+//        **************************************
+        TextView cartPrice = (TextView) layout.findViewById(R.id.priceInCart);
+        TextView cartItems = (TextView) layout.findViewById(R.id.itemInCart);
+
         ViewFlipper viewFlipper = (ViewFlipper)convertView.findViewById(R.id.add_flipper);
         TextView dishNameView = (TextView) convertView.findViewById(R.id.restaurant_name_user);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.veg_icon_user);
@@ -76,12 +88,57 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
         addButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mIntent = new Intent(getContext(), AddItemActivity.class);
-                mIntent.putExtra("action", "edit");
-                mIntent.putExtra("dishObj",dish);
-                getContext().startActivity(mIntent);
+                viewFlipper.showNext();
+                if(layout2 != null) {
+                    ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
+                    int h = layout1.getHeight() - 116;
+                    int w = params1.width;
+                    params1.height = h;
+                    params1.width = w;
+                    layout1.setLayoutParams(params1);
+                    layout2.setVisibility(View.VISIBLE);
+                }else{
+                    Toast.makeText(getContext(), "fsadf", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+        imageButtonSubView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Integer.valueOf(quantityView.getText().toString()) == 1){
+                    viewFlipper.showPrevious();
+                    ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
+                    int h = layout1.getHeight() + layout2.getHeight();
+                    int w = params1.width;
+                    layout2.setVisibility(View.GONE);
+                    params1.height = h;
+                    params1.width = w;
+                    layout1.setLayoutParams(params1);
+                }
+                else{
+                    int quantityValueToBeSet = Integer.valueOf(quantityView.getText().toString()) - 1;
+                    quantityView.setText(String.valueOf(quantityValueToBeSet));
+                }
+            }
+        });
+        imageButtonAddView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantityValueToBeSet = Integer.valueOf(quantityView.getText().toString()) + 1;
+                quantityView.setText(String.valueOf(quantityValueToBeSet));
+
+
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "welcome", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
         return convertView;

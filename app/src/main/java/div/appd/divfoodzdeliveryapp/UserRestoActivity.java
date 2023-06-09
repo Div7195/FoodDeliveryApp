@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -31,6 +32,7 @@ public class UserRestoActivity extends AppCompatActivity {
     String clickedRestaurentId;
     TextView restaurentNameView, cuisinesView, addressView, contactView;
     Restaurent restaurentObj;
+    LinearLayout lll;
     ArrayList <Dish> arrayOfDishes = new ArrayList<Dish>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class UserRestoActivity extends AppCompatActivity {
         progressBarForDish = findViewById(R.id.progressBarinUserResto);
         restaurentObj = (Restaurent) getIntent().getSerializableExtra("restaurentObj");
         clickedRestaurentId = getIntent().getStringExtra("restaurentId");
+        lll = findViewById(R.id.ll_parent_2);
         if (clickedRestaurentId != null) {
             ArrayList<String> arrayOfDishIdsRestaurent = new ArrayList<String>();
             databaseReference.child("restaurents").child(clickedRestaurentId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -91,7 +94,9 @@ public class UserRestoActivity extends AppCompatActivity {
                             ListView listView = (ListView) findViewById(R.id.dishListRestoUser);
                             listView.setAdapter(adapter);
                             Toast.makeText(UserRestoActivity.this, "userrestoactvity and adapter is restoviewofadapter", Toast.LENGTH_SHORT).show();
+                            listView.setTag(lll);
                             getListViewSize(listView);
+
                             progressBarForDish.setVisibility(View.GONE);
                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
@@ -153,6 +158,7 @@ public class UserRestoActivity extends AppCompatActivity {
                     listView.setAdapter(adapter);
                     Toast.makeText(UserRestoActivity.this, "userrestoactivity", Toast.LENGTH_SHORT).show();
                     progressBarForDish.setVisibility(View.GONE);
+                    listView.setTag(lll);
                     getListViewSize(listView);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
