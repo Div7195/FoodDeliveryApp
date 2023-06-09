@@ -103,7 +103,7 @@
                     android:textColor="@color/white"
                     android:text="Rs."
                     android:textSize="17sp"
-                    android:textStyle="bold" />
+                     />
 
                 <TextView
                     android:id="@+id/priceInCart"
