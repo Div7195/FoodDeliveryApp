@@ -16,6 +16,7 @@
             android:layout_height="match_parent"
             android:orientation ="vertical">
             <TextView
+                android:id="@+id/headingRestaurentName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -29,6 +30,7 @@
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/restaurentAddress"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_weight="1"
@@ -80,7 +82,7 @@
 
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/setCurrentAddressButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -89,16 +91,16 @@
 
 
             <ListView
-                android:id="@+id/dishListRestoUser"
+                android:id="@+id/itemsOrderedList"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="5dp"
                 >
             </ListView>
             <ProgressBar
-                android:id="@+id/progressBarinUserResto"
+                android:id="@+id/progressBarinOrderView"
                 style="?android:attr/progressBarStyle"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -128,7 +130,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/user_resto_address"
+                    android:id="@+id/itemTotalField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -151,7 +153,7 @@
                     />
 
                 <TextView
-
+                    android:id="@+id/deliveryFeeField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -175,9 +177,9 @@
                     />
 
                 <TextView
-
+                    android:id="@+id/gstChargeField"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="30dp"
                     android:gravity="left|center_vertical"
                     android:text="Fetching.."
@@ -198,7 +200,7 @@
                     android:textStyle="bold"
                     />
                 <TextView
-
+                    android:id="@+id/totalAmountField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -214,6 +216,7 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/orderedTimeField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
@@ -228,6 +231,7 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/statusOrderField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
@@ -236,6 +240,7 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ratingSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -248,7 +253,7 @@
                 android:text="Rate Your Order">
             </TextView>
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                android:id="@+id/food_rating"
+                android:id="@+id/ratingBarOrderVIew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialRatingBar.RatingBar"
@@ -256,6 +261,7 @@
                 android:isIndicator="true"
                 />
                 <Button
+                    android:id="@+id/ratingSubmitButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -263,12 +269,14 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/placeOrderSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 >
             <Button
+                android:id="@+id/placeOrderButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Place Order">
@@ -276,37 +284,44 @@
             </Button>
         </LinearLayout>
             <LinearLayout
+                android:id="@+id/readyPickupSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
                 >
                 <Button
+                    android:id="@+id/readyPickupButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ready for pickup">
 
                 </Button>
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/pickedUpSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                >
+                android:layout_marginTop="10dp">
+
                 <Button
+                    android:id="@+id/pickedUpButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pick Up">
-                </Button>
+                    android:text="Pick Up"></Button>
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/deliveredSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 >
                 <Button
+                    android:id="@+id/deliveredButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delivered">
