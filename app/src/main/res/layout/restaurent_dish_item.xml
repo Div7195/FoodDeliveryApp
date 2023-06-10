@@ -65,22 +65,19 @@
         android:textColor="@color/black"
         android:textSize="20sp" />
 
-<!--    <me.zhanghai.android.materialratingbar.MaterialRatingBar-->
-<!--        android:id="@+id/food_rating"-->
-<!--        android:layout_width="113dp"-->
-<!--        android:layout_height="27dp"-->
-<!--        android:layout_below="@id/food_price"-->
-<!--        android:layout_marginStart="-30dp"-->
-<!--        android:layout_marginTop="6dp"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        android:layout_toEndOf="@id/veg_icon"-->
-<!--        android:contentDescription="rating"-->
-<!--        app:mrb_drawableEmpty="@drawable/baseline_star_outline_24"-->
-<!--        app:mrb_drawableFull="@drawable/baseline_star_24"-->
-<!--        app:mrb_drawableHalf="@drawable/baseline_star_half_24"-->
-<!--        app:mrb_fillBackgroundStars="true"-->
-<!--        app:mrb_numStars="5"-->
-<!--        app:mrb_rating="4.5" />-->
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/food_rating"
+        android:layout_width="113dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/food_price_user"
+        android:layout_marginStart="-30dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="16dp"
+        android:layout_toEndOf="@id/veg_icon_user"
+        style="@style/Widget.MaterialRatingBar.RatingBar"
+        android:contentDescription="rating"
+        android:isIndicator="true"
+         />
 
     <ImageView
         android:id="@+id/food_image_user"

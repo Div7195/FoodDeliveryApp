@@ -2,9 +2,11 @@ package div.appd.divfoodzdeliveryapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Build;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,18 +31,23 @@ import com.google.android.gms.common.internal.ServiceSpecificExtraArgs;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class DishAdapterUser extends ArrayAdapter<Dish> {
     Integer gg;
     Double d = 0.0;
     Integer q = 0;
     String resId = "";
+    String mapKey = "map";
     HashMap<String, CartItemInfo> hashMapSameDish = new HashMap<String, CartItemInfo>();
     public DishAdapterUser(Context context, ArrayList<Dish> dishes){
         super(context, 0 , dishes );
@@ -69,6 +76,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
         TextView foodPriceView = (TextView) convertView.findViewById(R.id.food_price_user);
         ImageView foodImgView = (ImageView) convertView.findViewById(R.id.food_image_user);
         ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBarForDishInUser);
+        MaterialRatingBar materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.food_rating);
         Button addButtonView = (Button) convertView.findViewById(R.id.add_button_user);
         ImageButton imageButtonSubView= (ImageButton) convertView.findViewById(R.id.subtract_button);
         ImageButton imageButtonAddView = (ImageButton) convertView.findViewById(R.id.increment_item_button);
@@ -103,6 +111,11 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                 imgView.setImageResource(R.drawable.nonveg);
             }
         }
+        if(dish.getRating() != null){
+            float f = dish.getRating().floatValue();
+            f = 4.25F;
+            materialRatingBar.setRating(f);
+        }
 
 
         restaurentNameView.setOnClickListener(new View.OnClickListener() {
@@ -112,11 +125,13 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                 if(dish.getRestaurentId() == null){
                     Log.d("debugging", "id is null");
                 }else {
+                    saveMap(hashMapSameDish);
                     mIntent.putExtra("restaurentId", dish.getRestaurentId());
                     getContext().startActivity(mIntent);
                 }
             }
         });
+
 
 
 
@@ -207,12 +222,45 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "welcome", Toast.LENGTH_SHORT).show();
+                if(hashMapSameDish.size() != 0) {
+                    Toast.makeText(getContext(), String.valueOf(hashMapSameDish.size()), Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
 
         return convertView;
+    }
+    private void saveMap(HashMap<String, CartItemInfo> inputMap) {
+        SharedPreferences pSharedPref = getContext().getSharedPreferences("MyVariables", Context.MODE_PRIVATE);
+        if (pSharedPref != null) {
+            JSONObject jsonObject = new JSONObject(inputMap);
+            String jsonString = jsonObject.toString();
+            SharedPreferences.Editor editor = pSharedPref.edit();
+            editor.remove(mapKey).apply();
+            editor.putString(mapKey, jsonString);
+            editor.commit();
+        }
+    }
+    private HashMap<String, CartItemInfo> loadMap() {
+        HashMap<String, CartItemInfo> outputMap = new HashMap<>();
+        SharedPreferences pSharedPref = getContext().getSharedPreferences("MyVariables",
+                Context.MODE_PRIVATE);
+        try {
+            if (pSharedPref != null) {
+                String jsonString = pSharedPref.getString(mapKey, (new JSONObject()).toString());
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Iterator<String> keysItr = jsonObject.keys();
+                while (keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    outputMap.put(key, (CartItemInfo) jsonObject.get(key));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outputMap;
     }
 
 }

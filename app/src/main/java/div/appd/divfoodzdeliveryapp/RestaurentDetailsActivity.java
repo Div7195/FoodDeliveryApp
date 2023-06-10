@@ -46,6 +46,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -323,37 +324,14 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                     if (location != null) {
                         Geocoder geocoder = new Geocoder(RestaurentDetailsActivity.this, Locale.getDefault());
                         List<Address> addresses = null;
-                        GeocodingHelper.geocode(RestaurentDetailsActivity.this, location.getLatitude(), location.getLongitude(), new GeocodingHelper.GeocodeCallback() {
-                            @Override
-                            public void onAddressFetched(String address) {
-                                // Handle the retrieved address here
-                                String currentAddress = address;
-                                restaurentAddressView.setText(currentAddress);
-                                Toast.makeText(RestaurentDetailsActivity.this,"", Toast.LENGTH_SHORT).show();
-//                                Log.d(TAG, "Address: " + address);
-                            }
 
-                            @Override
-                            public void onAddressFetchFailed() {
-                                // Handle address fetch failure here
-                                Log.e("Error in parsing api location", "Failed to fetch address");
-                            }
-                        });
-//                        try {
-//                            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-//
-//                            String tempUrl = "";
-//                            String currentAddress = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-//                            String currentCity = addresses.get(0).getLocality();
-//                            String currentState = addresses.get(0).getAdminArea();
-//                            String currentCoutnry = addresses.get(0).getCountryName();
-//                            String currentPostalCode = addresses.get(0).getPostalCode();
-//                            String currentKnownName = addresses.get(0).getFeatureName();
-//
-//
-//                        } catch (IOException e) {
-//                            throw new RuntimeException(e);
-//                        }
+                        try {
+                            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            String currentAddress = addresses.get(0).getSubLocality();
+                            restaurentAddressView.setText(currentAddress);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     } else {
                         if (ActivityCompat.checkSelfPermission(RestaurentDetailsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(RestaurentDetailsActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             // TODO: Consider calling
