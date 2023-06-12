@@ -51,16 +51,16 @@ public class UserRestoActivity extends AppCompatActivity {
             databaseReference.child("restaurents").child(clickedRestaurentId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String name, address, contact, cuisines;
+                    String name, locality, contact, cuisines;
                     name = snapshot.child("name").getValue(String.class);
-                    address = snapshot.child("address").getValue(String.class);
+                    locality = snapshot.child("locality").getValue(String.class);
                     contact = snapshot.child("contact").getValue(String.class);
                     cuisines = snapshot.child("cuisines").getValue(String.class);
                     if (name != null) {
                         restaurentNameView.setText(name);
                     }
-                    if (address != null) {
-                        addressView.setText(address);
+                    if (locality != null) {
+                        addressView.setText(locality);
                     }
                     if (contact != null) {
                         contactView.setText(contact);
@@ -127,7 +127,7 @@ public class UserRestoActivity extends AppCompatActivity {
             if (restaurentObj.getCuisines() != null) {
                 cuisinesView.setText(restaurentObj.getCuisines());
             }
-            if (restaurentObj.getAddress() != null) {
+            if (restaurentObj.getLocality() != null) {
                 addressView.setText(restaurentObj.getAddress());
             }
             if (restaurentObj.getContact() != null) {

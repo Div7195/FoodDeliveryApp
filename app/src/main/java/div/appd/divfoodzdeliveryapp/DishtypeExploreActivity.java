@@ -87,6 +87,7 @@ public class DishtypeExploreActivity extends AppCompatActivity {
                             dishIds.add(snapshot2.child("dishId").getValue(String.class));
                         }
                         arrayOfRestaurents.add(new Restaurent(snapshot1.child("name").getValue(String.class)
+                                ,snapshot1.child("locality").getValue(String.class)
                         ,snapshot1.child("address").getValue(String.class)
                         ,snapshot1.child("cuisines").getValue(String.class)
                         ,snapshot1.child("city").getValue(String.class)

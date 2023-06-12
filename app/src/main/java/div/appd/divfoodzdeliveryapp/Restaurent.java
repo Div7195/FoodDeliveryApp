@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Restaurent implements Serializable {
     private String name;
     private String address;
+    private String locality;
     private String cuisines;
     private String city;
     private String state;
@@ -16,9 +17,10 @@ public class Restaurent implements Serializable {
     private String restaurentId;
     private Boolean eligible;
 
-    public  Restaurent(String name, String address, String cuisines, String city, String state, String imageUrl, String contact, ArrayList<String> categories, ArrayList<String> dishIds, String restaurentId, Boolean eligible ){
+    public  Restaurent(String name, String address, String locality, String cuisines, String city, String state, String imageUrl, String contact, ArrayList<String> categories, ArrayList<String> dishIds, String restaurentId, Boolean eligible ){
         this.name = name;
         this.address = address;
+        this.locality = locality;
         this.cuisines = cuisines;
         this.city = city;
         this.state = state;
@@ -31,6 +33,7 @@ public class Restaurent implements Serializable {
     }
     public String getName(){return name;}
     public String getAddress(){return address;}
+    public String getLocality(){return locality;}
     public String getCuisines(){return cuisines;}
     public String getCity(){return city;}
     public String getState(){return state;}

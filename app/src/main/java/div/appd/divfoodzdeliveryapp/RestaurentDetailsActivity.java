@@ -56,9 +56,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class RestaurentDetailsActivity extends AppCompatActivity {
-    EditText restaurentNameView, restaurentCityView, restaurentStateView, restaurentContactView, restaurentAddressView, restaurentCuisineView;
+    EditText restaurentNameView, restaurentCityView, restaurentStateView, restaurentContactView, restaurentAddressView, restaurentCuisineView, restaurentLocalityView;
     Button chooseImageView, uploadImageView, saveDetailsView, setAddressAsCurrentLocationView;
-    String nameString, cityString, stateString, contactString, addressString, cuisineString, restaurentIdForUse, downloadableImageUrl;
+    String nameString, cityString, stateString, contactString, addressString, cuisineString, restaurentIdForUse, downloadableImageUrl, localityString;
     FusedLocationProviderClient fusedLocationProviderClient;
     Restaurent restaurentObj;
     FirebaseStorage storage;
@@ -77,11 +77,11 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
         restaurentContactView = findViewById(R.id.contactField);
         restaurentAddressView = findViewById(R.id.addressField);
         restaurentCuisineView = findViewById(R.id.foodServiceField);
+        restaurentLocalityView = findViewById(R.id.localityRestaurentField);
         chooseImageView = findViewById(R.id.chooseImageButton);
         uploadImageView = findViewById(R.id.uploadRestoImageButton);
         saveDetailsView = findViewById(R.id.saveRestaurentButton);
         setAddressAsCurrentLocationView = findViewById(R.id.setAddressButton);
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReferenceFromUrl("gs://food-delivery-app-91b3a.appspot.com");
@@ -102,6 +102,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
 
                  restaurentObj = new Restaurent(snapshot.child("name").getValue(String.class)
                 ,snapshot.child("address").getValue(String.class)
+                         ,snapshot.child("locality").getValue(String.class)
                 ,snapshot.child("cuisines").getValue(String.class)
                 ,snapshot.child("city").getValue(String.class)
                 ,snapshot.child("state").getValue(String.class)
@@ -118,9 +119,11 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                 restaurentContactView.setText(restaurentObj.getContact());
                 restaurentAddressView.setText(restaurentObj.getAddress());
                 restaurentCuisineView.setText(restaurentObj.getCuisines());
+                restaurentLocalityView.setText(restaurentObj.getLocality());
 //                enabling buttons
                 chooseImageView.setEnabled(true);
                 setAddressAsCurrentLocationView.setEnabled(true);
+
                 saveDetailsView.setEnabled(true);
             }
 
@@ -139,8 +142,8 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                 contactString = restaurentContactView.getText().toString();
                 addressString = restaurentAddressView.getText().toString();
                 cuisineString = restaurentCuisineView.getText().toString();
-
-                if (nameString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty() || addressString.isEmpty() || cuisineString.isEmpty()) {
+                localityString = restaurentLocalityView.getText().toString();
+                if (nameString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty() || addressString.isEmpty() || cuisineString.isEmpty() || localityString.isEmpty()) {
                     Toast.makeText(RestaurentDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
                 }else{
                 databaseReference.child("restaurents").child(restaurentIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -166,6 +169,11 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                         if (!restaurentContactView.getText().toString().equals(restaurentObj.getContact())) {
                             Map<String, Object> updates = new HashMap<>();
                             updates.put("contact", restaurentContactView.getText().toString());
+                            snapshot.getRef().updateChildren(updates);
+                        }
+                        if (!restaurentLocalityView.getText().toString().equals(restaurentObj.getLocality())) {
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("locality", restaurentLocalityView.getText().toString());
                             snapshot.getRef().updateChildren(updates);
                         }
                         if (!restaurentAddressView.getText().toString().equals(restaurentObj.getAddress())) {
@@ -208,9 +216,11 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
         setAddressAsCurrentLocationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getLastLocation();
             }
         });
+
 
         chooseImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,7 +338,10 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                         try {
                             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                             String currentAddress = addresses.get(0).getSubLocality();
-                            restaurentAddressView.setText(currentAddress);
+                            String currentLocality = addresses.get(0).getAddressLine(0);
+                                restaurentAddressView.setText(currentLocality);
+                                restaurentLocalityView.setText(currentAddress);
+
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }

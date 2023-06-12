@@ -87,7 +87,7 @@ public class OrderViewUser extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("bundleData");
         cartItemInfoArrayList = (ArrayList<CartItemInfo>) args.getSerializable("arraylistcartitems");
-        customerIdForUse = (String) args.getString("");
+        customerIdForUse = (String) args.getString("customerId");
         totalBillIntent = (String) args.getString("totalbill");
         taxesIntent = (String) args.getString("taxes");
         deliveryIntent = (String) args.getString("deliveryfee");
