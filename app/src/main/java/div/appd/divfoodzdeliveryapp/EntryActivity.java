@@ -11,7 +11,7 @@ import com.example.fooddelivery.R;
 
 
 public class EntryActivity extends AppCompatActivity {
-    Button userEntry, restaurentEntry, deliveryBoyEntry, adminEntry;
+    Button userEntry, restaurentEntry, deliveryBoyEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,6 @@ public class EntryActivity extends AppCompatActivity {
         userEntry = findViewById(R.id.userEntry);
         restaurentEntry = findViewById(R.id.restaurentEntry);
         deliveryBoyEntry = findViewById(R.id.deliveryEntry);
-        adminEntry = findViewById(R.id.adminEntry);
         userEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,16 +46,6 @@ public class EntryActivity extends AppCompatActivity {
                 Intent intent = new Intent(EntryActivity.this, LoginActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("entryRole", "deliveryboy");
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-        adminEntry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EntryActivity.this, LoginActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("entryRole", "admin");
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

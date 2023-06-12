@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText usernameFieldView, passwordFieldView;
     Button loginButton, signupButton;
     Switch saveLoginDetails;
-    String userUsername, userPassword, restaurentIdForUse, customerIdForUse, restaurentNameForUse, customerNameForUse;
+    String userUsername, userPassword, restaurentIdForUse, customerIdForUse, restaurentNameForUse, customerNameForUse, deliveryBoyIdForUse, deliveryBoyNameForUse;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
     @Override
@@ -143,12 +143,47 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
+                                databaseReference.child("deliveryboys").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        String storedPassword = "";
+                                        for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
+                                            String deliveryId = customerSnapshot.getKey();
+                                            DataSnapshot usernameSnapshot = customerSnapshot.child("username");
+                                            if (usernameSnapshot.exists() && usernameSnapshot.getValue().equals(userUsername)) {
+                                                storedPassword = customerSnapshot.child("password").getValue(String.class);
+                                                deliveryBoyIdForUse = deliveryId;
+                                                break;
+                                            }
+                                        }
+                                        if(storedPassword.equals("")){
+                                            Toast.makeText(LoginActivity.this, "No delivery boy exists with this username", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            if(storedPassword.equals(userPassword)){
 
+                                                Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+                                                SharedPreferences.Editor editor = pref.edit();
+                                                editor.putString("deliveryBoyId", deliveryBoyIdForUse);
+                                                editor.apply();
+                                                Intent intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
+                                                startActivity(intent);
+                                            }else{
+                                                Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
                         });
                     } else if (entryActor.equals("deliveryboy")) {
 
-                    } else if (entryActor.equals("admin")) {
 
                     }
                 }

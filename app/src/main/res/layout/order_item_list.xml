@@ -8,6 +8,39 @@
     android:background="@drawable/food_item_border"
     android:orientation="horizontal">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:orientation="horizontal"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Delivery Boy:">
+            </TextView>
+            <TextView
+                android:id="@+id/assignedStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginStart="10dp"
+                android:text="Not Assigned">
+            </TextView>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -26,16 +59,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="fdsafsfsfdsfasfasfs">
+            android:text="NXHFQFk4Sqb9pHG0fmi">
 
         </TextView>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="30dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -53,6 +86,8 @@
 
         </TextView>
 
+    </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

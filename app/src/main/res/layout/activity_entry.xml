@@ -10,7 +10,7 @@
         android:id="@+id/userEntry"
         android:layout_width="207dp"
         android:layout_height="55dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="216dp"
         android:text="User"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,19 +32,11 @@
         android:layout_height="55dp"
         android:layout_marginTop="36dp"
         android:text="Delivery Boy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/restaurentEntry" />
-
-    <Button
-        android:id="@+id/adminEntry"
-        android:layout_width="207dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="28dp"
-        android:text="Admin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deliveryEntry"
-        app:layout_constraintVertical_bias="0.018" />
+        app:layout_constraintTop_toBottomOf="@+id/restaurentEntry"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

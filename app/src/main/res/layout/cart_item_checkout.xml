@@ -12,14 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         >
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="18dp"
-                android:layout_height="19dp"
-                android:layout_weight="1"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"
-                app:srcCompat="@drawable/veg" />
+
+        <ImageView
+            android:id="@+id/veg_non_veg_cart"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/veg" />
 </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,11 +33,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:singleLine="false"
-            android:maxWidth="140dp"
+            android:maxWidth="130dp"
             android:layout_marginTop="15dp"
             android:layout_marginStart="5dp"
-            android:text="Paneer Butter fas"
-            android:textSize="18sp"/>
+            android:text=""
+            android:textSize="16sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -45,14 +46,16 @@
         android:layout_marginTop="15dp"
         android:layout_width="145dp"
         android:layout_height="55dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="3dp"
         android:orientation="horizontal"
         android:layout_marginBottom="15dp"
         android:background="@drawable/border_along_selection">
 
         <!-- Subtract Button -->
+
+        <!-- Quantity Text -->
         <ImageButton
-            android:id="@+id/subtract_button"
+            android:id="@+id/subtract_button_checkout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -61,21 +64,20 @@
             android:onClick="onSubtractButtonClicked"
             android:src="@drawable/baseline_horizontal_rule_25" />
 
-        <!-- Quantity Text -->
         <TextView
 
-            android:id="@+id/quantity_text"
+            android:id="@+id/quantity_text_checkout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="1"
+            android:text=""
             android:textColor="@color/addbuttoncolor"
             android:textSize="22sp" />
 
         <!-- Add Button -->
         <ImageButton
-            android:id="@+id/increment_item_button"
+            android:id="@+id/increment_item_button_checkout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -92,19 +94,13 @@
         android:orientation="horizontal"
         android:layout_marginTop="18dp"
         android:layout_marginStart="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Rs.">
 
-        </TextView>
         <TextView
             android:id="@+id/checkout_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="70">
+            android:textSize="15sp"
+            android:text="">
 
         </TextView>
     </LinearLayout>

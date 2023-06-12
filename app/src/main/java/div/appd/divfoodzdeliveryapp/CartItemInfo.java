@@ -8,16 +8,17 @@ public class CartItemInfo implements Serializable {
     private String dishName;
     private Integer quanity;
     private Double price;
+    private Double singleItemPrice;
     private String vegNonVeg;
 
-    public CartItemInfo(String dishId, String restaurentId, String dishName, Integer quanity, Double price, String vegNonVeg){
+    public CartItemInfo(String dishId, String restaurentId, String dishName, Integer quanity, Double price,Double singleItemPrice, String vegNonVeg){
         this.dishId = dishId;
         this.restaurentId = restaurentId;
         this.dishName = dishName;
         this.quanity = quanity;
         this.price = price;
+        this.singleItemPrice = singleItemPrice;
         this.vegNonVeg = vegNonVeg;
-
     }
 
     public String getDishId() {
@@ -39,6 +40,7 @@ public class CartItemInfo implements Serializable {
     public Double getPrice() {
         return price;
     }
+    public Double getSingleItemPrice(){return singleItemPrice;}
 
     public String getVegNonVeg() {
         return vegNonVeg;
@@ -63,6 +65,7 @@ public class CartItemInfo implements Serializable {
     public void setQuanity(Integer quanity) {
         this.quanity = quanity;
     }
+    public void setSingleItemPrice(Double singleItemPrice){this.singleItemPrice = singleItemPrice;}
 
     public void setVegNonVeg(String vegNonVeg) {
         this.vegNonVeg = vegNonVeg;

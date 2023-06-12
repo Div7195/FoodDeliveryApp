@@ -139,52 +139,45 @@ public class SignupActivity extends AppCompatActivity {
 
                     }
                     else if(entryActor.equals("deliveryboy")){
-                        databaseReference.child("deliverystaff").child("deliveryBoyId").addListenerForSingleValueEvent(new ValueEventListener() {
-                            String deliveryBoyID = RandomStringGenerator.generateRandomString(11);
+                        databaseReference.child("deliveryboys").addListenerForSingleValueEvent(new ValueEventListener() {
+                            //                            String restaurantId = RandomStringGenerator.generateRandomString(10);
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.hasChild(username)){
-                                    Toast.makeText(SignupActivity.this, "Username is already registered", Toast.LENGTH_SHORT).show();
+                                boolean deliveryBoyExists = false;
+
+                                for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
+                                    String usernameI = customerSnapshot.child("username").getValue(String.class);
+
+                                    if (usernameI != null && username.equals(usernameI)) {
+                                        deliveryBoyExists = true;
+                                        break;
+                                    }
                                 }
-                                else{
-                                    databaseReference.child("deliverystaff").child("deliveryBoyId").setValue(deliveryBoyID);
-                                    databaseReference.child("deliverystaff").child(username).child("username").setValue(username);
-                                    databaseReference.child("deliverystaff").child(username).child("password").setValue(password);
-                                    Toast.makeText(SignupActivity.this, "Registered Succesfully!", Toast.LENGTH_SHORT).show();
+
+                                if (deliveryBoyExists) {
+                                    Toast.makeText(SignupActivity.this, "Username is already registered", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    DatabaseReference restaurentReference = databaseReference.child("customers").push();
+                                    restaurentReference.child("username").setValue(username);
+                                    restaurentReference.child("password").setValue(password);
+                                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("entryRole", "deliveryboy");
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                    Toast.makeText(SignupActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
 
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-
+                                // Handle the error
                             }
                         });
 
                     }
-                    else if(entryActor.equals("admin")){
-                        databaseReference.child("admins").child("adminId").addListenerForSingleValueEvent(new ValueEventListener() {
-                            String adminId = RandomStringGenerator.generateRandomString(4);
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.hasChild(username)){
-                                    Toast.makeText(SignupActivity.this, "Username is already registered", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    databaseReference.child("admins").child("adminId").setValue(adminId);
-                                    databaseReference.child("admins").child(username).child("username").setValue(username);
-                                    databaseReference.child("admins").child(username).child("password").setValue(password);
-                                    Toast.makeText(SignupActivity.this, "Registered Succesfully!", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
 
                 }
             }

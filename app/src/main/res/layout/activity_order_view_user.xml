@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="div.appd.divfoodzdeliveryapp.OrderViewUser"
+    android:id="@+id/ll_parent_3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    tools:context="div.appd.divfoodzdeliveryapp.OrderViewUser">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,96 +15,126 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation ="vertical">
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/headingRestaurentName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="false"
-                android:maxWidth="350dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:gravity="left|center_vertical"
+                android:maxWidth="350dp"
+                android:singleLine="false"
                 android:text="Restaurent Name:"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/restaurentAddress"
+                android:id="@+id/restaurentAddressOrder"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:singleLine="false"
-                android:maxWidth="140dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:hint="Restaurent Full Address"
                 android:inputType="textMultiLine"
+                android:maxWidth="140dp"
+                android:singleLine="false"
                 android:textSize="18sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="false"
-                android:maxWidth="350dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:gravity="left|center_vertical"
+                android:maxWidth="350dp"
+                android:singleLine="false"
                 android:text="Address to be delivered:"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/user_resto_name"
+                android:id="@+id/customerAddressOrder"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="start|top"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
                 android:hint="Enter Address"
                 android:inputType="textMultiLine"
                 android:textSize="18sp" />
 
-<!--            <TextView-->
-<!--                -->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:singleLine="false"-->
-<!--                android:maxWidth="350dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:gravity="left|center_vertical"-->
-<!--                android:text="19 b new grain mandi furniture industrial area kota rajasthan"-->
-<!--                android:textSize="18sp"-->
-<!--                android:textStyle="bold" />-->
-
-
             <Button
                 android:id="@+id/setCurrentAddressButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Set address as current location" />
 
+            <TextView
+                android:id="@+id/contactOfWhat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="Contact Of Customer:"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <!--            <TextView-->
+            <!--                -->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:singleLine="false"-->
+            <!--                android:maxWidth="350dp"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:gravity="left|center_vertical"-->
+            <!--                android:text="19 b new grain mandi furniture industrial area kota rajasthan"-->
+            <!--                android:textSize="18sp"-->
+            <!--                android:textStyle="bold" />-->
+
+
+            <TextView
+                android:id="@+id/contactOfUserOrDel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:hint="9887482147"
+                android:inputType="textMultiLine"
+                android:maxWidth="140dp"
+                android:singleLine="false"
+                android:textSize="18sp" />
 
 
             <ListView
                 android:id="@+id/itemsOrderedList"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginTop="5dp"
-                >
-            </ListView>
+                android:layout_marginTop="10dp"></ListView>
+
             <ProgressBar
                 android:id="@+id/progressBarinOrderView"
                 style="?android:attr/progressBarStyle"
-                android:layout_marginTop="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:layout_marginTop="0dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <TextView
                 android:id="@+id/user_resto_cuisines"
                 android:layout_width="match_parent"
@@ -114,12 +145,13 @@
                 android:text="Bill Details"
                 android:textSize="22sp"
                 android:textStyle="italic" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView4"
@@ -128,93 +160,115 @@
                     android:text="Item Total"
                     android:textSize="22sp"
                     android:textStyle="bold" />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Rs."
+                    android:textSize="22sp" />
                 <TextView
                     android:id="@+id/itemTotalField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
                     android:text="Fetching.."
                     android:textSize="22sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <TextView
 
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Delivery Fee"
                     android:textSize="22sp"
-                    android:textStyle="bold"
-                    />
-
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Rs."
+                    android:textSize="22sp" />
                 <TextView
                     android:id="@+id/deliveryFeeField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
                     android:gravity="left|center_vertical"
                     android:text="Fetching.."
                     android:textSize="22sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <TextView
 
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="GST Charges"
                     android:textSize="22sp"
-                    android:textStyle="bold"
-                    />
-
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Rs."
+                    android:textSize="22sp" />
                 <TextView
                     android:id="@+id/gstChargeField"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
                     android:gravity="left|center_vertical"
                     android:text="Fetching.."
                     android:textSize="22sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <TextView
 
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Total Amount"
                     android:textSize="22sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Rs."
+                    android:textSize="22sp" />
                 <TextView
                     android:id="@+id/totalAmountField"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
                     android:gravity="left|center_vertical"
                     android:text="Fetching.."
                     android:textSize="22sp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/orderedTimeField"
                     android:layout_width="wrap_content"
@@ -224,12 +278,14 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/statusOrderField"
                     android:layout_width="wrap_content"
@@ -239,27 +295,30 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/ratingSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:visibility="gone"
                 android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:textSize="22sp"
-                android:text="Rate Your Order">
-            </TextView>
-            <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                android:id="@+id/ratingBarOrderVIew"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialRatingBar.RatingBar"
-                android:contentDescription="rating"
-                android:isIndicator="true"
-                />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rate Your Order"
+                    android:textSize="22sp"
+                    android:textStyle="italic"></TextView>
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratingBarOrderVIew"
+                    style="@style/Widget.MaterialRatingBar.RatingBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="rating"
+                    android:isIndicator="true" />
+
                 <Button
                     android:id="@+id/ratingSubmitButton"
                     android:layout_width="wrap_content"
@@ -268,33 +327,35 @@
                     android:text="Submit" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/placeOrderSection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                >
-            <Button
-                android:id="@+id/placeOrderButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Place Order">
-
-            </Button>
-        </LinearLayout>
-            <LinearLayout
-                android:id="@+id/readyPickupSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                >
+                android:layout_marginTop="10dp">
+
                 <Button
-                    android:id="@+id/readyPickupButton"
+                    android:id="@+id/placeOrderButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ready for pickup">
+                    android:text="Place Order">
+
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/getAssignedSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/getAssignedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get Assigned">
 
                 </Button>
             </LinearLayout>
@@ -318,14 +379,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                >
+                android:layout_marginTop="10dp">
+
                 <Button
                     android:id="@+id/deliveredButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Delivered">
-                </Button>
+                    android:text="Delivered"></Button>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

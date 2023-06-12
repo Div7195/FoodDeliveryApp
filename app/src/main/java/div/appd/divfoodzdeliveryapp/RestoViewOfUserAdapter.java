@@ -2,6 +2,8 @@ package div.appd.divfoodzdeliveryapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +21,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.fooddelivery.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,7 +40,10 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
     Integer q = 0;
     String resId = "";
     String mapKey = "map";
+    String customerIdForUse;
+    Double totalPrice, totalBill, taxes, deliveryFee;
     HashMap<String, CartItemInfo> hashMapSameDish = new HashMap<String, CartItemInfo>();
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
     public RestoViewOfUserAdapter(Context context, ArrayList<Dish> dishes){
         super(context, 0 , dishes );
     }
@@ -49,7 +60,8 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
         TextView cartTotalPriceView = (TextView) layout.findViewById(R.id.priceInCart);
         TextView cartTotalItemsView = (TextView) layout.findViewById(R.id.itemInCart);
 //        **************************************
-
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref", 0);
+        customerIdForUse = pref.getString("customerId", "");
 
         ViewFlipper viewFlipper = (ViewFlipper)convertView.findViewById(R.id.add_flipper);
         TextView dishNameView = (TextView) convertView.findViewById(R.id.restaurant_name_user);
@@ -60,9 +72,9 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
         ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBarForDishInUser);
         MaterialRatingBar materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.food_rating);
         Button addButtonView = (Button) convertView.findViewById(R.id.add_button_user);
-        ImageButton imageButtonSubView= (ImageButton) convertView.findViewById(R.id.subtract_button);
-        ImageButton imageButtonAddView = (ImageButton) convertView.findViewById(R.id.increment_item_button);
-        TextView quantityView = (TextView) convertView.findViewById(R.id.quantity_text);
+        ImageButton imageButtonSubView= (ImageButton) convertView.findViewById(R.id.subtract_button_checkout);
+        ImageButton imageButtonAddView = (ImageButton) convertView.findViewById(R.id.increment_item_button_checkout);
+        TextView quantityView = (TextView) convertView.findViewById(R.id.quantity_text_checkout);
         dishNameView.setText(dish.getCategory());
         dishNameView.setPadding(10,10,10,10);
 
@@ -114,7 +126,7 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
                             layout1.setLayoutParams(params1);
                             layout2.setVisibility(View.VISIBLE);
                         }
-                        hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0, dish.getVegOrNonveg()));
+                        hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0,Double.valueOf(dish.getPrice()), dish.getVegOrNonveg()));
                         resId = dish.getRestaurentId();
                         CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
                         Integer quantity = cartItemInfo.getQuanity() + 1;
@@ -185,6 +197,65 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(hashMapSameDish.size() != 0) {
+                    ArrayList<CartItemInfo> arrayListCartItems = new ArrayList<CartItemInfo>();
+
+                    for(CartItemInfo value : hashMapSameDish.values()){
+                        arrayListCartItems.add(new CartItemInfo(value.getDishId()
+                                ,value.getRestaurentId()
+                                ,value.getDishName()
+                                ,value.getQuanity()
+                                ,value.getPrice()
+                                ,value.getSingleItemPrice()
+                                ,value.getVegNonVeg()));
+                    }
+                    totalPrice = 0.0;
+                    totalBill = 0.0;
+                    taxes = 0.0;
+                    deliveryFee = 0.0;
+                    for(CartItemInfo cartItemInfo : arrayListCartItems){
+                        totalPrice = totalPrice + cartItemInfo.getPrice();
+                    }
+                    taxes = 0.18 * totalPrice;
+                    deliveryFee = 30.0;
+                    totalBill = totalPrice + taxes + deliveryFee;
+                    Intent intent = new Intent(getContext(), OrderViewUser.class);
+                    Bundle args = new Bundle();
+                    args.putSerializable("arraylistcartitems",(Serializable)arrayListCartItems);
+                    args.putString("totalbill", String.valueOf(totalBill.floatValue()));
+                    args.putString("taxes", String.valueOf(taxes.floatValue()));
+                    args.putString("deliveryfee", String.valueOf(deliveryFee.floatValue()));
+                    args.putString("totalprice", String.valueOf(totalPrice.floatValue()));
+                    databaseReference.child("customers").child(customerIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            args.putString("customerName", snapshot.child("name").getValue(String.class));
+                            args.putString("customerAddress", snapshot.child("address").getValue(String.class));
+                            args.putString("customerContact",snapshot.child("contact").getValue(String.class));
+                            databaseReference.child("restaurents").child(arrayListCartItems.get(0).getRestaurentId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    args.putString("restaurentId", arrayListCartItems.get(0).getRestaurentId());
+                                    args.putString("restaurentName", snapshot.child("name").getValue(String.class));
+                                    args.putString("restaurentAddress", snapshot.child("address").getValue(String.class));
+                                    intent.putExtra("bundleData",args);
+                                    getContext().startActivity(intent);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
                 Toast.makeText(getContext(), String.valueOf(hashMapSameDish.size()), Toast.LENGTH_SHORT).show();
             }
         });

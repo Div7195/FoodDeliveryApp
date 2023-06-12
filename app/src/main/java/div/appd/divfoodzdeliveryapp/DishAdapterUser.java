@@ -3,20 +3,16 @@ package div.appd.divfoodzdeliveryapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
-import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,21 +20,22 @@ import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.example.fooddelivery.R;
-import com.google.android.gms.common.internal.ServiceSpecificExtraArgs;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.lang.reflect.Array;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -48,7 +45,11 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
     Integer q = 0;
     String resId = "";
     String mapKey = "map";
+    String customerNameForUse, customerAddressForUse, customerIdForUse, restaurentNameForUse;
+    Double totalPrice, totalBill, taxes, deliveryFee;
     HashMap<String, CartItemInfo> hashMapSameDish = new HashMap<String, CartItemInfo>();
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
+
     public DishAdapterUser(Context context, ArrayList<Dish> dishes){
         super(context, 0 , dishes );
     }
@@ -63,6 +64,8 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
         LinearLayout layout = (LinearLayout) parent.getTag();
         LinearLayout layout1 = (LinearLayout) layout.getChildAt(0);
         LinearLayout layout2 = (LinearLayout) layout.getChildAt(1);
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref", 0);
+        customerIdForUse = pref.getString("customerId", "");
 //        ***********************
 
 
@@ -78,9 +81,9 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
         ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBarForDishInUser);
         MaterialRatingBar materialRatingBar = (MaterialRatingBar) convertView.findViewById(R.id.food_rating);
         Button addButtonView = (Button) convertView.findViewById(R.id.add_button_user);
-        ImageButton imageButtonSubView= (ImageButton) convertView.findViewById(R.id.subtract_button);
-        ImageButton imageButtonAddView = (ImageButton) convertView.findViewById(R.id.increment_item_button);
-        TextView quantityView = (TextView) convertView.findViewById(R.id.quantity_text);
+        ImageButton imageButtonSubView= (ImageButton) convertView.findViewById(R.id.subtract_button_checkout);
+        ImageButton imageButtonAddView = (ImageButton) convertView.findViewById(R.id.increment_item_button_checkout);
+        TextView quantityView = (TextView) convertView.findViewById(R.id.quantity_text_checkout);
         restaurentNameView.setText(dish.getRestaurentName());
         restaurentNameView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_arrow_forward_24,0);
         if(dish.getImageUrl()!=null) {
@@ -116,8 +119,6 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
             f = 4.25F;
             materialRatingBar.setRating(f);
         }
-
-
         restaurentNameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,10 +132,6 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                 }
             }
         });
-
-
-
-
         addButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,7 +147,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                                 layout1.setLayoutParams(params1);
                                 layout2.setVisibility(View.VISIBLE);
                             }
-                            hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0, dish.getVegOrNonveg()));
+                            hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0,Double.valueOf(dish.getPrice()), dish.getVegOrNonveg()));
                             resId = dish.getRestaurentId();
                             CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
                             Integer quantity = cartItemInfo.getQuanity() + 1;
@@ -223,7 +220,62 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
             @Override
             public void onClick(View view) {
                 if(hashMapSameDish.size() != 0) {
-                    Toast.makeText(getContext(), String.valueOf(hashMapSameDish.size()), Toast.LENGTH_SHORT).show();
+                    ArrayList<CartItemInfo> arrayListCartItems = new ArrayList<CartItemInfo>();
+
+                    for(CartItemInfo value : hashMapSameDish.values()){
+                        arrayListCartItems.add(new CartItemInfo(value.getDishId()
+                        ,value.getRestaurentId()
+                        ,value.getDishName()
+                        ,value.getQuanity()
+                        ,value.getPrice()
+                                ,value.getSingleItemPrice()
+                        ,value.getVegNonVeg()));
+                    }
+                    totalPrice = 0.0;
+                    totalBill = 0.0;
+                    taxes = 0.0;
+                    deliveryFee = 0.0;
+                    for(CartItemInfo cartItemInfo : arrayListCartItems){
+                        totalPrice = totalPrice + cartItemInfo.getPrice();
+                    }
+                    taxes = 0.18 * totalPrice;
+                    deliveryFee = 30.0;
+                    totalBill = totalPrice + taxes + deliveryFee;
+                    Intent intent = new Intent(getContext(), OrderViewUser.class);
+                    Bundle args = new Bundle();
+                    args.putSerializable("arraylistcartitems",(Serializable)arrayListCartItems);
+                    args.putString("totalbill", String.valueOf(totalBill.floatValue()));
+                    args.putString("taxes", String.valueOf(taxes.floatValue()));
+                    args.putString("deliveryfee", String.valueOf(deliveryFee.floatValue()));
+                    args.putString("totalprice", String.valueOf(totalPrice.floatValue()));
+                    databaseReference.child("customers").child(customerIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            args.putString("customerName", snapshot.child("name").getValue(String.class));
+                            args.putString("customerAddress", snapshot.child("address").getValue(String.class));
+                            args.putString("customerContact",snapshot.child("contact").getValue(String.class));
+                            databaseReference.child("restaurents").child(arrayListCartItems.get(0).getRestaurentId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    args.putString("restaurentId", arrayListCartItems.get(0).getRestaurentId());
+                                    args.putString("restaurentName", snapshot.child("name").getValue(String.class));
+                                    args.putString("restaurentAddress", snapshot.child("address").getValue(String.class));
+                                    intent.putExtra("bundleData",args);
+                                    getContext().startActivity(intent);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                 }
             }
