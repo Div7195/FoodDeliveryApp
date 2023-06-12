@@ -64,6 +64,7 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
         customerIdForUse = pref.getString("customerId", "");
 
         ViewFlipper viewFlipper = (ViewFlipper)convertView.findViewById(R.id.add_flipper);
+        ViewFlipper viewFlipper1 = (ViewFlipper)layout2.findViewById(R.id.flipperViewCart);
         TextView dishNameView = (TextView) convertView.findViewById(R.id.restaurant_name_user);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.veg_icon_user);
         TextView dishTitleView = (TextView) convertView.findViewById(R.id.food_name_user);
@@ -194,12 +195,12 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
 
             }
         });
-        layout.setOnClickListener(new View.OnClickListener() {
+        layout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(hashMapSameDish.size() != 0) {
                     ArrayList<CartItemInfo> arrayListCartItems = new ArrayList<CartItemInfo>();
-
+                    viewFlipper1.showNext();
                     for(CartItemInfo value : hashMapSameDish.values()){
                         arrayListCartItems.add(new CartItemInfo(value.getDishId()
                                 ,value.getRestaurentId()
@@ -239,6 +240,7 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
                                     args.putString("restaurentName", snapshot.child("name").getValue(String.class));
                                     args.putString("restaurentAddress", snapshot.child("address").getValue(String.class));
                                     intent.putExtra("bundleData",args);
+                                    viewFlipper1.showNext();
                                     getContext().startActivity(intent);
                                 }
 

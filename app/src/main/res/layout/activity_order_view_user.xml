@@ -28,7 +28,7 @@
                 android:maxWidth="350dp"
                 android:singleLine="false"
                 android:text="Restaurent Name:"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -36,7 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:hint="Restaurent Full Address"
                 android:inputType="textMultiLine"
@@ -60,9 +59,8 @@
             <EditText
                 android:id="@+id/customerAddressOrder"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="start|top"
