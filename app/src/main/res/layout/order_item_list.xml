@@ -27,7 +27,7 @@
                 android:text="Delivery Boy:">
             </TextView>
             <TextView
-                android:id="@+id/assignedStatus"
+                android:id="@+id/partnerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -35,7 +35,7 @@
                 android:text="Not Assigned">
             </TextView>
         </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -50,7 +50,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:text="Order Id:">
 
         </TextView>
@@ -58,7 +58,7 @@
             android:id="@+id/orderid_item_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:text="NXHFQFk4Sqb9pHG0fmi">
 
         </TextView>
@@ -67,27 +67,52 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="30dp"
+        android:layout_alignParentEnd="true"
+
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:text="Status:"
             >
         </TextView>
+
         <TextView
             android:id="@+id/status_item_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="Delivered">
+            android:text="Delivered"
+            android:textSize="15sp">
 
         </TextView>
 
     </LinearLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Ordering Date:"
+                >
+            </TextView>
+
+            <TextView
+                android:id="@+id/dateField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26 March 2023"
+                android:textSize="10sp">
+
+            </TextView>
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -117,7 +117,6 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
         }
         if(dish.getRating() != null){
             float f = dish.getRating().floatValue();
-            f = 4.25F;
             materialRatingBar.setRating(f);
         }
         restaurentNameView.setOnClickListener(new View.OnClickListener() {
@@ -252,6 +251,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                     databaseReference.child("customers").child(customerIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            args.putString("customerId",customerIdForUse);
                             args.putString("customerName", snapshot.child("name").getValue(String.class));
                             args.putString("customerAddress", snapshot.child("address").getValue(String.class));
                             args.putString("customerContact",snapshot.child("contact").getValue(String.class));

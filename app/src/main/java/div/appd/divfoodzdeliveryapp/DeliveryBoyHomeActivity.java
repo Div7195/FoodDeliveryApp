@@ -30,7 +30,7 @@ public class DeliveryBoyHomeActivity extends AppCompatActivity {
         editDetailsButton = findViewById(R.id.editDeliveryDetailsButton);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
-        databaseReference.child("customers").child(deliveryBoyIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("deliveryboys").child(deliveryBoyIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eligibleForUse = snapshot.child("eligible").getValue(Boolean.class);
@@ -49,20 +49,29 @@ public class DeliveryBoyHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DeliveryBoyHomeActivity.this, DeliveryBoyDetailsActivity.class);
-
                 startActivity(intent);
             }
         });
         viewOrdersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(DeliveryBoyHomeActivity.this, OrdersListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("accessOrders", "deliveryBoy");
+                bundle.putString("deliveryBoyConfig", "allNotAssigned");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         viewAssignedOrdersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(DeliveryBoyHomeActivity.this, OrdersListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("accessOrders", "deliveryBoy");
+                bundle.putString("deliveryBoyConfig", "assignedOnly");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

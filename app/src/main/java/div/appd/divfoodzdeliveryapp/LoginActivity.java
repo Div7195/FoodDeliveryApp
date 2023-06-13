@@ -62,11 +62,11 @@ public class LoginActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String storedPassword = "";
                                 for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
-                                    String restaurantId = customerSnapshot.getKey();
+                                    String customerId = customerSnapshot.getKey();
                                     DataSnapshot usernameSnapshot = customerSnapshot.child("username");
                                     if (usernameSnapshot.exists() && usernameSnapshot.getValue().equals(userUsername)) {
                                         storedPassword = customerSnapshot.child("password").getValue(String.class);
-                                        customerIdForUse = restaurantId;
+                                        customerIdForUse = customerId;
                                         // Found a restaurant with matching usernamea
                                         // Use the retrieved restaurant ID (restaurantId)
                                         // For example, perform further operations or retrieve other data related to the restaurant
@@ -143,48 +143,48 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                databaseReference.child("deliveryboys").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String storedPassword = "";
-                                        for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
-                                            String deliveryId = customerSnapshot.getKey();
-                                            DataSnapshot usernameSnapshot = customerSnapshot.child("username");
-                                            if (usernameSnapshot.exists() && usernameSnapshot.getValue().equals(userUsername)) {
-                                                storedPassword = customerSnapshot.child("password").getValue(String.class);
-                                                deliveryBoyIdForUse = deliveryId;
-                                                break;
-                                            }
-                                        }
-                                        if(storedPassword.equals("")){
-                                            Toast.makeText(LoginActivity.this, "No delivery boy exists with this username", Toast.LENGTH_SHORT).show();
-                                        }else{
-                                            if(storedPassword.equals(userPassword)){
 
-                                                Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-                                                SharedPreferences.Editor editor = pref.edit();
-                                                editor.putString("deliveryBoyId", deliveryBoyIdForUse);
-                                                editor.apply();
-                                                Intent intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
-                                                startActivity(intent);
-                                            }else{
-                                                Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
                             }
                         });
                     } else if (entryActor.equals("deliveryboy")) {
 
+                        databaseReference.child("deliveryboys").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String storedPassword = "";
+                                for (DataSnapshot customerSnapshot : snapshot.getChildren()) {
+                                    String deliveryId = customerSnapshot.getKey();
+                                    DataSnapshot usernameSnapshot = customerSnapshot.child("username");
+                                    if (usernameSnapshot.exists() && usernameSnapshot.getValue().equals(userUsername)) {
+                                        storedPassword = customerSnapshot.child("password").getValue(String.class);
+                                        deliveryBoyIdForUse = deliveryId;
+                                        break;
+                                    }
+                                }
+                                if(storedPassword.equals("")){
+                                    Toast.makeText(LoginActivity.this, "No delivery boy exists with this username", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    if(storedPassword.equals(userPassword)){
 
+                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+                                        SharedPreferences.Editor editor = pref.edit();
+                                        editor.putString("deliveryBoyId", deliveryBoyIdForUse);
+                                        editor.apply();
+                                        Intent intent = new Intent(LoginActivity.this, DeliveryBoyHomeActivity.class);
+                                        startActivity(intent);
+                                    }else{
+                                        Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
             }

@@ -81,7 +81,11 @@ public class RestaurentHomeActivity extends AppCompatActivity {
         openViewOrdersView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(RestaurentHomeActivity.this, OrdersListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("accessOrders", "restaurent");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

@@ -157,7 +157,7 @@ public class SignupActivity extends AppCompatActivity {
                                 if (deliveryBoyExists) {
                                     Toast.makeText(SignupActivity.this, "Username is already registered", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    DatabaseReference restaurentReference = databaseReference.child("customers").push();
+                                    DatabaseReference restaurentReference = databaseReference.child("deliveryboys").push();
                                     restaurentReference.child("username").setValue(username);
                                     restaurentReference.child("password").setValue(password);
                                     Intent intent = new Intent(SignupActivity.this, LoginActivity.class);

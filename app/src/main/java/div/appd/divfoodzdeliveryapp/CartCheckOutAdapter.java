@@ -75,12 +75,15 @@ public class CartCheckOutAdapter extends ArrayAdapter<CartItemInfo> {
                     Double newBillAmount = newTotalPrice + newTax + deliveryFee;
                     cartItemInfo.setQuanity(quantity);
                     if(quantity == 0){
-                        cartItemInfo.setPrice(0.0);
-
+                        remove(getItem(position));
                     }else {
                         cartItemInfo.setPrice(newPrice);
                     }
                     notifyDataSetChanged();
+                    if(newTotalPrice.floatValue() == 0){
+                        newBillAmount = 0.0;
+                        deliveryFeeView.setText("0.0");
+                    }
                     totalPriceView.setText(String.valueOf(newTotalPrice.floatValue()));
                     taxView.setText(String.valueOf(newTax.floatValue()));
                     totalBillView.setText(String.valueOf(newBillAmount.floatValue()));

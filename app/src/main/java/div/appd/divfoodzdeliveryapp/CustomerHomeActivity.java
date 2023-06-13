@@ -83,7 +83,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
         openViewOrdersView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(CustomerHomeActivity.this, OrdersListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("accessOrders", "customer");
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

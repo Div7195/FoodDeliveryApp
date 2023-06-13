@@ -109,7 +109,6 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
         }
         if(dish.getRating() != null){
             float f = dish.getRating().floatValue();
-            f = 4.25F;
             materialRatingBar.setRating(f);
         }
         addButtonView.setOnClickListener(new View.OnClickListener() {

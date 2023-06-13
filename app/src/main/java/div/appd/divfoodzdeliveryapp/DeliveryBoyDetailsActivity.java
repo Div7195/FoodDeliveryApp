@@ -42,7 +42,7 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
             ArrayList<String> orderIdsList = new ArrayList<String>();
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.child("orderIds").getChildren()){
+                for(DataSnapshot dataSnapshot : snapshot.child("orders").getChildren()){
                     orderIdsList.add(dataSnapshot.child("value").getValue(String.class));
                 }
 
