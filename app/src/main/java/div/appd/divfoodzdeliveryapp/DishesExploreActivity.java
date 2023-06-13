@@ -64,7 +64,7 @@ public class DishesExploreActivity extends AppCompatActivity {
                 listView.setAdapter(adapter);
                 listView.setTag(ll);
                 getListViewSize(listView);
-                Toast.makeText(DishesExploreActivity.this, "dishesexploreactivity and adapter is dishadapteruser", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(DishesExploreActivity.this, "dishesexploreactivity and adapter is dishadapteruser", Toast.LENGTH_SHORT).show();
                 progressBarForDish.setVisibility(View.GONE);
 
             }

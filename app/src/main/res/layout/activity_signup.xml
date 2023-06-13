@@ -24,13 +24,12 @@
         android:id="@+id/usernameSignupField"
         android:layout_width="329dp"
         android:layout_height="55dp"
-        android:layout_marginTop="128dp"
         android:ems="10"
         android:hint="Enter Username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBarInSignup" />
 
     <EditText
         android:id="@+id/passwordSignupField"
@@ -79,4 +78,16 @@
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="@+id/accountSignupButton"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarInSignup"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupHeadingView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

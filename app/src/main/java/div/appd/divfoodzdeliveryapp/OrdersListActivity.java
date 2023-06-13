@@ -14,6 +14,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.example.fooddelivery.R;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 
 public class OrdersListActivity extends AppCompatActivity {
     ProgressBar progressBarForOrder;
+
     String accessOrders, customerIdForUse, restaurenIdForUse, deliveryBoyIdForUse;
     ArrayList<OrderItem> orderItemArrayList = new ArrayList<OrderItem>();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
@@ -171,6 +173,7 @@ public class OrdersListActivity extends AppCompatActivity {
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                                         Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putString("orderViewConfig", "deliveryboy");

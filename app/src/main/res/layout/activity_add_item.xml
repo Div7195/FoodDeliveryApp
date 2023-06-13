@@ -36,9 +36,11 @@
         android:layout_width="329dp"
         android:layout_height="55dp"
         android:layout_marginTop="24dp"
+        android:textColor="@color/black"
         android:background="@android:drawable/editbox_background"
         android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
         android:gravity="center_vertical"
+        android:textColorHint="@color/black"
         android:hint="Select Dish Tag"
         android:padding="12dp"
         android:textSize="18sp"
@@ -138,8 +140,8 @@
         android:enabled="false"
         android:text="Add Item"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintEnd_toStartOf="@+id/progressBarAddingItem"
+        app:layout_constraintHorizontal_bias="0.899"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseButton"
         app:layout_constraintVertical_bias="0.0" />
@@ -170,7 +172,7 @@
     <RadioButton
         android:id="@+id/radioStock"
         android:layout_width="131dp"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="OutOfStock?"
         android:visibility="invisible"
@@ -178,5 +180,15 @@
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarAddingItem"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/addItemButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

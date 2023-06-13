@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.fooddelivery.R;
@@ -58,6 +59,7 @@ import java.util.UUID;
 public class RestaurentDetailsActivity extends AppCompatActivity {
     EditText restaurentNameView, restaurentCityView, restaurentStateView, restaurentContactView, restaurentAddressView, restaurentCuisineView, restaurentLocalityView;
     Button chooseImageView, uploadImageView, saveDetailsView, setAddressAsCurrentLocationView;
+    ProgressBar progressBar;
     String nameString, cityString, stateString, contactString, addressString, cuisineString, restaurentIdForUse, downloadableImageUrl, localityString;
     FusedLocationProviderClient fusedLocationProviderClient;
     Restaurent restaurentObj;
@@ -78,6 +80,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
         restaurentAddressView = findViewById(R.id.addressField);
         restaurentCuisineView = findViewById(R.id.foodServiceField);
         restaurentLocalityView = findViewById(R.id.localityRestaurentField);
+        progressBar = findViewById(R.id.progressBarRestaurentDetails);
         chooseImageView = findViewById(R.id.chooseImageButton);
         uploadImageView = findViewById(R.id.uploadRestoImageButton);
         saveDetailsView = findViewById(R.id.saveRestaurentButton);
@@ -135,7 +138,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
         saveDetailsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                progressBar.setVisibility(View.VISIBLE);
                 nameString = restaurentNameView.getText().toString();
                 cityString = restaurentCityView.getText().toString();
                 stateString = restaurentStateView.getText().toString();
@@ -200,6 +203,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("restaurentName", restaurentNameView.getText().toString());
                         editor.apply();
+                        progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(RestaurentDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
 
                     }

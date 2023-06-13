@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText usernameFieldView, passwordFieldView;
     Button loginButton, signupButton;
     Switch saveLoginDetails;
+    ProgressBar progressBar;
     String userUsername, userPassword, restaurentIdForUse, customerIdForUse, restaurentNameForUse, customerNameForUse, deliveryBoyIdForUse, deliveryBoyNameForUse;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
@@ -37,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordFieldView = findViewById(R.id.passwordField);
         loginButton = findViewById(R.id.loginButton);
         signupButton = findViewById(R.id.signupButton);
+        progressBar = findViewById(R.id.progressBarLogin);
         Bundle bundle = getIntent().getExtras();
         String entryActor = bundle.getString("entryRole", "");
         if(entryActor.equals("user")){
@@ -51,12 +54,14 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 userUsername = usernameFieldView.getText().toString();
                 userPassword = passwordFieldView.getText().toString();
                 if(userUsername.isEmpty() || userPassword.isEmpty()){
                     Toast.makeText(LoginActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
                 }else{
                     if(entryActor.equals("user")){
+                        progressBar.setVisibility(View.VISIBLE);
                         databaseReference.child("customers").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,22 +79,26 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }
                                 if(storedPassword.equals("")){
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     Toast.makeText(LoginActivity.this, "No customer exists with this username", Toast.LENGTH_SHORT).show();
                                 }else{
                                     if(storedPassword.equals(userPassword)){
 
-                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
                                         SharedPreferences.Editor editor = pref.edit();
                                         editor.putString("customerId", customerIdForUse);
                                         editor.putString("customerName", customerNameForUse);
                                         editor.apply();
                                         Intent intent = new Intent(LoginActivity.this, CustomerHomeActivity.class);
+                                        progressBar.setVisibility(View.INVISIBLE);
 //                                        Bundle bundle = new Bundle();
 //                                        bundle.putString("restaurentId", restaurentIdForUse);
 //                                        intent.putExtras(bundle);
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         startActivity(intent);
                                     }else{
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -103,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                         });
 
                     } else if (entryActor.equals("restaurent")) {
+                        progressBar.setVisibility(View.VISIBLE);
                         databaseReference.child("restaurents").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -121,10 +131,11 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                                 if(storedPassword.equals("")){
                                     Toast.makeText(LoginActivity.this, "No restaurent exists with this username", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.INVISIBLE);
                                 }else{
                                     if(storedPassword.equals(userPassword)){
 
-                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
                                         SharedPreferences.Editor editor = pref.edit();
                                         editor.putString("restaurentId", restaurentIdForUse);
@@ -133,9 +144,11 @@ public class LoginActivity extends AppCompatActivity {
 //                                        Bundle bundle = new Bundle();
 //                                        bundle.putString("restaurentId", restaurentIdForUse);
 //                                        intent.putExtras(bundle);
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         startActivity(intent);
                                     }else{
                                         Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.INVISIBLE);
                                     }
                                 }
 
@@ -147,6 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                     } else if (entryActor.equals("deliveryboy")) {
+                        progressBar.setVisibility(View.VISIBLE);
 
                         databaseReference.child("deliveryboys").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -163,18 +177,21 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                                 if(storedPassword.equals("")){
                                     Toast.makeText(LoginActivity.this, "No delivery boy exists with this username", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.INVISIBLE);
                                 }else{
                                     if(storedPassword.equals(userPassword)){
 
-                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
                                         SharedPreferences.Editor editor = pref.edit();
                                         editor.putString("deliveryBoyId", deliveryBoyIdForUse);
                                         editor.apply();
                                         Intent intent = new Intent(LoginActivity.this, DeliveryBoyHomeActivity.class);
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         startActivity(intent);
                                     }else{
                                         Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.INVISIBLE);
                                     }
                                 }
 

@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.fooddelivery.R;
@@ -41,6 +42,7 @@ import java.util.Map;
 
 public class CustomerDetailsActivity extends AppCompatActivity {
     EditText userNameView, userCityView, userStateView, userAddressView, userEmailView, userContactView;
+    ProgressBar progressBar;
     Button setAddressUserButtonView, saveDetailsOfUserButtonView;
     String customerIdForUse, nameString, cityString, stateString, contactString, addressString, emailString;
     Customer customerObj;
@@ -57,6 +59,7 @@ public class CustomerDetailsActivity extends AppCompatActivity {
         userAddressView = findViewById(R.id.userAddressField);
         userEmailView = findViewById(R.id.userEmailField);
         userContactView = findViewById(R.id.userContactField);
+        progressBar = findViewById(R.id.progressBarCustomerDetails);
         setAddressUserButtonView = findViewById(R.id.setUserAddressButton);
         saveDetailsOfUserButtonView = findViewById(R.id.saveDetailsUserButton);
 
@@ -106,6 +109,7 @@ public class CustomerDetailsActivity extends AppCompatActivity {
         saveDetailsOfUserButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 nameString = userNameView.getText().toString();
                 addressString = userAddressView.getText().toString();
                 cityString = userCityView.getText().toString();
@@ -154,7 +158,7 @@ public class CustomerDetailsActivity extends AppCompatActivity {
                             Map<String, Object> updates = new HashMap<>();
                             updates.put("eligible", true);
                             snapshot.getRef().updateChildren(updates);
-
+                            progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(CustomerDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
 
                         }

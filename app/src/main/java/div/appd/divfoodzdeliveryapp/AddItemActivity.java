@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -22,11 +23,13 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -57,6 +60,7 @@ public class AddItemActivity extends AppCompatActivity {
     EditText menuCategoryView, dishTitleView, priceView, dishTypeView;
     Button chooseButton, uploadButton, addItemButton;
     RadioGroup vegNonvegGroup;
+    ProgressBar progressBarAdd;
     RadioButton vegRadioButton, nonvegRadioButton, vegnonvegButton,outOfStockButton;
     Spinner menuCategorySpinner, quantityClassesSpinner;
     ArrayList<String> dishArrayList;
@@ -88,6 +92,7 @@ public class AddItemActivity extends AppCompatActivity {
         vegRadioButton = findViewById(R.id.radioVeg);
         nonvegRadioButton = findViewById(R.id.radioNonveg);
         menuCategorySpinner = findViewById(R.id.spinnerCategory);
+        progressBarAdd = findViewById(R.id.progressBarAddingItem);
         quantityClassesSpinner = findViewById(R.id.spinnerQuantity);
         outOfStockButton = findViewById(R.id.radioStock);
         storage = FirebaseStorage.getInstance();
@@ -113,7 +118,7 @@ public class AddItemActivity extends AppCompatActivity {
 //
 //            quantityClassesSpinner.setSelection(myAdapterQuantity.getPosition(dishObj.getPerQuantity()));
 
-            outOfStockButton.setVisibility(View.VISIBLE);
+//            outOfStockButton.setVisibility(View.VISIBLE);
             addItemButton.setText("Save Details");
             spinnerDishType.setText(dishObj.getDishTag());
             if(dishObj.getImageUrl()!=null){
@@ -193,10 +198,17 @@ public class AddItemActivity extends AppCompatActivity {
                         // Initialize and assign variable
                         EditText editText=dialog.findViewById(R.id.edit_text);
                         ListView listView=dialog.findViewById(R.id.list_view);
-
+                        editText.setTextColor(ContextCompat.getColor(AddItemActivity.this, R.color.black));
                         // Initialize array adapter
-                        ArrayAdapter<String> adapter=new ArrayAdapter<>(AddItemActivity.this, android.R.layout.simple_list_item_1,dishArrayList);
-
+                        ArrayAdapter<String> adapter=new ArrayAdapter<String>(AddItemActivity.this, android.R.layout.simple_list_item_1,dishArrayList) {
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                View view = super.getView(position, convertView, parent);
+                                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                                text.setTextColor(Color.BLACK);
+                                return view;
+                            }
+                        };
                         // set adapter
                         listView.setAdapter(adapter);
 
@@ -352,6 +364,7 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (actionAddOrEdit.equals("add")) {
+                    progressBarAdd.setVisibility(View.VISIBLE);
 //                    if (filePath == null || downloadableImageUrl == null) {
 //                        Uri defaultUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
 //                                + "://" + AddItemActivity.this.getResources().getResourcePackageName(R.drawable.default_food)
@@ -385,6 +398,7 @@ public class AddItemActivity extends AppCompatActivity {
                             } else {
                                 snapshot.child("vegOrNonveg").getRef().setValue("NONVEG");
                             }
+                            progressBarAdd.setVisibility(View.INVISIBLE);
                             Toast.makeText(AddItemActivity.this, "Added New Dish", Toast.LENGTH_SHORT).show();
 
                             //                 *********START updating dishtags nodes in database********
@@ -467,6 +481,7 @@ public class AddItemActivity extends AppCompatActivity {
 
 
                 } else {
+                    progressBarAdd.setVisibility(View.VISIBLE);
                     if (!menuCategoryView.getText().toString().equals(dishObj.getCategory())) {
                         if (!menuCategoryView.getText().toString().equals(categoryInSpinner)) {
                             updateRequestCount = updateRequestCount + 2;
@@ -516,6 +531,7 @@ public class AddItemActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     updateCompleteCount = updateCompleteCount + 1;
                                     if(updateCompleteCount == updateRequestCount){
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -528,6 +544,7 @@ public class AddItemActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     updateCompleteCount = updateCompleteCount + 1;
                                     if(updateCompleteCount == updateRequestCount){
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -541,6 +558,7 @@ public class AddItemActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     updateCompleteCount = updateCompleteCount + 1;
                                     if(updateCompleteCount == updateRequestCount){
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -565,6 +583,7 @@ public class AddItemActivity extends AppCompatActivity {
                                         public void onSuccess(Void unused) {
                                             updateCompleteCount = updateCompleteCount + 2;
                                             if(updateCompleteCount == updateRequestCount){
+                                                progressBarAdd.setVisibility(View.INVISIBLE);
                                                 Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -584,6 +603,7 @@ public class AddItemActivity extends AppCompatActivity {
                                     }
                                     updateCompleteCount = updateCompleteCount + 1;
                                     if(updateCompleteCount == updateRequestCount){
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -602,6 +622,7 @@ public class AddItemActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     updateCompleteCount = updateCompleteCount + 1;
                                     if(updateCompleteCount == updateRequestCount){
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -616,6 +637,7 @@ public class AddItemActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     updateCompleteCount = updateCompleteCount + 1;
                                     if(updateCompleteCount == updateRequestCount){
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -627,7 +649,7 @@ public class AddItemActivity extends AppCompatActivity {
                                     for(DataSnapshot snapshot1 : snapshot.getChildren()){
                                         for(DataSnapshot snapshot2 : snapshot1.child("dishIds").getChildren()){
                                             if(snapshot2.child("value").getValue(String.class).equals(dishObj.getDishId())){
-                                                Toast.makeText(AddItemActivity.this, "wowwow", Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(AddItemActivity.this, "wowwow", Toast.LENGTH_SHORT).show();
                                                 snapshot2.getRef().removeValue();
                                             }
                                         }
@@ -644,6 +666,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                                     updateCompleteCount = updateCompleteCount + 2;
                                     if(updateCompleteCount == updateRequestCount){
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -666,6 +689,7 @@ public class AddItemActivity extends AppCompatActivity {
                             public void onSuccess(Void unused) {
                                 updateCompleteCount = updateCompleteCount + 1;
                                 if(updateCompleteCount == updateRequestCount){
+                                    progressBarAdd.setVisibility(View.INVISIBLE);
                                     Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -687,6 +711,7 @@ public class AddItemActivity extends AppCompatActivity {
                             public void onSuccess(Void unused) {
                                 updateCompleteCount = updateCompleteCount + 1;
                                 if(updateCompleteCount == updateRequestCount){
+                                    progressBarAdd.setVisibility(View.INVISIBLE);
                                     Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -702,6 +727,7 @@ public class AddItemActivity extends AppCompatActivity {
                             public void onSuccess(Void unused) {
                                 updateCompleteCount = updateCompleteCount + 1;
                                 if(updateCompleteCount == updateRequestCount){
+                                    progressBarAdd.setVisibility(View.INVISIBLE);
                                     Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -717,6 +743,7 @@ public class AddItemActivity extends AppCompatActivity {
                             public void onSuccess(Void unused) {
                                 updateCompleteCount = updateCompleteCount + 1;
                                 if(updateCompleteCount == updateRequestCount){
+                                    progressBarAdd.setVisibility(View.INVISIBLE);
                                     Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -732,6 +759,7 @@ public class AddItemActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     updateCompleteCount = updateCompleteCount + 1;
                                     if (updateCompleteCount == updateRequestCount) {
+                                        progressBarAdd.setVisibility(View.INVISIBLE);
                                         Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -748,6 +776,7 @@ public class AddItemActivity extends AppCompatActivity {
                             public void onSuccess(Void unused) {
                                 updateCompleteCount = updateCompleteCount + 1;
                                 if(updateCompleteCount == updateRequestCount){
+                                    progressBarAdd.setVisibility(View.INVISIBLE);
                                     Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
                                 }
                             }

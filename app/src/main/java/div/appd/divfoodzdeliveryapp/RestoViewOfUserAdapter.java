@@ -257,7 +257,7 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
                     });
 
                 }
-                Toast.makeText(getContext(), String.valueOf(hashMapSameDish.size()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), String.valueOf(hashMapSameDish.size()), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.fooddelivery.R;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 public class DeliveryBoyDetailsActivity extends AppCompatActivity {
     EditText deliveryNameView, deliveryStateView, deliveryCityView, deliveryContactView, userEmailView, userContactView;
+    ProgressBar progressBar;
     Button saveDetailsOfDeliveryButtonView;
     String deliveryBoyIdForUse, nameString, cityString, stateString, contactString;
     DeliveryBoy deliveryBoyObj;
@@ -35,6 +37,7 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
         deliveryCityView = findViewById(R.id.deliveryCityField);
         deliveryContactView = findViewById(R.id.deliveryContactField);
         deliveryStateView = findViewById(R.id.deliveryStateField);
+        progressBar = findViewById(R.id.progressBarDeliveryDetails);
         saveDetailsOfDeliveryButtonView = findViewById(R.id.deliverySaveDetailsButton);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
@@ -74,6 +77,7 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
         saveDetailsOfDeliveryButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 nameString = deliveryNameView.getText().toString();
                 cityString = deliveryCityView.getText().toString();
                 stateString = deliveryStateView.getText().toString();
@@ -107,7 +111,7 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
                             Map<String, Object> updates = new HashMap<>();
                             updates.put("eligible", true);
                             snapshot.getRef().updateChildren(updates);
-
+                            progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(DeliveryBoyDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
 
                         }

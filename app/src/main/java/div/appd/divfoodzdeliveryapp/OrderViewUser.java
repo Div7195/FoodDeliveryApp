@@ -52,6 +52,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 public class OrderViewUser extends AppCompatActivity {
     TextView restaurentNameView, restaurentAddressView, contactOfuserOrDelView, contactOfWhoView, totalBillView, taxView, priceView, deliveryFeeView, dateView, statusView;
     EditText customerAddressView;
+    ProgressBar progressBarRating, progressBarPlaceOrder, progressBarAssigned, progressBarPickup, progressBarDelivered;
     LinearLayout ll, llratingSectionView, llplaceOrderSectionView, llgetAssignedSectionView, llpickupSectionView, lldeliveredSectionView;
     Button placeOrderButton, getAssignedButton, pickupButton, deliveredButton, submitRatingButton, setAddressButton;
     String customerIdForUse, totalBillIntent, taxesIntent, deliveryIntent, totalPriceIntent, customerNameIntent, customerAddressIntent, customerContactIntent, restaurentIdIntent, restaurentNameIntent, restaurentAddressIntent, orderIdForUse, orderViewConfig, orderIdIntent, deliveryIdIntent;
@@ -81,6 +82,12 @@ public class OrderViewUser extends AppCompatActivity {
         deliveryFeeView = findViewById(R.id.deliveryFeeField);
         dateView = findViewById(R.id.orderedTimeField);
         statusView = findViewById(R.id.statusOrderField);
+
+        progressBarAssigned=findViewById(R.id.loadingBesideGetAssigned);
+        progressBarDelivered = findViewById(R.id.loadingBesideDelivered);
+        progressBarPickup = findViewById(R.id.loadingBesidePickup);
+        progressBarPlaceOrder = findViewById(R.id.loadingBesidePlaceOrder);
+        progressBarRating = findViewById(R.id.loadingBesideRating);
 
         llratingSectionView = findViewById(R.id.ratingSection);
         llplaceOrderSectionView = findViewById(R.id.placeOrderSection);
@@ -119,14 +126,14 @@ public class OrderViewUser extends AppCompatActivity {
             restaurentNameView.setText(restaurentNameIntent);
             restaurentAddressView.setText(restaurentAddressIntent);
             customerAddressView.setText(customerAddressIntent);
-            contactOfWhoView.setText("Contact");
+            contactOfWhoView.setText("Your Contact");
             contactOfuserOrDelView.setText(customerContactIntent);
 
             totalBillView.setText(totalBillIntent);
             taxView.setText(taxesIntent);
             deliveryFeeView.setText(deliveryIntent);
             priceView.setText(totalPriceIntent);
-            statusView.setText("Preparing..");
+            statusView.setText("listed below");
 
             dateView.setVisibility(View.GONE);
             setAddressButton.setVisibility(View.VISIBLE);
@@ -142,7 +149,6 @@ public class OrderViewUser extends AppCompatActivity {
         }else{
             orderViewConfig = intent.getStringExtra("orderViewConfig");
             orderIdIntent = getIntent().getStringExtra("orderId");
-            Toast.makeText(this, "order id is" + orderIdIntent, Toast.LENGTH_SHORT).show();
             deliveryIdIntent = getIntent().getStringExtra("deliveryBoyId");
             customerAddressView.setFocusable(false);
             databaseReference.child("orders").child(orderIdIntent).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -246,6 +252,7 @@ public class OrderViewUser extends AppCompatActivity {
                 if(Double.valueOf(totalBillView.getText().toString()) == 0.0){
                     Toast.makeText(OrderViewUser.this, "Your Cart is empty, can't place order", Toast.LENGTH_SHORT).show();
                 }else{
+                    progressBarPlaceOrder.setVisibility(View.VISIBLE);
                     databaseReference.child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -284,7 +291,8 @@ public class OrderViewUser extends AppCompatActivity {
                                                         snapshot.child("price").getRef().setValue(obj.getPrice());
                                                         snapshot.child("single").getRef().setValue(obj.getSingleItemPrice());
                                                         snapshot.child("vegnonveg").getRef().setValue(obj.getVegNonVeg());
-                                                        Toast.makeText(OrderViewUser.this, "Done!", Toast.LENGTH_SHORT).show();
+                                                        progressBarPlaceOrder.setVisibility(View.INVISIBLE);
+                                                        Toast.makeText(OrderViewUser.this, "Order Placed!", Toast.LENGTH_SHORT).show();
                                                     }
 
                                                     @Override
@@ -325,7 +333,7 @@ public class OrderViewUser extends AppCompatActivity {
         getAssignedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                progressBarAssigned.setVisibility(View.VISIBLE);
                 databaseReference.child("deliveryboys").child(deliveryIdIntent).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -343,6 +351,7 @@ public class OrderViewUser extends AppCompatActivity {
                                 nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
+                                        progressBarAssigned.setVisibility(View.INVISIBLE);
                                         Toast.makeText(OrderViewUser.this, "Order is assigned to you!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -367,13 +376,15 @@ public class OrderViewUser extends AppCompatActivity {
         pickupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBarPickup.setVisibility(View.VISIBLE);
                 DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("status", "Picked Up");
                 nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(OrderViewUser.this, "Updated status!", Toast.LENGTH_SHORT).show();
+                        progressBarPickup.setVisibility(View.INVISIBLE);
+                        Toast.makeText(OrderViewUser.this, "Order is picked up!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -381,13 +392,15 @@ public class OrderViewUser extends AppCompatActivity {
         deliveredButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBarDelivered.setVisibility(View.VISIBLE);
                 DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("status", "Delivered");
                 nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(OrderViewUser.this, "Updated Status!", Toast.LENGTH_SHORT).show();
+                        progressBarDelivered.setVisibility(View.INVISIBLE);
+                        Toast.makeText(OrderViewUser.this, "Order is delivered!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -396,6 +409,7 @@ public class OrderViewUser extends AppCompatActivity {
         submitRatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBarRating.setVisibility(View.VISIBLE);
                 Double BarRating = Double.valueOf(materialRatingBar.getRating());
                 DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
                 Map<String, Object> updates = new HashMap<>();
@@ -421,7 +435,8 @@ public class OrderViewUser extends AppCompatActivity {
                                     nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            Toast.makeText(OrderViewUser.this, "Updated Rating in dishes!", Toast.LENGTH_SHORT).show();
+                                            progressBarRating.setVisibility(View.INVISIBLE);
+                                            Toast.makeText(OrderViewUser.this, "Thanks for your feedback!", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }

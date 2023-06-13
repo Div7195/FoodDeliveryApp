@@ -93,7 +93,7 @@ public class UserRestoActivity extends AppCompatActivity {
                             // Attach the adapter to a ListView
                             ListView listView = (ListView) findViewById(R.id.dishListRestoUser);
                             listView.setAdapter(adapter);
-                            Toast.makeText(UserRestoActivity.this, "userrestoactvity and adapter is restoviewofadapter", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(UserRestoActivity.this, "userrestoactvity and adapter is restoviewofadapter", Toast.LENGTH_SHORT).show();
                             listView.setTag(lll);
                             getListViewSize(listView);
 
@@ -156,7 +156,7 @@ public class UserRestoActivity extends AppCompatActivity {
                     // Attach the adapter to a ListView
                     ListView listView = (ListView) findViewById(R.id.dishListRestoUser);
                     listView.setAdapter(adapter);
-                    Toast.makeText(UserRestoActivity.this, "userrestoactivity", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(UserRestoActivity.this, "userrestoactivity", Toast.LENGTH_SHORT).show();
                     progressBarForDish.setVisibility(View.GONE);
                     listView.setTag(lll);
                     getListViewSize(listView);

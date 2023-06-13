@@ -48,7 +48,7 @@ public class DishtypeExploreActivity extends AppCompatActivity {
                                 , dishIdLocalArray
                                 , snapshot1.getKey()));
                     }
-                    Toast.makeText(DishtypeExploreActivity.this, "Data fetched", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(DishtypeExploreActivity.this, "Data fetched", Toast.LENGTH_SHORT).show();
                     DishtypeAdapter adapter = new DishtypeAdapter(DishtypeExploreActivity.this, arrayOfDishTypes);
                     // Attach the adapter to a ListView
                     ListView listView = (ListView) findViewById(R.id.dishtype_foodItemListView_res);

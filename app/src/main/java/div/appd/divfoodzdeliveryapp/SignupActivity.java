@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText usernameField, passwordField, confirmPasswordField;
     Button accountSignup, goToLoginView;
     String username, password, confirmPassword;
+    ProgressBar progressBar;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class SignupActivity extends AppCompatActivity {
         accountSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 username = usernameField.getText().toString();
                 password = passwordField.getText().toString();
                 confirmPassword = passwordField.getText().toString();
@@ -61,6 +64,7 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 else{
                     if(entryActor.equals("user")){
+                        progressBar.setVisibility(View.VISIBLE);
                         databaseReference.child("customers").addListenerForSingleValueEvent(new ValueEventListener() {
                             //                            String restaurantId = RandomStringGenerator.generateRandomString(10);
                             @Override
@@ -77,6 +81,7 @@ public class SignupActivity extends AppCompatActivity {
                                 }
 
                                 if (customerExists) {
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     Toast.makeText(SignupActivity.this, "Username is already registered", Toast.LENGTH_SHORT).show();
                                 } else {
                                     DatabaseReference restaurentReference = databaseReference.child("customers").push();
@@ -86,6 +91,7 @@ public class SignupActivity extends AppCompatActivity {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("entryRole", "user");
                                     intent.putExtras(bundle);
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     startActivity(intent);
                                     Toast.makeText(SignupActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
 
@@ -100,6 +106,7 @@ public class SignupActivity extends AppCompatActivity {
 
                     }
                     else if(entryActor.equals("restaurent")){
+                        progressBar.setVisibility(View.VISIBLE);
                         databaseReference.child("restaurents").addListenerForSingleValueEvent(new ValueEventListener() {
 //                            String restaurantId = RandomStringGenerator.generateRandomString(10);
                             @Override
@@ -117,6 +124,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                 if (restaurantExists) {
                                     Toast.makeText(SignupActivity.this, "Username is already registered", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.INVISIBLE);
                                 } else {
                                     DatabaseReference restaurentReference = databaseReference.child("restaurents").push();
                                     restaurentReference.child("username").setValue(username);
@@ -125,8 +133,10 @@ public class SignupActivity extends AppCompatActivity {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("entryRole", "restaurent");
                                     intent.putExtras(bundle);
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     startActivity(intent);
                                     Toast.makeText(SignupActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
+
                                 }
                             }
 
@@ -139,6 +149,7 @@ public class SignupActivity extends AppCompatActivity {
 
                     }
                     else if(entryActor.equals("deliveryboy")){
+                        progressBar.setVisibility(View.VISIBLE);
                         databaseReference.child("deliveryboys").addListenerForSingleValueEvent(new ValueEventListener() {
                             //                            String restaurantId = RandomStringGenerator.generateRandomString(10);
                             @Override
@@ -156,6 +167,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                 if (deliveryBoyExists) {
                                     Toast.makeText(SignupActivity.this, "Username is already registered", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.INVISIBLE);
                                 } else {
                                     DatabaseReference restaurentReference = databaseReference.child("deliveryboys").push();
                                     restaurentReference.child("username").setValue(username);
@@ -164,8 +176,10 @@ public class SignupActivity extends AppCompatActivity {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("entryRole", "deliveryboy");
                                     intent.putExtras(bundle);
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     startActivity(intent);
                                     Toast.makeText(SignupActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
+
 
                                 }
                             }
