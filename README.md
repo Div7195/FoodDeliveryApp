@@ -1,8 +1,5 @@
 # FoodDeliveryApp
-This app consists of mainly 3 modules
-1.Customer
-2.Restaurent Owner
-3.Delivery Boy
+This app consists of mainly 3 modules, Customer, Restaurent Owner, Delivery Boy
 
 >Customer can explore different dishes, explore restaurents, see their menu, add items to cart, can set the number of any items in cart, place the order, get all the details about bill, and can review the status of the order(i.e. when order is being prepared, picked up, and delivered) and also details of delivery boy assigned to that order
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
