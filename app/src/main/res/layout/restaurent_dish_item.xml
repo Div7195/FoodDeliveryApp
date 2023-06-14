@@ -52,7 +52,7 @@
         android:singleLine="false"
         android:maxWidth="180dp"
         android:layout_toEndOf="@id/veg_icon_user"
-        android:text="Paneer"
+        android:text="Food item"
         android:textColor="@color/black"
         android:textSize="22sp" />
 
