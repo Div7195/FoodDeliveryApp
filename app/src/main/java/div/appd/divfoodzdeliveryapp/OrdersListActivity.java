@@ -146,7 +146,7 @@ public class OrdersListActivity extends AppCompatActivity {
             if (config.equals("assignedOnly")) {
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
                 deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
-                Toast.makeText(this, deliveryBoyIdForUse, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, deliveryBoyIdForUse, Toast.LENGTH_SHORT).show();
                 ArrayList<String> orderIds = new ArrayList<String>();
                 databaseReference.child("deliveryboys").child(deliveryBoyIdForUse).child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

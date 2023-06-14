@@ -119,7 +119,7 @@ public class AddItemActivity extends AppCompatActivity {
 //            quantityClassesSpinner.setSelection(myAdapterQuantity.getPosition(dishObj.getPerQuantity()));
 
 //            outOfStockButton.setVisibility(View.VISIBLE);
-            addItemButton.setText("Save Details");
+            addItemButton.setText("Save Changes");
             spinnerDishType.setText(dishObj.getDishTag());
             if(dishObj.getImageUrl()!=null){
                 downloadableImageUrl = dishObj.getImageUrl();

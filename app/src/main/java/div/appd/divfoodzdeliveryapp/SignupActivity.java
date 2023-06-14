@@ -37,6 +37,7 @@ public class SignupActivity extends AppCompatActivity {
         confirmPasswordField = findViewById(R.id.confirmPasswordSignupField);
         accountSignup = findViewById(R.id.accountSignupButton);
         goToLoginView = findViewById(R.id.goToLoginButton);
+        progressBar = findViewById(R.id.progressBarInSignup);
         Bundle bundle = getIntent().getExtras();
         String entryActor = bundle.getString("entryRole", "");
         if(entryActor.equals("user")){
