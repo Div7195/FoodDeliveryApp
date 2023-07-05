@@ -9,4 +9,4 @@ This app consists of mainly 3 modules, Customer, Restaurent Owner, Delivery Boy
 
 All above modules can set their details(name, address in case of customer and restaurent, contact, image in case of restaurent module,etc.).
 ## For Cloning repository purposes
-- Clone the repository, now to use the app on your device, replace the firebase database reference URL with your own firebase reference URL in every java file of your cloned repo, and then accordingly set the access rules to your database as per your choice. 
+- Clone the repository, now to use the app on your device, replace the firebase database reference URL with your own firebase reference URL in every java file of your cloned repo, you can get the above URL by creating a firebase account if you don't have one, add your project to the account. Refer to firebase documentation for more information about it, and then accordingly set the access rules to your database as per your choice. 
