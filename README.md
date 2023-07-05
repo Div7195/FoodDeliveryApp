@@ -7,4 +7,6 @@ This app consists of mainly 3 modules, Customer, Restaurent Owner, Delivery Boy
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 >Delivery Boy can view all the unassigned orders, view all details of order, get self assigned to any order, and after getting assigned can update status of order(picked up, delivered etc.).It can view his all self assigned orders in seperate section.
 
-All above modules can set their details(name, address in case of customer and restaurent, contact, image in case of restaurent module,etc.)
+All above modules can set their details(name, address in case of customer and restaurent, contact, image in case of restaurent module,etc.).
+## For Cloning repository purposes
+- Clone the repository, now to use the app on your device, replace the firebase database reference URL with your own firebase reference URL in every java file of your cloned repo, and then accordingly set the access rules to your database as per your choice. 
