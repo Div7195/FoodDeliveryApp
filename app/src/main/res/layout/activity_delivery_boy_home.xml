@@ -1,45 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
     tools:context="div.appd.divfoodzdeliveryapp.DeliveryBoyHomeActivity">
 
-    <Button
-        android:id="@+id/viewOrderDeliveryButton"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="220dp"
-        android:text="View all unassigned orders"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Delivery personnel"
+                android:textColor="#caea39"
+                android:gravity="center_horizontal"
+                android:textSize="45sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Home"
+                android:textColor="#caea39"
+                android:gravity="center_horizontal"
+                android:textSize="45sp" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/viewOrderDeliveryButton"
+            android:layout_width="334dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="50dp"
+            android:textSize="22sp"
+            android:text="View all unassigned orders"
+            android:textStyle="bold"
+            android:backgroundTint="#35a306"
+            />
 
-    <Button
-        android:id="@+id/viewAssignedOrdersButton"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="24dp"
-        android:text="View your Assigned Orders"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewOrderDeliveryButton" />
+        <Button
+            android:id="@+id/viewAssignedOrdersButton"
+            android:layout_width="334dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:textSize="22sp"
+            android:text="View your assigned orders"
+            android:textStyle="bold"
+            android:backgroundTint="#35a306"
+            />
 
-    <Button
-        android:id="@+id/editDeliveryDetailsButton"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="24dp"
-        android:text="Edit Your Details"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewAssignedOrdersButton"
-        app:layout_constraintVertical_bias="0.009" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/editDeliveryDetailsButton"
+            android:layout_width="334dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:textSize="22sp"
+            android:text="Edit your details"
+            android:textStyle="bold"
+            android:backgroundTint="#35a306"
+            />
+    </LinearLayout>
+
+</LinearLayout>

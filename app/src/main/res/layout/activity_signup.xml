@@ -1,83 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
     tools:context="div.appd.divfoodzdeliveryapp.SignupActivity">
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/accountSignupButton"
-        android:layout_width="138dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="188dp"
-        android:text="Signup"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordSignupField"
-        app:layout_constraintVertical_bias="0.44" />
 
-    <EditText
-        android:id="@+id/usernameSignupField"
-        android:layout_width="329dp"
-        android:layout_height="55dp"
-        android:ems="10"
-        android:hint="Enter Username"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBarInSignup" />
-
-    <EditText
-        android:id="@+id/passwordSignupField"
-        android:layout_width="329dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Enter Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameSignupField" />
-
-    <EditText
-        android:id="@+id/confirmPasswordSignupField"
-        android:layout_width="329dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="Reenter Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordSignupField" />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
     <TextView
         android:id="@+id/signupHeadingView"
         android:layout_width="329dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
+        android:fontFamily="sans-serif-black"
         android:text="TextView"
+        android:textColor="#caea39"
+        android:textSize="40sp"
+        />
+    <EditText
+        android:id="@+id/usernameSignupField"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:paddingStart="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/border_text"
         android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/white"
+        android:textColorHint="#A7B7C2"
+        android:layout_marginTop="20dp"
+        android:hint="Enter Username"/>
+
+    <EditText
+        android:id="@+id/passwordSignupField"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:paddingStart="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/border_text"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        android:textColorHint="#A7B7C2"
+        android:layout_marginTop="20dp"
+        android:hint="Enter Password"/>
+
+    <EditText
+        android:id="@+id/confirmPasswordSignupField"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:paddingStart="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/border_text"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        android:textColorHint="#A7B7C2"
+        android:layout_marginTop="20dp"
+        android:hint="Confirm Password"/>
+
+    <Button
+        android:id="@+id/accountSignupButton"
+        android:layout_width="304dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:textSize="22sp"
+        android:text="Signup"
+        android:textStyle="bold"
+        android:backgroundTint="#35a306"
+        />
 
     <Button
         android:id="@+id/goToLoginButton"
-        android:layout_width="138dp"
-        android:layout_height="53dp"
-        android:layout_marginEnd="40dp"
+        android:layout_width="304dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:textSize="22sp"
         android:text="Login"
-        app:layout_constraintBottom_toBottomOf="@+id/accountSignupButton"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textStyle="bold"
+        android:backgroundTint="#35a306"
+        />
 
     <ProgressBar
         android:id="@+id/progressBarInSignup"
@@ -86,8 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupHeadingView" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        />
+</LinearLayout>
+</ScrollView>
+</LinearLayout>

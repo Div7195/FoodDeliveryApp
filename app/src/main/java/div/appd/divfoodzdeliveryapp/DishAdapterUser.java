@@ -40,7 +40,7 @@ import java.util.Iterator;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class DishAdapterUser extends ArrayAdapter<Dish> {
-    Integer gg;
+    Integer footerHeight;
     Double d = 0.0;
     Integer q = 0;
     String resId = "";
@@ -119,6 +119,9 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
             float f = dish.getRating().floatValue();
             materialRatingBar.setRating(f);
         }
+
+
+
         restaurentNameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,12 +143,13 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                         if(layout2 != null) {
                             if(hashMapSameDish.size() == 0) {
                                 ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                                int h = layout1.getHeight() - 116;
+                                int h = layout1.getHeight() - 179;
                                 int w = params1.width;
                                 params1.height = h;
                                 params1.width = w;
                                 layout1.setLayoutParams(params1);
                                 layout2.setVisibility(View.VISIBLE);
+
                             }
                             hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0,Double.valueOf(dish.getPrice()), dish.getVegOrNonveg()));
                             resId = dish.getRestaurentId();
@@ -190,7 +194,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                     if(hashMapSameDish.size() == 0){
                         resId = "";
                         ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                        int h = layout1.getHeight() + layout2.getHeight();
+                        int h = layout1.getHeight() + 179;
                         int w = params1.width;
                         layout2.setVisibility(View.GONE);
                         params1.height = h;

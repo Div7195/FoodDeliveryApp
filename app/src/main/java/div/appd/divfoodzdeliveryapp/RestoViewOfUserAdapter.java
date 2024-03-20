@@ -119,7 +119,7 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
                     if(layout2 != null) {
                         if(hashMapSameDish.size() == 0) {
                             ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                            int h = layout1.getHeight() - 116;
+                            int h = layout1.getHeight() - 179;
                             int w = params1.width;
                             params1.height = h;
                             params1.width = w;
@@ -166,7 +166,7 @@ public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {
                     if(hashMapSameDish.size() == 0){
                         resId = "";
                         ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                        int h = layout1.getHeight() + layout2.getHeight();
+                        int h = layout1.getHeight() + 179;
                         int w = params1.width;
                         layout2.setVisibility(View.GONE);
                         params1.height = h;

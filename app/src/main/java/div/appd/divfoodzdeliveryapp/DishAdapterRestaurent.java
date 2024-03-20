@@ -61,12 +61,14 @@ public class DishAdapterRestaurent extends ArrayAdapter<Dish> {
         }
         dishTitleView.setText(dish.getTitle());
         foodPriceView.setText(dish.getPrice());
-        if(dish.getVegOrNonveg().equals("VEG")){
-            imgView.setImageResource(R.drawable.veg);
+        if(dish.getVegOrNonveg() != null) {
+            if (dish.getVegOrNonveg().equals("VEG")) {
+                imgView.setImageResource(R.drawable.veg);
+            }else{
+                imgView.setImageResource(R.drawable.nonveg);
+            }
         }
-        else{
-            imgView.setImageResource(R.drawable.nonveg);
-        }
+
         editButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -205,6 +205,8 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                         editor.apply();
                         progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(RestaurentDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RestaurentDetailsActivity.this, RestaurentHomeActivity.class);
+                        startActivity(intent);
 
                     }
 

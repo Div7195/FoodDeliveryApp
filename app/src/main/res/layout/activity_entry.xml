@@ -1,42 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
+
     tools:context="div.appd.divfoodzdeliveryapp.EntryActivity">
 
-    <Button
-        android:id="@+id/userEntry"
-        android:layout_width="207dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="216dp"
-        android:text="User"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Welcome!"
+            android:textColor="#caea39"
+            android:gravity="center_horizontal"
+            android:textSize="45sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Food Delivery App"
+            android:textColor="#caea39"
+            android:gravity="center_horizontal"
+            android:textSize="45sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="80sp"
+        >
+        <Button
+            android:id="@+id/userEntry"
+            android:layout_width="344dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#35a306"
+            android:text="Customer"
+            android:textStyle="bold"
+            android:textSize="25sp"
 
-    <Button
-        android:id="@+id/restaurentEntry"
-        android:layout_width="207dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:text="Restaurent Owner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEntry" />
+            />
 
-    <Button
-        android:id="@+id/deliveryEntry"
-        android:layout_width="207dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="36dp"
-        android:text="Delivery Boy"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/restaurentEntry"
-        app:layout_constraintVertical_bias="0.0" />
+        <Button
+            android:id="@+id/restaurentEntry"
+            android:layout_width="344dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#35a306"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:text="Restaurent Owner"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/deliveryEntry"
+            android:layout_width="344dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="36dp"
+            android:backgroundTint="#35a306"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:text="Delivery Boy"
+
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

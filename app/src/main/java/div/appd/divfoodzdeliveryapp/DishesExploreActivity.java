@@ -26,7 +26,7 @@ import java.util.List;
 public class DishesExploreActivity extends AppCompatActivity {
     ProgressBar progressBarForDish;
     Dishtype dishtypeObj;
-    LinearLayout ll;
+    LinearLayout ll, llcartView;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
     ArrayList<Dish> arrayOfDishes = new ArrayList<Dish>();
@@ -36,6 +36,7 @@ public class DishesExploreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dishes_explore);
         progressBarForDish = findViewById(R.id.progressBarExploreDish);
         ll = findViewById(R.id.ll_parent_1);
+        llcartView = findViewById(R.id.cartfooterview);
         dishtypeObj = (Dishtype) getIntent().getSerializableExtra("dishTypeObj");
         databaseReference.child("dishes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -66,7 +67,6 @@ public class DishesExploreActivity extends AppCompatActivity {
                 getListViewSize(listView);
 //                Toast.makeText(DishesExploreActivity.this, "dishesexploreactivity and adapter is dishadapteruser", Toast.LENGTH_SHORT).show();
                 progressBarForDish.setVisibility(View.GONE);
-
             }
 
             @Override

@@ -3,6 +3,7 @@ package div.appd.divfoodzdeliveryapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -113,6 +114,8 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
                             snapshot.getRef().updateChildren(updates);
                             progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(DeliveryBoyDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(DeliveryBoyDetailsActivity.this, DeliveryBoyHomeActivity.class);
+                            startActivity(intent);
 
                         }
 

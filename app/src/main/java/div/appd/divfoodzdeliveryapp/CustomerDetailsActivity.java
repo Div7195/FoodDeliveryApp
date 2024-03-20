@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -160,6 +161,8 @@ public class CustomerDetailsActivity extends AppCompatActivity {
                             snapshot.getRef().updateChildren(updates);
                             progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(CustomerDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CustomerDetailsActivity.this, CustomerHomeActivity.class);
+                            startActivity(intent);
 
                         }
 
