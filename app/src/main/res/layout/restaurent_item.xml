@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
+    android:background="@drawable/border_text"
     >
 
     <!-- Food Image -->
@@ -26,6 +27,7 @@
         android:layout_marginTop="12dp"
         android:layout_toEndOf="@+id/image_restaurent"
         android:text="Domino's Pizza"
+        android:textColor="#7ae1e7"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -38,6 +40,7 @@
         android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/image_restaurent"
         android:text="Restaurent"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <TextView
@@ -47,6 +50,8 @@
         android:layout_below="@+id/dishOrResto"
         android:layout_marginStart="26dp"
         android:layout_marginTop="8dp"
+        android:textColor="#f1fa4b"
+        android:textStyle="italic"
         android:layout_toEndOf="@+id/image_restaurent"
         android:text="Pizza, Bread, Rolls, Burgers"
         android:textSize="18sp" />

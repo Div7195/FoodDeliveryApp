@@ -5,6 +5,7 @@
     tools:context="div.appd.divfoodzdeliveryapp.UserRestoActivity"
     android:orientation="vertical"
     android:id="@+id/ll_parent_2"
+    android:background="@drawable/gradient_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -29,6 +30,7 @@
                     android:gravity="left|center_vertical"
                     android:text="Fetching.."
                     android:textSize="30sp"
+                    android:textColor="#7ae1e7"
                     android:textStyle="bold" />
 
                 <TextView
@@ -37,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="8dp"
+                    android:textColor="#b0c9ca"
                     android:gravity="left|center_vertical"
                     android:text="Fetching.."
                     android:textSize="22sp"
@@ -54,14 +57,16 @@
                         android:layout_height="wrap_content"
                         android:text="Locality"
                         android:textSize="22sp"
+                        android:textColor="#c298ef"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/user_resto_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="16dp"
                         android:text="Fetching.."
+                        android:textColor="@color/white"
                         android:textSize="22sp" />
                 </LinearLayout>
         <LinearLayout
@@ -76,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="Phone"
                 android:textSize="22sp"
+                android:textColor="#c298ef"
                 android:textStyle="bold"
                 />
 
@@ -83,9 +89,10 @@
                 android:id="@+id/user_resto_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
+
                 android:gravity="left|center_vertical"
                 android:text="Fetching.."
+                android:textColor="@color/white"
                 android:textSize="22sp" />
         </LinearLayout>
 

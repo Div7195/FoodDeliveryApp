@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/food_item_border"
+    android:background="@drawable/border_text"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Delivery Partner: "
-                android:textColor="@color/black"
+                android:textColor="#f1fa4b"
                 android:textSize="15sp"></TextView>
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Not Assigned"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
 
                 android:textSize="15sp"></TextView>
         </LinearLayout>
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Order Id:"
-                    android:textColor="@color/black"
+                    android:textColor="#f1fa4b"
                     android:textSize="15sp">
 
                 </TextView>
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="NXHFQFk4Sqb9pHG0fmi"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="15sp">
 
                 </TextView>
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Status:"
-                        android:textColor="@color/black"
+                        android:textColor="#ecd5fa"
                         android:textSize="15sp"></TextView>
 
                     <TextView
@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Delivered"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="15sp">
 
                     </TextView>
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ordering Date:"
-                android:textColor="@color/black"
+                android:textColor="#f1fa4b"
                 android:textSize="15sp"></TextView>
 
             <TextView
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="26 March 2023"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="12sp">
 
             </TextView>

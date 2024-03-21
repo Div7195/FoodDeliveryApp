@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/food_item_border"
+    android:background="@drawable/border_text"
 
     android:orientation="horizontal">
     <LinearLayout
@@ -27,18 +27,19 @@
         android:layout_height="match_parent"
         android:minWidth="142dp"
         >
+
         <TextView
             android:id="@+id/checkout_dishname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:singleLine="false"
-            android:maxWidth="130dp"
-            android:layout_marginTop="15dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:maxWidth="130dp"
+            android:singleLine="false"
             android:text=""
-            android:textSize="16sp"/>
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -73,7 +74,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text=""
-            android:textColor="@color/addbuttoncolor"
+            android:textColor="#35a306"
             android:textSize="22sp" />
 
         <!-- Add Button -->
@@ -101,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="#f1fa4b"
             android:text="">
 
         </TextView>
