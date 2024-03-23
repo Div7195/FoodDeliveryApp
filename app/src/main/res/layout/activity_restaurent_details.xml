@@ -27,6 +27,22 @@
             android:textColor="#caea39"
             android:gravity="center_horizontal"
             android:textSize="45sp" />
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="Restaurent name"
+                android:textColor="#f2ca63"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <EditText
             android:id="@+id/restaurentNameField"
             android:layout_width="300dp"
@@ -37,9 +53,23 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="#A7B7C2"
-            android:layout_marginTop="20dp"
             android:hint="Enter Restaurent name"/>
-
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="City"
+                android:textColor="#f2ca63"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <EditText
             android:id="@+id/cityField"
             android:layout_width="300dp"
@@ -50,9 +80,23 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="#A7B7C2"
-            android:layout_marginTop="20dp"
             android:hint="Enter City"/>
-
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="State"
+                android:textColor="#f2ca63"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <EditText
             android:id="@+id/stateField"
             android:layout_width="300dp"
@@ -63,11 +107,25 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="#A7B7C2"
-            android:layout_marginTop="20dp"
             android:hint="Enter State"/>
 
 
-
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="Cuisines provided"
+                android:textColor="#f2ca63"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <EditText
             android:id="@+id/foodServiceField"
             android:layout_width="300dp"
@@ -78,11 +136,25 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="#A7B7C2"
-            android:layout_marginTop="20dp"
             android:hint="Enter Cuisines provided"/>
 
 
-
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="Contact"
+                android:textColor="#f2ca63"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <EditText
             android:id="@+id/contactField"
             android:layout_width="300dp"
@@ -93,11 +165,25 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="#A7B7C2"
-            android:layout_marginTop="20dp"
             android:hint="Enter Contact"/>
 
 
-
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="Address"
+                android:textColor="#f2ca63"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <EditText
             android:id="@+id/addressField"
             android:layout_width="300dp"
@@ -108,9 +194,24 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="#A7B7C2"
-            android:layout_marginTop="20dp"
             android:hint="Enter Address"/>
 
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxWidth="350dp"
+                android:singleLine="false"
+                android:text="Locality"
+                android:textColor="#f2ca63"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
         <EditText
             android:id="@+id/localityRestaurentField"
             android:layout_width="300dp"
@@ -121,7 +222,6 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="#A7B7C2"
-            android:layout_marginTop="20dp"
             android:hint="Enter Locality"/>
         <Button
             android:id="@+id/chooseImageButton"

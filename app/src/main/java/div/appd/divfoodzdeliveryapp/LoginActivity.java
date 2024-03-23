@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (usernameSnapshot.exists() && usernameSnapshot.getValue().equals(userUsername)) {
                                         storedPassword = restaurantSnapshot.child("password").getValue(String.class);
                                         restaurentIdForUse = restaurantId;
+                                        restaurentNameForUse = restaurantSnapshot.child("name").getValue(String.class);
                                         // Found a restaurant with matching usernamea
                                         // Use the retrieved restaurant ID (restaurantId)
                                         // For example, perform further operations or retrieve other data related to the restaurant
@@ -139,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
                                         SharedPreferences.Editor editor = pref.edit();
                                         editor.putString("restaurentId", restaurentIdForUse);
+                                        editor.putString("restaurentName", restaurentNameForUse);
                                         editor.apply();
                                         Intent intent = new Intent(LoginActivity.this, RestaurentHomeActivity.class);
 //                                        Bundle bundle = new Bundle();

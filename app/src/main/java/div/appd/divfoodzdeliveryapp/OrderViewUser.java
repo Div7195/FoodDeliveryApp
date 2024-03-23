@@ -53,12 +53,12 @@ public class OrderViewUser extends AppCompatActivity {
     TextView restaurentNameView, restaurentAddressView, contactOfuserOrDelView, contactOfWhoView, totalBillView, taxView, priceView, deliveryFeeView, dateView, statusView;
     EditText customerAddressView;
     ProgressBar progressBarRating, progressBarPlaceOrder, progressBarAssigned, progressBarPickup, progressBarDelivered;
-    LinearLayout ll, llratingSectionView, llplaceOrderSectionView, llgetAssignedSectionView, llpickupSectionView, lldeliveredSectionView;
+    LinearLayout ll, llratingSectionView, llSubmittedRatingSectionView, llplaceOrderSectionView, llgetAssignedSectionView, llpickupSectionView, lldeliveredSectionView;
     Button placeOrderButton, getAssignedButton, pickupButton, deliveredButton, submitRatingButton, setAddressButton;
     String customerIdForUse, totalBillIntent, taxesIntent, deliveryIntent, totalPriceIntent, customerNameIntent, customerAddressIntent, customerContactIntent, restaurentIdIntent, restaurentNameIntent, restaurentAddressIntent, orderIdForUse, orderViewConfig, orderIdIntent, deliveryIdIntent;
     String fDeliveryBoyId, fDeliveryBoyName, fCustomerName,fCustomerContact,fDeliveryBoyContact, fCustomerAddress,fRestaurentName, fRestaurentAddress, fStatus, fDate;
     Double fTotalPrice, fTaxes, fTotalBill, fRating, fDeliveryFee;
-    MaterialRatingBar materialRatingBar;
+    MaterialRatingBar materialRatingBar, submittedRatingBar;
     ProgressBar progressBar;
     ArrayList<CartItemInfo> cartItemInfoArrayList;
     ArrayList<CartItemInfo> fetchedCartItems;
@@ -83,6 +83,7 @@ public class OrderViewUser extends AppCompatActivity {
         dateView = findViewById(R.id.orderedTimeField);
         statusView = findViewById(R.id.statusOrderField);
 
+
         progressBarAssigned=findViewById(R.id.loadingBesideGetAssigned);
         progressBarDelivered = findViewById(R.id.loadingBesideDelivered);
         progressBarPickup = findViewById(R.id.loadingBesidePickup);
@@ -94,6 +95,7 @@ public class OrderViewUser extends AppCompatActivity {
         llgetAssignedSectionView = findViewById(R.id.getAssignedSection);
         lldeliveredSectionView = findViewById(R.id.deliveredSection);
         llpickupSectionView = findViewById(R.id.pickedUpSection);
+        llSubmittedRatingSectionView = findViewById(R.id.submittedRatingSection);
 
         setAddressButton = findViewById(R.id.setCurrentAddressButton);
         placeOrderButton = findViewById(R.id.placeOrderButton);
@@ -104,6 +106,9 @@ public class OrderViewUser extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBarinOrderView);
         materialRatingBar = findViewById(R.id.ratingBarOrderVIew);
+        submittedRatingBar = findViewById(R.id.submittedRatingBarOrderVIew);
+        submittedRatingBar.setEnabled(false);
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("bundleData");
@@ -197,7 +202,14 @@ public class OrderViewUser extends AppCompatActivity {
                         contactOfuserOrDelView.setText(fDeliveryBoyContact);
                     }
                     if(fStatus.equals("Delivered")){
-                        llratingSectionView.setVisibility(View.VISIBLE);
+                        if(fRating == null){
+                            llratingSectionView.setVisibility(View.VISIBLE);
+                        }else{
+                            llSubmittedRatingSectionView.setVisibility(View.VISIBLE);
+
+                            submittedRatingBar.setRating(fRating.floatValue());
+                        }
+
                     }
 
 
@@ -260,7 +272,7 @@ public class OrderViewUser extends AppCompatActivity {
                             snapshot.child("restaurentid").getRef().setValue(restaurentIdIntent);
                             snapshot.child("customername").getRef().setValue(customerNameIntent);
                             snapshot.child("restaurentname").getRef().setValue(restaurentNameIntent);
-                            snapshot.child("customeraddress").getRef().setValue(customerAddressIntent);
+                            snapshot.child("customeraddress").getRef().setValue(customerAddressView.getText().toString());
                             snapshot.child("restaurentaddress").getRef().setValue(restaurentAddressIntent);
                             snapshot.child("customercontact").getRef().setValue(customerContactIntent);
                             snapshot.child("status").getRef().setValue("Being Prepared");
@@ -424,7 +436,7 @@ public class OrderViewUser extends AppCompatActivity {
                                     Integer timesRated;
                                     Double rating;
                                     timesRated = snapshot.child(obj.getDishId()).child("timesOrdered").getValue(Integer.class);
-                                    rating = snapshot.child(obj.getDishId()).child("rating").getValue(Double.class);
+                                    rating = snapshot.child(obj.getDishId()).child("rating").getValue(Double.class) * timesRated;
                                     timesRated = timesRated + 1;
                                     rating = rating + BarRating.floatValue();
                                     rating = rating/timesRated;

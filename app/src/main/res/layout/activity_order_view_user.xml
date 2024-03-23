@@ -70,7 +70,6 @@
                 android:textSize="25sp"
                 android:textColor="@color/white"
                 android:textColorHint="#A7B7C2"
-                android:layout_marginTop="20dp"
                 android:hint="Enter Address"/>
 
             <Button
@@ -81,7 +80,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="5dp"
                 android:text="Set address as current location"
-
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:backgroundTint="#98b3ef"
                 />
@@ -331,6 +330,31 @@
 
 
             </LinearLayout>
+        <LinearLayout
+            android:id="@+id/submittedRatingSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your order rating"
+                android:textSize="22sp"
+                android:textColor="#f1fa4b"
+                android:textStyle="bold"></TextView>
+
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/submittedRatingBarOrderVIew"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="rating"
+                />
+        </LinearLayout>
             <LinearLayout
                 android:id="@+id/ratingSection"
                 android:layout_width="match_parent"
@@ -417,7 +441,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:textSize="18sp"
-                    android:text="Place order"
+                    android:text="Get assigned"
                     android:textStyle="bold"
                     android:backgroundTint="#35a306"
                     />
@@ -440,10 +464,14 @@
                 android:layout_marginTop="10dp">
 
                 <Button
-                    android:id="@+id/pickedUpButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pick Up"></Button>
+                android:id="@+id/pickedUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:textSize="18sp"
+                android:text="Pick up"
+                android:textStyle="bold"
+                android:backgroundTint="#35a306"
+                />
                 <ProgressBar
                     android:id="@+id/loadingBesidePickup"
                     android:layout_width="wrap_content"
@@ -465,8 +493,12 @@
                 <Button
                     android:id="@+id/deliveredButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Delivered"></Button>
+                    android:layout_height="60dp"
+                    android:textSize="18sp"
+                    android:text="Delivered"
+                    android:textStyle="bold"
+                    android:backgroundTint="#35a306"
+                    />
                 <ProgressBar
                     android:id="@+id/loadingBesideDelivered"
                     android:layout_width="wrap_content"

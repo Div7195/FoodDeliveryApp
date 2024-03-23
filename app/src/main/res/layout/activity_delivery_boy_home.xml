@@ -45,6 +45,7 @@
             android:textSize="22sp"
             android:text="View all unassigned orders"
             android:textStyle="bold"
+            android:enabled="false"
             android:backgroundTint="#35a306"
             />
 
@@ -56,6 +57,7 @@
             android:textSize="22sp"
             android:text="View your assigned orders"
             android:textStyle="bold"
+            android:enabled="false"
             android:backgroundTint="#35a306"
             />
 

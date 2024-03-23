@@ -46,6 +46,7 @@
             android:textSize="22sp"
             android:text="Explore dishes"
             android:textStyle="bold"
+            android:enabled="false"
             android:backgroundTint="#35a306"
             />
 
@@ -57,6 +58,7 @@
             android:textSize="22sp"
             android:text="Explore restaurents"
             android:textStyle="bold"
+            android:enabled="false"
             android:backgroundTint="#35a306"
             />
         <Button
@@ -67,6 +69,7 @@
             android:textSize="22sp"
             android:text="View your orders"
             android:textStyle="bold"
+            android:enabled="false"
             android:backgroundTint="#35a306"
             />
 

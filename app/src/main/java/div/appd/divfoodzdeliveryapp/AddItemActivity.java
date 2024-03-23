@@ -275,7 +275,7 @@ public class AddItemActivity extends AppCompatActivity {
                         menuCategoryList.add(catg);
                     }
                 }
-                ArrayAdapter<String> categoryArrayAdapter = new ArrayAdapter(AddItemActivity.this, android.R.layout.simple_list_item_1, menuCategoryList);
+                ArrayAdapter<String> categoryArrayAdapter = new ArrayAdapter(AddItemActivity.this, R.layout.spinner_list_item, menuCategoryList);
                 menuCategorySpinner.setAdapter(categoryArrayAdapter);
                 menuCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -322,7 +322,7 @@ public class AddItemActivity extends AppCompatActivity {
         quantityClass.add("250 ml");
         quantityClass.add("125 ml");
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, quantityClass);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, R.layout.spinner_list_item, quantityClass);
         quantityClassesSpinner.setAdapter(arrayAdapter);
         quantityClassesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -28,7 +28,23 @@
         android:gravity="center_horizontal"
         android:textSize="45sp" />
 
-
+  <LinearLayout
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:maxWidth="350dp"
+        android:singleLine="false"
+        android:text="Name"
+        android:textColor="#f2ca63"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+  </LinearLayout>
   <EditText
       android:id="@+id/userNameField"
       android:layout_width="300dp"
@@ -39,9 +55,24 @@
       android:textSize="25sp"
       android:textColor="@color/white"
       android:textColorHint="#A7B7C2"
-      android:layout_marginTop="20dp"
-      android:hint="Enter Name"/>
 
+      android:hint="Enter Name"/>
+  <LinearLayout
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxWidth="350dp"
+        android:singleLine="false"
+        android:text="Address"
+        android:textColor="#f2ca63"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+  </LinearLayout>
   <EditText
       android:id="@+id/userAddressField"
       android:layout_width="300dp"
@@ -52,9 +83,24 @@
       android:textSize="25sp"
       android:textColor="@color/white"
       android:textColorHint="#A7B7C2"
-      android:layout_marginTop="20dp"
-      android:hint="Enter Address"/>
 
+      android:hint="Enter Address"/>
+  <LinearLayout
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxWidth="350dp"
+        android:singleLine="false"
+        android:text="City"
+        android:textColor="#f2ca63"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+  </LinearLayout>
   <EditText
       android:id="@+id/userCityField"
       android:layout_width="300dp"
@@ -65,9 +111,23 @@
       android:textSize="25sp"
       android:textColor="@color/white"
       android:textColorHint="#A7B7C2"
-      android:layout_marginTop="20dp"
       android:hint="Enter city"/>
-
+  <LinearLayout
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxWidth="350dp"
+        android:singleLine="false"
+        android:text="State"
+        android:textColor="#f2ca63"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+  </LinearLayout>
   <EditText
       android:id="@+id/userStateField"
       android:layout_width="300dp"
@@ -78,9 +138,23 @@
       android:textSize="25sp"
       android:textColor="@color/white"
       android:textColorHint="#A7B7C2"
-      android:layout_marginTop="20dp"
       android:hint="Enter state"/>
-
+  <LinearLayout
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxWidth="350dp"
+        android:singleLine="false"
+        android:text="Contact"
+        android:textColor="#f2ca63"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+  </LinearLayout>
   <EditText
       android:id="@+id/userContactField"
       android:layout_width="300dp"
@@ -91,9 +165,23 @@
       android:textSize="25sp"
       android:textColor="@color/white"
       android:textColorHint="#A7B7C2"
-      android:layout_marginTop="20dp"
       android:hint="Enter contact"/>
-
+  <LinearLayout
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxWidth="350dp"
+        android:singleLine="false"
+        android:text="Email"
+        android:textColor="#f2ca63"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+  </LinearLayout>
   <EditText
       android:id="@+id/userEmailField"
       android:layout_width="300dp"
@@ -104,11 +192,10 @@
       android:textSize="25sp"
       android:textColor="@color/white"
       android:textColorHint="#A7B7C2"
-      android:layout_marginTop="20dp"
       android:hint="Enter email"/>
 
   <Button
-      android:id="@+id/saveDetailsUserButton"
+      android:id="@+id/setUserAddressButton"
       android:layout_width="304dp"
       android:layout_height="60dp"
       android:layout_marginTop="20dp"
@@ -119,7 +206,7 @@
       />
 
   <Button
-      android:id="@+id/setUserAddressButton"
+      android:id="@+id/saveDetailsUserButton"
       android:layout_width="304dp"
       android:layout_height="60dp"
       android:layout_marginTop="20dp"
@@ -134,7 +221,6 @@
       style="?android:attr/progressBarStyle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-
       android:visibility="invisible"
       app:layout_constraintBottom_toBottomOf="@+id/saveDetailsUserButton"
       app:layout_constraintEnd_toEndOf="parent" />

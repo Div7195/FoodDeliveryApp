@@ -32,14 +32,44 @@
         android:textColor="#caea39"
         android:gravity="center_horizontal"
         android:textSize="40sp" />
+    <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="350dp"
+            android:singleLine="false"
+            android:text="Select cateogory of your menu"
+            android:textColor="#f2ca63"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <Spinner
         android:id="@+id/spinnerCategory"
         android:layout_width="329dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
         android:contentDescription="category"
          />
-
+    <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="350dp"
+            android:singleLine="false"
+            android:text="Type category if not present above"
+            android:textColor="#f2ca63"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <EditText
         android:id="@+id/categoryField"
         android:layout_width="329dp"
@@ -50,15 +80,28 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="#A7B7C2"
-        android:layout_marginTop="20dp"
         android:hint="Enter category"/>
 
-
+    <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="350dp"
+            android:singleLine="false"
+            android:text="Select dish tag"
+            android:textColor="#f2ca63"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <TextView
         android:id="@+id/spinnerDishType"
         android:layout_width="329dp"
         android:layout_height="55dp"
-        android:layout_marginTop="24dp"
         android:textColor="@color/white"
         android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
         android:gravity="center_vertical"
@@ -68,6 +111,22 @@
         android:padding="12dp"
         android:textSize="18sp"
          />
+    <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="350dp"
+            android:singleLine="false"
+            android:text="Type dish tag if not present above"
+            android:textColor="#f2ca63"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <EditText
         android:id="@+id/dishTypeField"
         android:layout_width="329dp"
@@ -78,8 +137,23 @@
         android:hint="Enter dish tag"
         android:textSize="25sp"
         android:textColor="@color/white"
-        android:textColorHint="#A7B7C2"
-        android:layout_marginTop="20dp"/>
+        android:textColorHint="#A7B7C2"/>
+    <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="350dp"
+            android:singleLine="false"
+            android:text="Enter name of dish"
+            android:textColor="#f2ca63"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <EditText
         android:id="@+id/dishTitleField"
         android:layout_width="329dp"
@@ -90,14 +164,28 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="#A7B7C2"
-        android:layout_marginTop="20dp"
         android:hint="Enter dish title"/>
 
+    <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="350dp"
+            android:singleLine="false"
+            android:text="Veg or Nonveg"
+            android:textColor="#f2ca63"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <RadioGroup
         android:id="@+id/radioGroupVedNonveg"
         android:layout_width="329dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         >
 
@@ -140,10 +228,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <LinearLayout
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="350dp"
+            android:singleLine="false"
+            android:text="Enter price"
+            android:textColor="#f2ca63"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         >
 
@@ -152,7 +255,7 @@
             android:id="@+id/priceField"
             android:layout_width="wrap_content"
             android:layout_height="55dp"
-            android:paddingStart="10dp"
+            android:paddingStart="2dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/border_text"
             android:textSize="25sp"
@@ -169,6 +272,7 @@
             android:gravity="center"
             android:text="Per"
             android:textSize="22sp"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/priceField"
             app:layout_constraintEnd_toStartOf="@+id/spinnerQuantity" />
 
@@ -181,6 +285,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/priceField"
             app:layout_constraintEnd_toEndOf="parent" />
     </LinearLayout>
+
+
     <Button
         android:id="@+id/chooseButton"
         android:layout_width="304dp"

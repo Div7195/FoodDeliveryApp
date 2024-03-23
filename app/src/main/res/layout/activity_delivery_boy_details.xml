@@ -26,6 +26,22 @@
                 android:textColor="#caea39"
                 android:gravity="center_horizontal"
                 android:textSize="45sp" />
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxWidth="350dp"
+                    android:singleLine="false"
+                    android:text="Name"
+                    android:textColor="#f2ca63"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
             <EditText
                 android:id="@+id/deliveryNameField"
                 android:layout_width="300dp"
@@ -36,8 +52,23 @@
                 android:textSize="25sp"
                 android:textColor="@color/white"
                 android:textColorHint="#A7B7C2"
-                android:layout_marginTop="20dp"
                 android:hint="Enter your name"/>
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxWidth="350dp"
+                    android:singleLine="false"
+                    android:text="City"
+                    android:textColor="#f2ca63"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
             <EditText
                 android:id="@+id/deliveryCityField"
                 android:layout_width="300dp"
@@ -48,9 +79,23 @@
                 android:textSize="25sp"
                 android:textColor="@color/white"
                 android:textColorHint="#A7B7C2"
-                android:layout_marginTop="20dp"
                 android:hint="Enter city"/>
-
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxWidth="350dp"
+                    android:singleLine="false"
+                    android:text="State"
+                    android:textColor="#f2ca63"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
             <EditText
                 android:id="@+id/deliveryStateField"
                 android:layout_width="300dp"
@@ -61,9 +106,23 @@
                 android:textSize="25sp"
                 android:textColor="@color/white"
                 android:textColorHint="#A7B7C2"
-                android:layout_marginTop="20dp"
                 android:hint="Enter state"/>
-
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxWidth="350dp"
+                    android:singleLine="false"
+                    android:text="Contact"
+                    android:textColor="#f2ca63"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
             <EditText
                 android:id="@+id/deliveryContactField"
                 android:layout_width="300dp"
@@ -74,7 +133,6 @@
                 android:textSize="25sp"
                 android:textColor="@color/white"
                 android:textColorHint="#A7B7C2"
-                android:layout_marginTop="20dp"
                 android:hint="Enter contact"/>
 
 

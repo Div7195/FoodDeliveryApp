@@ -43,6 +43,7 @@
         android:textSize="22sp"
         android:text="Add new menu item"
         android:textStyle="bold"
+        android:enabled="false"
         android:backgroundTint="#35a306"
         />
 
@@ -54,6 +55,7 @@
         android:textSize="22sp"
         android:text="Edit your menu"
         android:textStyle="bold"
+        android:enabled="false"
         android:backgroundTint="#35a306"
         />
     <Button
@@ -64,6 +66,7 @@
         android:textSize="22sp"
         android:text="View orders"
         android:textStyle="bold"
+        android:enabled="false"
         android:backgroundTint="#35a306"
         />
     <Button
