@@ -304,6 +304,7 @@ public class OrderViewUser extends AppCompatActivity {
                                                         snapshot.child("single").getRef().setValue(obj.getSingleItemPrice());
                                                         snapshot.child("vegnonveg").getRef().setValue(obj.getVegNonVeg());
                                                         progressBarPlaceOrder.setVisibility(View.INVISIBLE);
+                                                        llplaceOrderSectionView.setVisibility(View.GONE);
                                                         Toast.makeText(OrderViewUser.this, "Order Placed!", Toast.LENGTH_SHORT).show();
                                                     }
 
@@ -363,6 +364,8 @@ public class OrderViewUser extends AppCompatActivity {
                                 nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
+                                        llgetAssignedSectionView.setVisibility(View.GONE);
+                                        llpickupSectionView.setVisibility(View.VISIBLE);
                                         progressBarAssigned.setVisibility(View.INVISIBLE);
                                         Toast.makeText(OrderViewUser.this, "Order is assigned to you!", Toast.LENGTH_SHORT).show();
                                     }
@@ -395,8 +398,11 @@ public class OrderViewUser extends AppCompatActivity {
                 nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        llpickupSectionView.setVisibility(View.GONE);
+                        lldeliveredSectionView.setVisibility(View.VISIBLE);
                         progressBarPickup.setVisibility(View.INVISIBLE);
                         Toast.makeText(OrderViewUser.this, "Order is picked up!", Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
@@ -411,6 +417,7 @@ public class OrderViewUser extends AppCompatActivity {
                 nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        lldeliveredSectionView.setVisibility(View.GONE);
                         progressBarDelivered.setVisibility(View.INVISIBLE);
                         Toast.makeText(OrderViewUser.this, "Order is delivered!", Toast.LENGTH_SHORT).show();
                     }
@@ -447,6 +454,7 @@ public class OrderViewUser extends AppCompatActivity {
                                     nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
+                                            llratingSectionView.setVisibility(View.GONE);
                                             progressBarRating.setVisibility(View.INVISIBLE);
                                             Toast.makeText(OrderViewUser.this, "Thanks for your feedback!", Toast.LENGTH_SHORT).show();
                                         }
