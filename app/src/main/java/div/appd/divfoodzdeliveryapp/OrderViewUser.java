@@ -536,10 +536,10 @@ public class OrderViewUser extends AppCompatActivity {
             SmsManager smsManager = SmsManager.getDefault();
             SmsManager smsManager2 = SmsManager.getDefault();
 //            Toast.makeText(this, restaurentContactIntent, Toast.LENGTH_SHORT).show();
-            if(customerContactIntent.length() == 10 && restaurentContactIntent.length() == 10) {
-                smsManager.sendTextMessage(customerContactIntent, null, customerMsgBody, null, null);
-                smsManager2.sendTextMessage(restaurentContactIntent, null, restaurentMsgBody, null, null);
-            }
+//            if(customerContactIntent.length() == 10 && restaurentContactIntent.length() == 10) {
+//                smsManager.sendTextMessage(customerContactIntent, null, customerMsgBody, null, null);
+//                smsManager2.sendTextMessage(restaurentContactIntent, null, restaurentMsgBody, null, null);
+//            }
             restaurentMsgBody = "";
             customerMsgBody = "";
         }
@@ -551,10 +551,10 @@ public class OrderViewUser extends AppCompatActivity {
             Log.d("msgPlaceOrder", customerMsgBody);
             SmsManager smsManager = SmsManager.getDefault();
             SmsManager smsManager2 = SmsManager.getDefault();
-            if(fRestaurentContact.length() == 10 && deliveryContact.length() == 10) {
-                smsManager.sendTextMessage(fRestaurentContact, null, customerMsgBody, null, null);
-                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
-            }
+//            if(fRestaurentContact.length() == 10 && deliveryContact.length() == 10) {
+//                smsManager.sendTextMessage(fRestaurentContact, null, customerMsgBody, null, null);
+//                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
+//            }
             deliveryMsgBody = "";
             customerMsgBody = "";
         }
@@ -566,11 +566,11 @@ public class OrderViewUser extends AppCompatActivity {
             SmsManager smsManager = SmsManager.getDefault();
             SmsManager smsManager2 = SmsManager.getDefault();
             SmsManager smsManager3 = SmsManager.getDefault();
-            if(fCustomerContact.length() == 10 && deliveryContact.length() == 10 && fRestaurentContact.length() == 10) {
-                smsManager.sendTextMessage(fCustomerContact, null, customerMsgBody, null, null);
-                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
-                smsManager3.sendTextMessage(fRestaurentContact, null, restaurentMsgBody, null, null);
-            }
+//            if(fCustomerContact.length() == 10 && deliveryContact.length() == 10 && fRestaurentContact.length() == 10) {
+//                smsManager.sendTextMessage(fCustomerContact, null, customerMsgBody, null, null);
+//                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
+//                smsManager3.sendTextMessage(fRestaurentContact, null, restaurentMsgBody, null, null);
+//            }
             deliveryMsgBody = "";
             restaurentMsgBody = "";
             customerMsgBody = "";
@@ -583,10 +583,10 @@ public class OrderViewUser extends AppCompatActivity {
             Log.d("msgPlaceOrder", customerMsgBody);
             SmsManager smsManager = SmsManager.getDefault();
             SmsManager smsManager2 = SmsManager.getDefault();
-            if(fCustomerContact.length() == 10 && deliveryContact.length() == 10) {
-                smsManager.sendTextMessage(fCustomerContact, null, customerMsgBody, null, null);
-                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
-            }
+//            if(fCustomerContact.length() == 10 && deliveryContact.length() == 10) {
+//                smsManager.sendTextMessage(fCustomerContact, null, customerMsgBody, null, null);
+//                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
+//            }
             deliveryMsgBody = "";
             customerMsgBody = "";
         }
