@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OrdersListActivity extends AppCompatActivity {
     ProgressBar progressBarForOrder;
@@ -56,6 +57,7 @@ public class OrdersListActivity extends AppCompatActivity {
                                 ,snapshot.child(s).child("deliveryboyname").getValue(String.class)
                                 ,snapshot.child(s).child("date").getValue(String.class)));
                             }
+                            Collections.reverse(orderItemArrayList);
                             OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
                             // Attach the adapter to a ListView
                             ListView listView = (ListView) findViewById(R.id.orderList);
@@ -108,6 +110,7 @@ public class OrdersListActivity extends AppCompatActivity {
                                         ,snapshot.child(s).child("deliveryboyname").getValue(String.class)
                                         ,snapshot.child(s).child("date").getValue(String.class)));
                             }
+                            Collections.reverse(orderItemArrayList);
                             OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
                             // Attach the adapter to a ListView
                             ListView listView = (ListView) findViewById(R.id.orderList);
@@ -163,6 +166,7 @@ public class OrdersListActivity extends AppCompatActivity {
                                             , snapshot.child(s).child("deliveryboyname").getValue(String.class)
                                             , snapshot.child(s).child("date").getValue(String.class)));
                                 }
+                                Collections.reverse(orderItemArrayList);
                                 OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
                                 // Attach the adapter to a ListView
                                 ListView listView = (ListView) findViewById(R.id.orderList);
@@ -216,6 +220,7 @@ public class OrdersListActivity extends AppCompatActivity {
                                         , snapshot.child(snapshot1.getRef().getKey()).child("date").getValue(String.class)));
                             }
                             }
+                        Collections.reverse(orderItemArrayList);
                         OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
                         // Attach the adapter to a ListView
                         ListView listView = (ListView) findViewById(R.id.orderList);

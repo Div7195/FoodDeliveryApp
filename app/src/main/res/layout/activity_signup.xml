@@ -68,12 +68,18 @@
         android:textColorHint="#A7B7C2"
         android:layout_marginTop="20dp"
         android:hint="Confirm Password"/>
-
+    <ProgressBar
+        android:id="@+id/progressBarInSignup"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible"
+        />
     <Button
         android:id="@+id/accountSignupButton"
         android:layout_width="304dp"
         android:layout_height="60dp"
-        android:layout_marginTop="30dp"
         android:textSize="22sp"
         android:text="Signup"
         android:textStyle="bold"
@@ -91,14 +97,7 @@
         android:backgroundTint="#35a306"
         />
 
-    <ProgressBar
-        android:id="@+id/progressBarInSignup"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:visibility="invisible"
-        />
+
 </LinearLayout>
 </ScrollView>
 </LinearLayout>

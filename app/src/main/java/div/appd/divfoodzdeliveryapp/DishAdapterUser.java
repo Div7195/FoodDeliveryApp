@@ -143,7 +143,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                         if(layout2 != null) {
                             if(hashMapSameDish.size() == 0) {
                                 ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                                int h = layout1.getHeight() - 129;
+                                int h = layout1.getHeight() - 169;
                                 int w = params1.width;
                                 params1.height = h;
                                 params1.width = w;
@@ -194,7 +194,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                     if(hashMapSameDish.size() == 0){
                         resId = "";
                         ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                        int h = layout1.getHeight() + 129;
+                        int h = layout1.getHeight() + 169;
                         int w = params1.width;
                         layout2.setVisibility(View.GONE);
                         params1.height = h;
@@ -265,6 +265,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                                     args.putString("restaurentId", arrayListCartItems.get(0).getRestaurentId());
                                     args.putString("restaurentName", snapshot.child("name").getValue(String.class));
                                     args.putString("restaurentAddress", snapshot.child("address").getValue(String.class));
+                                    args.putString("restaurentContact", snapshot.child("contact").getValue(String.class));
                                     intent.putExtra("bundleData",args);
                                     viewFlipper1.showPrevious();
                                     getContext().startActivity(intent);

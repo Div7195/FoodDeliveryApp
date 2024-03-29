@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class CustomerDetailsActivity extends AppCompatActivity {
     EditText userNameView, userCityView, userStateView, userAddressView, userEmailView, userContactView;
-    ProgressBar progressBar;
+    ProgressBar progressBar, progressBarCustomerDetail;
     Button setAddressUserButtonView, saveDetailsOfUserButtonView;
     String customerIdForUse, nameString, cityString, stateString, contactString, addressString, emailString;
     Customer customerObj;
@@ -61,13 +61,13 @@ public class CustomerDetailsActivity extends AppCompatActivity {
         userEmailView = findViewById(R.id.userEmailField);
         userContactView = findViewById(R.id.userContactField);
         progressBar = findViewById(R.id.progressBarCustomerDetails);
+
         setAddressUserButtonView = findViewById(R.id.setUserAddressButton);
         saveDetailsOfUserButtonView = findViewById(R.id.saveDetailsUserButton);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         customerIdForUse = pref.getString("customerId", "");
-
         databaseReference.child("customers").child(customerIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
             ArrayList<String> orderIdsList = new ArrayList<String>();
             @Override
@@ -86,7 +86,6 @@ public class CustomerDetailsActivity extends AppCompatActivity {
                 ,snapshot.child("eligible").getValue(Boolean.class)
                 ,orderIdsList
                         ,snapshot.child("customerId").getValue(String.class));
-
                 userNameView.setText(customerObj.getName());
                 userAddressView.setText(customerObj.getAddress());
                 userCityView.setText(customerObj.getCity());

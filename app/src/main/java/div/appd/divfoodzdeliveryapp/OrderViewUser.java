@@ -13,6 +13,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,8 @@ public class OrderViewUser extends AppCompatActivity {
     ProgressBar progressBarRating, progressBarPlaceOrder, progressBarAssigned, progressBarPickup, progressBarDelivered;
     LinearLayout ll, llratingSectionView, llSubmittedRatingSectionView, llplaceOrderSectionView, llgetAssignedSectionView, llpickupSectionView, lldeliveredSectionView;
     Button placeOrderButton, getAssignedButton, pickupButton, deliveredButton, submitRatingButton, setAddressButton;
-    String customerIdForUse, totalBillIntent, taxesIntent, deliveryIntent, totalPriceIntent, customerNameIntent, customerAddressIntent, customerContactIntent, restaurentIdIntent, restaurentNameIntent, restaurentAddressIntent, orderIdForUse, orderViewConfig, orderIdIntent, deliveryIdIntent;
-    String fDeliveryBoyId, fDeliveryBoyName, fCustomerName,fCustomerContact,fDeliveryBoyContact, fCustomerAddress,fRestaurentName, fRestaurentAddress, fStatus, fDate;
+    String customerIdForUse, totalBillIntent, taxesIntent, deliveryIntent, totalPriceIntent, customerNameIntent, customerAddressIntent, customerContactIntent, restaurentIdIntent, restaurentNameIntent, restaurentAddressIntent, restaurentContactIntent, orderIdForUse, orderViewConfig, orderIdIntent, deliveryIdIntent;
+    String fDeliveryBoyId, fDeliveryBoyName, fCustomerName,fCustomerContact, fRestaurentContact, fDeliveryBoyContact, fCustomerAddress,fRestaurentName, fRestaurentAddress, fStatus, fDate, customerMsgBody, restaurentMsgBody, deliveryMsgBody;
     Double fTotalPrice, fTaxes, fTotalBill, fRating, fDeliveryFee;
     MaterialRatingBar materialRatingBar, submittedRatingBar;
     ProgressBar progressBar;
@@ -65,6 +66,7 @@ public class OrderViewUser extends AppCompatActivity {
     FusedLocationProviderClient fusedLocationProviderClient;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://food-delivery-app-91b3a-default-rtdb.firebaseio.com/");
     private final static int REQUEST_CODE = 100;
+    private final static int REQUEST_CODE_FOR_SMS = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +129,7 @@ public class OrderViewUser extends AppCompatActivity {
             restaurentIdIntent = (String) args.getString("restaurentId");
             restaurentNameIntent = (String) args.getString("restaurentName");
             restaurentAddressIntent = (String) args.getString("restaurentAddress");
+            restaurentContactIntent = (String) args.getString("restaurentContact");
 
             restaurentNameView.setText(restaurentNameIntent);
             restaurentAddressView.setText(restaurentAddressIntent);
@@ -164,6 +167,7 @@ public class OrderViewUser extends AppCompatActivity {
                     fDeliveryBoyName = snapshot.child("deliveryboyname").getValue(String.class);
                     fRestaurentName = snapshot.child("restaurentname").getValue(String.class);
                     fCustomerContact = snapshot.child("customercontact").getValue(String.class);
+                    fRestaurentContact = snapshot.child("restaurentcontact").getValue(String.class);
                     fDeliveryBoyContact = snapshot.child("deliveryboycontact").getValue(String.class);
                     fCustomerAddress = snapshot.child("customeraddress").getValue(String.class);
                     fRestaurentAddress = snapshot.child("restaurentaddress").getValue(String.class);
@@ -274,6 +278,7 @@ public class OrderViewUser extends AppCompatActivity {
                             snapshot.child("restaurentname").getRef().setValue(restaurentNameIntent);
                             snapshot.child("customeraddress").getRef().setValue(customerAddressView.getText().toString());
                             snapshot.child("restaurentaddress").getRef().setValue(restaurentAddressIntent);
+                            snapshot.child("restaurentcontact").getRef().setValue(restaurentContactIntent);
                             snapshot.child("customercontact").getRef().setValue(customerContactIntent);
                             snapshot.child("status").getRef().setValue("Being Prepared");
                             snapshot.child("date").getRef().setValue(new Date().toString());
@@ -305,7 +310,7 @@ public class OrderViewUser extends AppCompatActivity {
                                                         snapshot.child("vegnonveg").getRef().setValue(obj.getVegNonVeg());
                                                         progressBarPlaceOrder.setVisibility(View.INVISIBLE);
                                                         llplaceOrderSectionView.setVisibility(View.GONE);
-                                                        Toast.makeText(OrderViewUser.this, "Order Placed!", Toast.LENGTH_SHORT).show();
+
                                                     }
 
                                                     @Override
@@ -314,6 +319,18 @@ public class OrderViewUser extends AppCompatActivity {
                                                     }
                                                 });
                                             }
+                                            Toast.makeText(OrderViewUser.this, "Order Placed!", Toast.LENGTH_SHORT).show();
+                                            customerMsgBody = "";
+                                            customerMsgBody +="Your order from "+restaurentNameIntent+" has been confirmed. Please visit app for more order details. Ignore if you didn't order.\n";
+                                            restaurentMsgBody = "";
+                                            restaurentMsgBody +="New order received from "+customerNameIntent+". Please visit app for more order details. Ignore if sent by mistake.\n";
+                                            if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                                                sendPlacedOrderSms();
+                                            }else{
+                                                askPermissionForSms();
+
+                                            }
+
                                         }
 
                                         @Override
@@ -368,6 +385,22 @@ public class OrderViewUser extends AppCompatActivity {
                                         llpickupSectionView.setVisibility(View.VISIBLE);
                                         progressBarAssigned.setVisibility(View.INVISIBLE);
                                         Toast.makeText(OrderViewUser.this, "Order is assigned to you!", Toast.LENGTH_SHORT).show();
+                                        customerMsgBody = "";
+                                        deliveryMsgBody = "";
+                                        customerMsgBody += "Your order has been assigned to "+name+" as the delivery partner. Please visit app for more information. Ignore if you didn't order.";
+                                        deliveryMsgBody +="Your order assignment from "+fRestaurentName+" has been confirmed. Please visit app for more order details. Ignore if you didn't assign.\n";
+                                        if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                                            fDeliveryBoyContact = contact;
+                                            fDeliveryBoyName = name;
+                                            sendAssignedOrderSms(contact);
+                                        }else{
+                                            askPermissionForSms();
+
+                                        }
+//
+
+
+
                                     }
                                 });
                             }
@@ -402,11 +435,24 @@ public class OrderViewUser extends AppCompatActivity {
                         lldeliveredSectionView.setVisibility(View.VISIBLE);
                         progressBarPickup.setVisibility(View.INVISIBLE);
                         Toast.makeText(OrderViewUser.this, "Order is picked up!", Toast.LENGTH_SHORT).show();
+                        customerMsgBody = "";
+                        restaurentMsgBody = "";
+                        deliveryMsgBody = "";
+                        customerMsgBody += "Your order has been picked up by "+fDeliveryBoyName+" and its on the way. Please visit app for more information. Ignore if you didn't order.";
+                        restaurentMsgBody += "The order is picked by "+fDeliveryBoyName+". Please visit app for more information. Ignore if not picked up.";
+                        deliveryMsgBody +="You picked the order from "+fRestaurentName+". Please visit app for more order details. Ignore if you didn't pick up.\n";
+                        if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                            sendPickedUpMsg(fDeliveryBoyContact);
+                        }else{
+                            askPermissionForSms();
+
+                        }
 
                     }
                 });
             }
         });
+
         deliveredButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -420,10 +466,18 @@ public class OrderViewUser extends AppCompatActivity {
                         lldeliveredSectionView.setVisibility(View.GONE);
                         progressBarDelivered.setVisibility(View.INVISIBLE);
                         Toast.makeText(OrderViewUser.this, "Order is delivered!", Toast.LENGTH_SHORT).show();
+                        customerMsgBody = "";
+                        deliveryMsgBody = "";
+                        customerMsgBody += "Your order has been delivered by "+fDeliveryBoyName+". Thanks for ordering. Please visit app for more information";
+                        deliveryMsgBody +="You delivered the order to "+fCustomerName+". Please visit app for more order details. Ignore if you didn't deliver.\n";
+                        sendDeliveredMsg(fDeliveryBoyContact);
                     }
                 });
             }
         });
+
+
+
 
         submitRatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -446,7 +500,7 @@ public class OrderViewUser extends AppCompatActivity {
                                     rating = snapshot.child(obj.getDishId()).child("rating").getValue(Double.class) * timesRated;
                                     timesRated = timesRated + 1;
                                     rating = rating + BarRating.floatValue();
-                                    rating = rating/timesRated;
+                                    rating = rating / timesRated;
                                     DatabaseReference nodeRef2 = databaseReference.child("dishes").child(obj.getDishId());
                                     Map<String, Object> updates = new HashMap<>();
                                     updates.put("rating", rating);
@@ -477,6 +531,68 @@ public class OrderViewUser extends AppCompatActivity {
 
 
     }
+    private void sendPlacedOrderSms(){
+        if(!customerContactIntent.isEmpty() && !customerMsgBody.isEmpty()){
+            SmsManager smsManager = SmsManager.getDefault();
+            SmsManager smsManager2 = SmsManager.getDefault();
+//            Toast.makeText(this, restaurentContactIntent, Toast.LENGTH_SHORT).show();
+            if(customerContactIntent.length() == 10 && restaurentContactIntent.length() == 10) {
+                smsManager.sendTextMessage(customerContactIntent, null, customerMsgBody, null, null);
+                smsManager2.sendTextMessage(restaurentContactIntent, null, restaurentMsgBody, null, null);
+            }
+            restaurentMsgBody = "";
+            customerMsgBody = "";
+        }
+
+    }
+    private void sendAssignedOrderSms(String deliveryContact){
+        if(!fCustomerContact.isEmpty()  && !customerMsgBody.isEmpty() && !deliveryMsgBody.isEmpty() && !deliveryContact.isEmpty()){
+//            Toast.makeText(this, fCustomerContact, Toast.LENGTH_SHORT).show();
+            Log.d("msgPlaceOrder", customerMsgBody);
+            SmsManager smsManager = SmsManager.getDefault();
+            SmsManager smsManager2 = SmsManager.getDefault();
+            if(fRestaurentContact.length() == 10 && deliveryContact.length() == 10) {
+                smsManager.sendTextMessage(fRestaurentContact, null, customerMsgBody, null, null);
+                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
+            }
+            deliveryMsgBody = "";
+            customerMsgBody = "";
+        }
+    }
+    private void sendPickedUpMsg(String deliveryContact){
+        if(!fCustomerContact.isEmpty()  && !customerMsgBody.isEmpty() && !deliveryMsgBody.isEmpty() && !deliveryContact.isEmpty()){
+//            Toast.makeText(this, fCustomerContact, Toast.LENGTH_SHORT).show();
+            Log.d("msgPlaceOrder", customerMsgBody);
+            SmsManager smsManager = SmsManager.getDefault();
+            SmsManager smsManager2 = SmsManager.getDefault();
+            SmsManager smsManager3 = SmsManager.getDefault();
+            if(fCustomerContact.length() == 10 && deliveryContact.length() == 10 && fRestaurentContact.length() == 10) {
+                smsManager.sendTextMessage(fCustomerContact, null, customerMsgBody, null, null);
+                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
+                smsManager3.sendTextMessage(fRestaurentContact, null, restaurentMsgBody, null, null);
+            }
+            deliveryMsgBody = "";
+            restaurentMsgBody = "";
+            customerMsgBody = "";
+        }
+
+    }
+    private void sendDeliveredMsg(String deliveryContact){
+        if(!fCustomerContact.isEmpty()  && !customerMsgBody.isEmpty() && !deliveryMsgBody.isEmpty() && !deliveryContact.isEmpty()){
+//            Toast.makeText(this, fCustomerContact, Toast.LENGTH_SHORT).show();
+            Log.d("msgPlaceOrder", customerMsgBody);
+            SmsManager smsManager = SmsManager.getDefault();
+            SmsManager smsManager2 = SmsManager.getDefault();
+            if(fCustomerContact.length() == 10 && deliveryContact.length() == 10) {
+                smsManager.sendTextMessage(fCustomerContact, null, customerMsgBody, null, null);
+                smsManager2.sendTextMessage(deliveryContact, null, deliveryMsgBody, null, null);
+            }
+            deliveryMsgBody = "";
+            customerMsgBody = "";
+        }
+
+    }
+
     private void getLastLocation() {
         LocationRequest mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(5000);
@@ -513,15 +629,7 @@ public class OrderViewUser extends AppCompatActivity {
                         }
                     } else {
                         if (ActivityCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            ActivityCompat.requestPermissions(OrderViewUser.this, new String[]
-                                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
+
                             return;
                         }
                         Toast.makeText(OrderViewUser.this, "Location is turned off. Turn on location and refresh/restart app", Toast.LENGTH_LONG).show();
@@ -538,11 +646,24 @@ public class OrderViewUser extends AppCompatActivity {
         ActivityCompat.requestPermissions(OrderViewUser.this, new String[]
                 {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
     }
+    private void askPermissionForSms() {
+        ActivityCompat.requestPermissions(OrderViewUser.this, new String[]
+                {Manifest.permission.SEND_SMS}, REQUEST_CODE_FOR_SMS);
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_CODE){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getLastLocation();
+
+            }
+            else{
+                Toast.makeText(this, "Location Permission Required", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode == REQUEST_CODE_FOR_SMS){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
             }
             else{
                 Toast.makeText(this, "Location Permission Required", Toast.LENGTH_SHORT).show();
