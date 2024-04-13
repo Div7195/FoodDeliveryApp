@@ -8,9 +8,12 @@
     android:orientation="vertical"
     android:background="@drawable/gradient_background"
     tools:context="div.appd.divfoodzdeliveryapp.CustomerDetailsActivity">
+
   <ScrollView
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
+
+
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -28,7 +31,28 @@
         android:gravity="center_horizontal"
         android:textSize="45sp" />
 
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+  >
+  <ProgressBar
+      android:id="@+id/progressBarFirst"
+      style="?android:attr/progressBarStyle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="30dp"
+      android:visibility="visible"
+      android:layout_gravity="center_horizontal"
+       />
 
+<LinearLayout
+    android:id="@+id/llEditDetailsCustomer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone"
+  >
   <LinearLayout
       android:layout_width="300dp"
       android:layout_height="wrap_content"
@@ -219,11 +243,14 @@
   <ProgressBar
       android:id="@+id/progressBarCustomerDetails"
       style="?android:attr/progressBarStyle"
+      android:layout_gravity="center_horizontal"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:visibility="invisible"
       app:layout_constraintBottom_toBottomOf="@+id/saveDetailsUserButton"
       app:layout_constraintEnd_toEndOf="parent" />
+</LinearLayout>
+</LinearLayout>
 </LinearLayout>
   </ScrollView>
 </LinearLayout>

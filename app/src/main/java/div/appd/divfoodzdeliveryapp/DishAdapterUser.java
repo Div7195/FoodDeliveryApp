@@ -100,6 +100,7 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
                 }
             });
         }
+
         else{
             foodImgView.setBackgroundResource(R.drawable.default_food);
             progressBar.setVisibility(View.GONE);

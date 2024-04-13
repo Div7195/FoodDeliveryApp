@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -24,8 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeliveryBoyDetailsActivity extends AppCompatActivity {
+    LinearLayout llView;
     EditText deliveryNameView, deliveryStateView, deliveryCityView, deliveryContactView, userEmailView, userContactView;
-    ProgressBar progressBar;
+    ProgressBar progressBar, progressBarDeliveryDetails;
     Button saveDetailsOfDeliveryButtonView;
     String deliveryBoyIdForUse, nameString, cityString, stateString, contactString;
     DeliveryBoy deliveryBoyObj;
@@ -39,7 +41,9 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
         deliveryContactView = findViewById(R.id.deliveryContactField);
         deliveryStateView = findViewById(R.id.deliveryStateField);
         progressBar = findViewById(R.id.progressBarDeliveryDetails);
+        progressBarDeliveryDetails = findViewById(R.id.progressBarThird);
         saveDetailsOfDeliveryButtonView = findViewById(R.id.deliverySaveDetailsButton);
+        llView = findViewById(R.id.llEditDetailsDelivery);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
         databaseReference.child("deliveryboys").child(deliveryBoyIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -58,7 +62,8 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
                         ,snapshot.child("eligible").getValue(Boolean.class)
                         ,orderIdsList
                         ,snapshot.child("deliveryBoyId").getValue(String.class));
-
+                progressBarDeliveryDetails.setVisibility(View.GONE);
+                llView.setVisibility(View.VISIBLE);
                 deliveryNameView.setText(deliveryBoyObj.getName());
                 deliveryCityView.setText(deliveryBoyObj.getCity());
                 deliveryStateView.setText(deliveryBoyObj.getState());

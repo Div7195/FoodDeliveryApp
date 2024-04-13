@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class CustomerDetailsActivity extends AppCompatActivity {
+    LinearLayout llView;
     EditText userNameView, userCityView, userStateView, userAddressView, userEmailView, userContactView;
     ProgressBar progressBar, progressBarCustomerDetail;
     Button setAddressUserButtonView, saveDetailsOfUserButtonView;
@@ -61,10 +63,10 @@ public class CustomerDetailsActivity extends AppCompatActivity {
         userEmailView = findViewById(R.id.userEmailField);
         userContactView = findViewById(R.id.userContactField);
         progressBar = findViewById(R.id.progressBarCustomerDetails);
-
+        progressBarCustomerDetail = findViewById(R.id.progressBarFirst);
         setAddressUserButtonView = findViewById(R.id.setUserAddressButton);
         saveDetailsOfUserButtonView = findViewById(R.id.saveDetailsUserButton);
-
+        llView = findViewById(R.id.llEditDetailsCustomer);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         customerIdForUse = pref.getString("customerId", "");
@@ -86,6 +88,8 @@ public class CustomerDetailsActivity extends AppCompatActivity {
                 ,snapshot.child("eligible").getValue(Boolean.class)
                 ,orderIdsList
                         ,snapshot.child("customerId").getValue(String.class));
+                progressBarCustomerDetail.setVisibility(View.GONE);
+                llView.setVisibility(View.VISIBLE);
                 userNameView.setText(customerObj.getName());
                 userAddressView.setText(customerObj.getAddress());
                 userCityView.setText(customerObj.getCity());

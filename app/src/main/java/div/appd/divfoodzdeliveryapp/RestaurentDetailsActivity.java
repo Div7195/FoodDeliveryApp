@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -57,9 +58,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class RestaurentDetailsActivity extends AppCompatActivity {
+    LinearLayout llView;
     EditText restaurentNameView, restaurentCityView, restaurentStateView, restaurentContactView, restaurentAddressView, restaurentCuisineView, restaurentLocalityView;
     Button chooseImageView, uploadImageView, saveDetailsView, setAddressAsCurrentLocationView;
-    ProgressBar progressBar;
+    ProgressBar progressBar, progressBarEditDetails;
     String nameString, cityString, stateString, contactString, addressString, cuisineString, restaurentIdForUse, downloadableImageUrl, localityString;
     FusedLocationProviderClient fusedLocationProviderClient;
     Restaurent restaurentObj;
@@ -73,6 +75,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurent_details);
+        llView = findViewById(R.id.llEditDetailsRestaurent);
         restaurentNameView = findViewById(R.id.restaurentNameField);
         restaurentCityView = findViewById(R.id.cityField);
         restaurentStateView = findViewById(R.id.stateField);
@@ -81,6 +84,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
         restaurentCuisineView = findViewById(R.id.foodServiceField);
         restaurentLocalityView = findViewById(R.id.localityRestaurentField);
         progressBar = findViewById(R.id.progressBarRestaurentDetails);
+        progressBarEditDetails = findViewById(R.id.progressBarSecond);
         chooseImageView = findViewById(R.id.chooseImageButton);
         uploadImageView = findViewById(R.id.uploadRestoImageButton);
         saveDetailsView = findViewById(R.id.saveRestaurentButton);
@@ -115,7 +119,8 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                 ,dishidList
                 ,snapshot.child("restaurentId").getValue(String.class)
                          ,snapshot.child("eligible").getValue(Boolean.class));
-
+                progressBarEditDetails.setVisibility(View.GONE);
+                llView.setVisibility(View.VISIBLE);
                 restaurentNameView.setText(restaurentObj.getName());
                 restaurentCityView.setText(restaurentObj.getCity());
                 restaurentStateView.setText(restaurentObj.getState());

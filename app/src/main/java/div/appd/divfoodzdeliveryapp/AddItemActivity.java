@@ -56,7 +56,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class AddItemActivity extends AppCompatActivity {
-    TextView spinnerDishType;
+    TextView spinnerDishType, headingAddOrEditView;
     EditText menuCategoryView, dishTitleView, priceView, dishTypeView;
     Button chooseButton, uploadButton, addItemButton;
     RadioGroup vegNonvegGroup;
@@ -81,6 +81,7 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
         spinnerDishType=findViewById(R.id.spinnerDishType);
+        headingAddOrEditView = findViewById(R.id.headingAddOrEdit);
         menuCategoryView = findViewById(R.id.categoryField);
         dishTitleView = findViewById(R.id.dishTitleField);
         priceView = findViewById(R.id.priceField);
@@ -107,7 +108,7 @@ public class AddItemActivity extends AppCompatActivity {
             menuCategoryView.setText(dishObj.getCategory());
             dishTypeView.setText(dishObj.getDishTag());
             dishTitleView.setText(dishObj.getTitle());
-
+            headingAddOrEditView.setText("Edit item");
             if(dishObj.getVegOrNonveg().equals("VEG")){
                 vegRadioButton.setChecked(true);
             }else{

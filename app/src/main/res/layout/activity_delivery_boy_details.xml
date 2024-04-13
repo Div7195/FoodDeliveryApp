@@ -26,6 +26,32 @@
                 android:textColor="#caea39"
                 android:gravity="center_horizontal"
                 android:textSize="45sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                >
+                <ProgressBar
+                    android:id="@+id/progressBarThird"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:visibility="visible"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+            <LinearLayout
+                android:id="@+id/llEditDetailsDelivery"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
@@ -151,11 +177,14 @@
     <ProgressBar
         android:id="@+id/progressBarDeliveryDetails"
         style="?android:attr/progressBarStyle"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
 
          />
+        </LinearLayout>
+        </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
