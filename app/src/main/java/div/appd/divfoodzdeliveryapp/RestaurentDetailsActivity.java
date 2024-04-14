@@ -179,7 +179,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
         cuisineString = restaurentCuisineView.getText().toString();
         localityString = restaurentLocalityView.getText().toString();
         if (nameString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty() || addressString.isEmpty() || cuisineString.isEmpty() || localityString.isEmpty()) {
-            Toast.makeText(RestaurentDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RestaurentDetailsActivity.this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show();
         }else{
             databaseReference.child("restaurents").child(restaurentIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
