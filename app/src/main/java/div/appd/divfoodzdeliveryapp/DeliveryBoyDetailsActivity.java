@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import div.appd.divfoodzdeliveryapp.models.DeliveryBoy;
+
 public class DeliveryBoyDetailsActivity extends AppCompatActivity {
     LinearLayout llView;
     EditText deliveryNameView, deliveryStateView, deliveryCityView, deliveryContactView, userEmailView, userContactView;

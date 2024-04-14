@@ -33,6 +33,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import div.appd.divfoodzdeliveryapp.models.CartItemInfo;
+import div.appd.divfoodzdeliveryapp.models.Dish;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class RestoViewOfUserAdapter extends ArrayAdapter<Dish> {

@@ -1,4 +1,4 @@
-package div.appd.divfoodzdeliveryapp;
+package div.appd.divfoodzdeliveryapp.models;
 
 import java.io.Serializable;
 

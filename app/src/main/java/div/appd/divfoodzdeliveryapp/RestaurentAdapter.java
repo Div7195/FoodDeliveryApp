@@ -16,9 +16,9 @@ import com.example.fooddelivery.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+
+import div.appd.divfoodzdeliveryapp.models.Restaurent;
 
 public class RestaurentAdapter extends ArrayAdapter<Restaurent> {
     public RestaurentAdapter(Context context, ArrayList<Restaurent> restaurents) {

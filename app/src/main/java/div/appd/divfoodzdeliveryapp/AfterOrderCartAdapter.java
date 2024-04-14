@@ -16,6 +16,8 @@ import com.example.fooddelivery.R;
 
 import java.util.ArrayList;
 
+import div.appd.divfoodzdeliveryapp.models.CartItemInfo;
+
 public class AfterOrderCartAdapter extends ArrayAdapter<CartItemInfo> {
     public AfterOrderCartAdapter(Context context, ArrayList<CartItemInfo> cartItemInfoArrayList){
         super(context, 0 , cartItemInfoArrayList );

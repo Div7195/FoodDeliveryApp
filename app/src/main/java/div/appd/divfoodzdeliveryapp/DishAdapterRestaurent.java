@@ -2,7 +2,6 @@ package div.appd.divfoodzdeliveryapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import div.appd.divfoodzdeliveryapp.models.Dish;
 
 public class DishAdapterRestaurent extends ArrayAdapter<Dish> {
     public DishAdapterRestaurent(Context context, ArrayList<Dish> dishes){

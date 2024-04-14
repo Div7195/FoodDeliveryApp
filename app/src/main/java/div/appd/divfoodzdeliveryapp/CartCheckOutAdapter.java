@@ -1,12 +1,10 @@
 package div.appd.divfoodzdeliveryapp;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,9 +15,9 @@ import androidx.annotation.Nullable;
 
 import com.example.fooddelivery.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+
+import div.appd.divfoodzdeliveryapp.models.CartItemInfo;
 
 public class CartCheckOutAdapter extends ArrayAdapter<CartItemInfo> {
     Double priceOfOneItem = 0.0;

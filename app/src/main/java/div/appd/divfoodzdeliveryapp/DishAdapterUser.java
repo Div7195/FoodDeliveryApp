@@ -31,13 +31,14 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import div.appd.divfoodzdeliveryapp.models.CartItemInfo;
+import div.appd.divfoodzdeliveryapp.models.Dish;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class DishAdapterUser extends ArrayAdapter<Dish> {

@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import div.appd.divfoodzdeliveryapp.models.Dishtype;
+
 public class DishtypeAdapter extends ArrayAdapter<Dishtype> {
     public DishtypeAdapter(Context context, ArrayList<Dishtype> dishes) {
         super(context, 0, dishes);

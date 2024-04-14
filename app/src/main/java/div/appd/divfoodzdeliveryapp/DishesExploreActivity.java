@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.fooddelivery.R;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import div.appd.divfoodzdeliveryapp.models.Dish;
+import div.appd.divfoodzdeliveryapp.models.Dishtype;
 
 public class DishesExploreActivity extends AppCompatActivity {
     ProgressBar progressBarForDish;

@@ -14,6 +14,8 @@ import com.example.fooddelivery.R;
 
 import java.util.ArrayList;
 
+import div.appd.divfoodzdeliveryapp.models.OrderItem;
+
 public class OrderItemAdapter extends ArrayAdapter<OrderItem> {
     public OrderItemAdapter(Context context, ArrayList<OrderItem> orderItems) {
         super(context, 0, orderItems);

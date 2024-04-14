@@ -20,9 +20,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,13 +47,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+
+import div.appd.divfoodzdeliveryapp.models.Restaurent;
 
 public class RestaurentDetailsActivity extends AppCompatActivity {
     LinearLayout llView;
@@ -151,8 +150,6 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                 getLastLocation();
             }
         });
-
-
         chooseImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
