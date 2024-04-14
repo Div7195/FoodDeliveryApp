@@ -83,55 +83,59 @@ public class DeliveryBoyDetailsActivity extends AppCompatActivity {
         saveDetailsOfDeliveryButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                nameString = deliveryNameView.getText().toString();
-                cityString = deliveryCityView.getText().toString();
-                stateString = deliveryStateView.getText().toString();
-                contactString = deliveryContactView.getText().toString();
-                if(nameString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty()){
-                    Toast.makeText(DeliveryBoyDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-                }else{
-                    databaseReference.child("deliveryboys").child(deliveryBoyIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(!deliveryNameView.getText().toString().equals(deliveryBoyObj.getName())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("name", deliveryNameView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(!deliveryCityView.getText().toString().equals(deliveryBoyObj.getCity())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("city", deliveryCityView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(!deliveryStateView.getText().toString().equals(deliveryBoyObj.getState())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("state", deliveryStateView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(!deliveryContactView.getText().toString().equals(deliveryBoyObj.getContact())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("contact", deliveryContactView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("eligible", true);
-                            snapshot.getRef().updateChildren(updates);
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(DeliveryBoyDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(DeliveryBoyDetailsActivity.this, DeliveryBoyHomeActivity.class);
-                            startActivity(intent);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
+                editDetails();
             }
         });
 
     }
+    private void editDetails(){
+        progressBar.setVisibility(View.VISIBLE);
+        nameString = deliveryNameView.getText().toString();
+        cityString = deliveryCityView.getText().toString();
+        stateString = deliveryStateView.getText().toString();
+        contactString = deliveryContactView.getText().toString();
+        if(nameString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty()){
+            Toast.makeText(DeliveryBoyDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+        }else{
+            databaseReference.child("deliveryboys").child(deliveryBoyIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!deliveryNameView.getText().toString().equals(deliveryBoyObj.getName())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("name", deliveryNameView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(!deliveryCityView.getText().toString().equals(deliveryBoyObj.getCity())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("city", deliveryCityView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(!deliveryStateView.getText().toString().equals(deliveryBoyObj.getState())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("state", deliveryStateView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(!deliveryContactView.getText().toString().equals(deliveryBoyObj.getContact())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("contact", deliveryContactView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("eligible", true);
+                    snapshot.getRef().updateChildren(updates);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(DeliveryBoyDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(DeliveryBoyDetailsActivity.this, DeliveryBoyHomeActivity.class);
+                    startActivity(intent);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
 }

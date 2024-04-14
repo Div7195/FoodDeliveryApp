@@ -105,8 +105,6 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
                 for(DataSnapshot dishidSnapshot : snapshot.child("fooditems").getChildren()){
                     dishidList.add(dishidSnapshot.child("dishId").getValue(String.class));
                 }
-
-
                  restaurentObj = new Restaurent(snapshot.child("name").getValue(String.class)
                 ,snapshot.child("address").getValue(String.class)
                          ,snapshot.child("locality").getValue(String.class)
@@ -143,85 +141,7 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
         saveDetailsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                nameString = restaurentNameView.getText().toString();
-                cityString = restaurentCityView.getText().toString();
-                stateString = restaurentStateView.getText().toString();
-                contactString = restaurentContactView.getText().toString();
-                addressString = restaurentAddressView.getText().toString();
-                cuisineString = restaurentCuisineView.getText().toString();
-                localityString = restaurentLocalityView.getText().toString();
-                if (nameString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty() || addressString.isEmpty() || cuisineString.isEmpty() || localityString.isEmpty()) {
-                    Toast.makeText(RestaurentDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-                }else{
-                databaseReference.child("restaurents").child(restaurentIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-                        if (!restaurentNameView.getText().toString().equals(restaurentObj.getName())) {
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("name", restaurentNameView.getText().toString());
-                            snapshot.getRef().updateChildren(updates);
-                        }
-                        if (!restaurentCityView.getText().toString().equals(restaurentObj.getCity())) {
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("city", restaurentCityView.getText().toString());
-                            snapshot.getRef().updateChildren(updates);
-                        }
-                        if (!restaurentStateView.getText().toString().equals(restaurentObj.getState())) {
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("state", restaurentStateView.getText().toString());
-                            snapshot.getRef().updateChildren(updates);
-                        }
-                        if (!restaurentContactView.getText().toString().equals(restaurentObj.getContact())) {
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("contact", restaurentContactView.getText().toString());
-                            snapshot.getRef().updateChildren(updates);
-                        }
-                        if (!restaurentLocalityView.getText().toString().equals(restaurentObj.getLocality())) {
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("locality", restaurentLocalityView.getText().toString());
-                            snapshot.getRef().updateChildren(updates);
-                        }
-                        if (!restaurentAddressView.getText().toString().equals(restaurentObj.getAddress())) {
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("address", restaurentAddressView.getText().toString());
-                            snapshot.getRef().updateChildren(updates);
-                        }
-                        if (!restaurentCuisineView.getText().toString().equals(restaurentObj.getCuisines())) {
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("cuisines", restaurentCuisineView.getText().toString());
-                            snapshot.getRef().updateChildren(updates);
-                        }
-                        if(downloadableImageUrl!=null) {
-                            if (!downloadableImageUrl.equals(restaurentObj.getImageUrl())) {
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("imageUrl", downloadableImageUrl);
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                        }
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("eligible", true);
-                        snapshot.getRef().updateChildren(updates);
-                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-                        SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("restaurentName", restaurentNameView.getText().toString());
-                        editor.apply();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(RestaurentDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RestaurentDetailsActivity.this, RestaurentHomeActivity.class);
-                        startActivity(intent);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-
+                editDetails();
             }
         });
         setAddressAsCurrentLocationView.setOnClickListener(new View.OnClickListener() {
@@ -248,6 +168,86 @@ public class RestaurentDetailsActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void editDetails(){
+        progressBar.setVisibility(View.VISIBLE);
+        nameString = restaurentNameView.getText().toString();
+        cityString = restaurentCityView.getText().toString();
+        stateString = restaurentStateView.getText().toString();
+        contactString = restaurentContactView.getText().toString();
+        addressString = restaurentAddressView.getText().toString();
+        cuisineString = restaurentCuisineView.getText().toString();
+        localityString = restaurentLocalityView.getText().toString();
+        if (nameString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty() || addressString.isEmpty() || cuisineString.isEmpty() || localityString.isEmpty()) {
+            Toast.makeText(RestaurentDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+        }else{
+            databaseReference.child("restaurents").child(restaurentIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                    if (!restaurentNameView.getText().toString().equals(restaurentObj.getName())) {
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("name", restaurentNameView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if (!restaurentCityView.getText().toString().equals(restaurentObj.getCity())) {
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("city", restaurentCityView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if (!restaurentStateView.getText().toString().equals(restaurentObj.getState())) {
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("state", restaurentStateView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if (!restaurentContactView.getText().toString().equals(restaurentObj.getContact())) {
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("contact", restaurentContactView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if (!restaurentLocalityView.getText().toString().equals(restaurentObj.getLocality())) {
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("locality", restaurentLocalityView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if (!restaurentAddressView.getText().toString().equals(restaurentObj.getAddress())) {
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("address", restaurentAddressView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if (!restaurentCuisineView.getText().toString().equals(restaurentObj.getCuisines())) {
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("cuisines", restaurentCuisineView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(downloadableImageUrl!=null) {
+                        if (!downloadableImageUrl.equals(restaurentObj.getImageUrl())) {
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("imageUrl", downloadableImageUrl);
+                            snapshot.getRef().updateChildren(updates);
+                        }
+                    }
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("eligible", true);
+                    snapshot.getRef().updateChildren(updates);
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("restaurentName", restaurentNameView.getText().toString());
+                    editor.apply();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(RestaurentDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RestaurentDetailsActivity.this, RestaurentHomeActivity.class);
+                    startActivity(intent);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
 
     private void selectImage() {

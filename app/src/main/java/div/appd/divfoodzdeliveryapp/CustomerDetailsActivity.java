@@ -113,68 +113,7 @@ public class CustomerDetailsActivity extends AppCompatActivity {
         saveDetailsOfUserButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                nameString = userNameView.getText().toString();
-                addressString = userAddressView.getText().toString();
-                cityString = userCityView.getText().toString();
-                stateString = userStateView.getText().toString();
-                contactString = userContactView.getText().toString();
-                emailString = userEmailView.getText().toString();
-
-                if(nameString.isEmpty() || addressString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty()){
-                    Toast.makeText(CustomerDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-                }else{
-                    databaseReference.child("customers").child(customerIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(!userNameView.getText().toString().equals(customerObj.getName())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("name", userNameView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(!userAddressView.getText().toString().equals(customerObj.getAddress())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("address", userAddressView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(!userCityView.getText().toString().equals(customerObj.getCity())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("city", userCityView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(!userStateView.getText().toString().equals(customerObj.getState())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("state", userStateView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(!userContactView.getText().toString().equals(customerObj.getContact())){
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("contact", userContactView.getText().toString());
-                                snapshot.getRef().updateChildren(updates);
-                            }
-                            if(userEmailView.getText().toString()!=null) {
-                                if (!userEmailView.getText().toString().equals(customerObj.getEmail())) {
-                                    Map<String, Object> updates = new HashMap<>();
-                                    updates.put("email", userEmailView.getText().toString());
-                                    snapshot.getRef().updateChildren(updates);
-                                }
-                            }
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("eligible", true);
-                            snapshot.getRef().updateChildren(updates);
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(CustomerDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CustomerDetailsActivity.this, CustomerHomeActivity.class);
-                            startActivity(intent);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
+                editDetails();
             }
         });
 
@@ -186,6 +125,70 @@ public class CustomerDetailsActivity extends AppCompatActivity {
         });
 
 
+    }
+    private void editDetails(){
+        progressBar.setVisibility(View.VISIBLE);
+        nameString = userNameView.getText().toString();
+        addressString = userAddressView.getText().toString();
+        cityString = userCityView.getText().toString();
+        stateString = userStateView.getText().toString();
+        contactString = userContactView.getText().toString();
+        emailString = userEmailView.getText().toString();
+
+        if(nameString.isEmpty() || addressString.isEmpty() || cityString.isEmpty() || stateString.isEmpty() || contactString.isEmpty()){
+            Toast.makeText(CustomerDetailsActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+        }else{
+            databaseReference.child("customers").child(customerIdForUse).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!userNameView.getText().toString().equals(customerObj.getName())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("name", userNameView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(!userAddressView.getText().toString().equals(customerObj.getAddress())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("address", userAddressView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(!userCityView.getText().toString().equals(customerObj.getCity())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("city", userCityView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(!userStateView.getText().toString().equals(customerObj.getState())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("state", userStateView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(!userContactView.getText().toString().equals(customerObj.getContact())){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("contact", userContactView.getText().toString());
+                        snapshot.getRef().updateChildren(updates);
+                    }
+                    if(userEmailView.getText().toString()!=null) {
+                        if (!userEmailView.getText().toString().equals(customerObj.getEmail())) {
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("email", userEmailView.getText().toString());
+                            snapshot.getRef().updateChildren(updates);
+                        }
+                    }
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("eligible", true);
+                    snapshot.getRef().updateChildren(updates);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(CustomerDetailsActivity.this, "Saved Changes!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CustomerDetailsActivity.this, CustomerHomeActivity.class);
+                    startActivity(intent);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
 
     private void getLastLocation() {

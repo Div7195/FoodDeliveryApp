@@ -39,164 +39,102 @@ public class OrdersListActivity extends AppCompatActivity {
         progressBarForOrder = findViewById(R.id.progressBarInOrderList);
         accessOrders = getIntent().getStringExtra("accessOrders");
         if(accessOrders.equals("customer")){
-            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-            customerIdForUse = pref.getString("customerId", "");
-            ArrayList<String> orderIds = new ArrayList<String>();
-            databaseReference.child("customers").child(customerIdForUse).child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                        orderIds.add(snapshot1.child("value").getValue(String.class));
-                    }
-                    databaseReference.child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(String s : orderIds){
-                                orderItemArrayList.add(new OrderItem(s
-                                ,snapshot.child(s).child("status").getValue(String.class)
-                                ,snapshot.child(s).child("deliveryboyname").getValue(String.class)
-                                ,snapshot.child(s).child("date").getValue(String.class)));
-                            }
-                            Collections.reverse(orderItemArrayList);
-                            OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
-                            // Attach the adapter to a ListView
-                            ListView listView = (ListView) findViewById(R.id.orderList);
-                            listView.setAdapter(adapter);
-                            getListViewSize(listView);
-                            progressBarForOrder.setVisibility(View.GONE);
-
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("orderViewConfig", "customer");
-                                    bundle.putString("orderId",orderItemArrayList.get(i).getOrderId());
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+            viewOrdersCustomer();
         } else if (accessOrders.equals("restaurent")) {
-            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-            restaurenIdForUse = pref.getString("restaurentId", "");
-            ArrayList<String> orderIds = new ArrayList<String>();
-            databaseReference.child("restaurents").child(restaurenIdForUse).child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                        orderIds.add(snapshot1.child("value").getValue(String.class));
-                    }
-                    databaseReference.child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(String s : orderIds){
-                                orderItemArrayList.add(new OrderItem(s
-                                        ,snapshot.child(s).child("status").getValue(String.class)
-                                        ,snapshot.child(s).child("deliveryboyname").getValue(String.class)
-                                        ,snapshot.child(s).child("date").getValue(String.class)));
-                            }
-                            Collections.reverse(orderItemArrayList);
-                            OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
-                            // Attach the adapter to a ListView
-                            ListView listView = (ListView) findViewById(R.id.orderList);
-                            listView.setAdapter(adapter);
-                            getListViewSize(listView);
-                            progressBarForOrder.setVisibility(View.GONE);
-
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("orderViewConfig", "restaurent");
-                                    bundle.putString("orderId",orderItemArrayList.get(i).getOrderId());
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+            viewOrdersRestaurant();
         } else if (accessOrders.equals("deliveryBoy")) {
             String config = getIntent().getStringExtra("deliveryBoyConfig");
             if (config.equals("assignedOnly")) {
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-                deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
+                viewAssignedOrders();
+            }else{
+                viewOrdersDeliveryBoy();
+            }
+        }
+    }
+    private void viewOrdersDeliveryBoy(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
+        ArrayList<String> orderIds = new ArrayList<String>();
+        databaseReference.child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    String s = snapshot1.child("deliveryboyid").getValue(String.class);
+                    if(s == null) {
+                        orderItemArrayList.add(new OrderItem(snapshot1.getRef().getKey()
+                                , snapshot.child(snapshot1.getRef().getKey()).child("status").getValue(String.class)
+                                , snapshot.child(snapshot1.getRef().getKey()).child("partnerName").getValue(String.class)
+                                , snapshot.child(snapshot1.getRef().getKey()).child("date").getValue(String.class)));
+                    }
+                }
+                Collections.reverse(orderItemArrayList);
+                OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
+                // Attach the adapter to a ListView
+                ListView listView = (ListView) findViewById(R.id.orderList);
+                listView.setAdapter(adapter);
+                getListViewSize(listView);
+                progressBarForOrder.setVisibility(View.GONE);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("orderViewConfig", "deliveryboy");
+                        bundle.putString("deliveryBoyId", deliveryBoyIdForUse);
+                        bundle.putString("orderId",orderItemArrayList.get(i).getOrderId());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void viewAssignedOrders(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
 //                Toast.makeText(this, deliveryBoyIdForUse, Toast.LENGTH_SHORT).show();
-                ArrayList<String> orderIds = new ArrayList<String>();
-                databaseReference.child("deliveryboys").child(deliveryBoyIdForUse).child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
+        ArrayList<String> orderIds = new ArrayList<String>();
+        databaseReference.child("deliveryboys").child(deliveryBoyIdForUse).child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    orderIds.add(snapshot1.child("value").getValue(String.class));
+                }
+                databaseReference.child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            orderIds.add(snapshot1.child("value").getValue(String.class));
+                        for (String s : orderIds) {
+                            orderItemArrayList.add(new OrderItem(s
+                                    , snapshot.child(s).child("status").getValue(String.class)
+                                    , snapshot.child(s).child("deliveryboyname").getValue(String.class)
+                                    , snapshot.child(s).child("date").getValue(String.class)));
                         }
-                        databaseReference.child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
+                        Collections.reverse(orderItemArrayList);
+                        OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
+                        // Attach the adapter to a ListView
+                        ListView listView = (ListView) findViewById(R.id.orderList);
+                        listView.setAdapter(adapter);
+                        getListViewSize(listView);
+                        progressBarForOrder.setVisibility(View.GONE);
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (String s : orderIds) {
-                                    orderItemArrayList.add(new OrderItem(s
-                                            , snapshot.child(s).child("status").getValue(String.class)
-                                            , snapshot.child(s).child("deliveryboyname").getValue(String.class)
-                                            , snapshot.child(s).child("date").getValue(String.class)));
-                                }
-                                Collections.reverse(orderItemArrayList);
-                                OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
-                                // Attach the adapter to a ListView
-                                ListView listView = (ListView) findViewById(R.id.orderList);
-                                listView.setAdapter(adapter);
-                                getListViewSize(listView);
-                                progressBarForOrder.setVisibility(View.GONE);
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                                        Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("orderViewConfig", "deliveryboy");
-                                        bundle.putString("deliveryBoyId", deliveryBoyIdForUse);
-                                        bundle.putString("orderId",orderItemArrayList.get(i).getOrderId());
-                                        intent.putExtras(bundle);
-                                        startActivity(intent);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
+                                Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("orderViewConfig", "deliveryboy");
+                                bundle.putString("deliveryBoyId", deliveryBoyIdForUse);
+                                bundle.putString("orderId",orderItemArrayList.get(i).getOrderId());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             }
                         });
-
-
-
                     }
 
                     @Override
@@ -204,22 +142,36 @@ public class OrdersListActivity extends AppCompatActivity {
 
                     }
                 });
-            }else{
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-                deliveryBoyIdForUse = pref.getString("deliveryBoyId", "");
-                ArrayList<String> orderIds = new ArrayList<String>();
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void viewOrdersCustomer(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        customerIdForUse = pref.getString("customerId", "");
+        ArrayList<String> orderIds = new ArrayList<String>();
+        databaseReference.child("customers").child(customerIdForUse).child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    orderIds.add(snapshot1.child("value").getValue(String.class));
+                }
                 databaseReference.child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String s = snapshot1.child("deliveryboyid").getValue(String.class);
-                            if(s == null) {
-                                orderItemArrayList.add(new OrderItem(snapshot1.getRef().getKey()
-                                        , snapshot.child(snapshot1.getRef().getKey()).child("status").getValue(String.class)
-                                        , snapshot.child(snapshot1.getRef().getKey()).child("partnerName").getValue(String.class)
-                                        , snapshot.child(snapshot1.getRef().getKey()).child("date").getValue(String.class)));
-                            }
-                            }
+                        for(String s : orderIds){
+                            orderItemArrayList.add(new OrderItem(s
+                                    ,snapshot.child(s).child("status").getValue(String.class)
+                                    ,snapshot.child(s).child("deliveryboyname").getValue(String.class)
+                                    ,snapshot.child(s).child("date").getValue(String.class)));
+                        }
                         Collections.reverse(orderItemArrayList);
                         OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
                         // Attach the adapter to a ListView
@@ -233,22 +185,81 @@ public class OrdersListActivity extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putString("orderViewConfig", "deliveryboy");
-                                bundle.putString("deliveryBoyId", deliveryBoyIdForUse);
+                                bundle.putString("orderViewConfig", "customer");
                                 bundle.putString("orderId",orderItemArrayList.get(i).getOrderId());
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             }
                         });
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
-            }
-        }
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void viewOrdersRestaurant(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        restaurenIdForUse = pref.getString("restaurentId", "");
+        ArrayList<String> orderIds = new ArrayList<String>();
+        databaseReference.child("restaurents").child(restaurenIdForUse).child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                    orderIds.add(snapshot1.child("value").getValue(String.class));
+                }
+                databaseReference.child("orders").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(String s : orderIds){
+                            orderItemArrayList.add(new OrderItem(s
+                                    ,snapshot.child(s).child("status").getValue(String.class)
+                                    ,snapshot.child(s).child("deliveryboyname").getValue(String.class)
+                                    ,snapshot.child(s).child("date").getValue(String.class)));
+                        }
+                        Collections.reverse(orderItemArrayList);
+                        OrderItemAdapter adapter = new OrderItemAdapter(OrdersListActivity.this, orderItemArrayList);
+                        // Attach the adapter to a ListView
+                        ListView listView = (ListView) findViewById(R.id.orderList);
+                        listView.setAdapter(adapter);
+                        getListViewSize(listView);
+                        progressBarForOrder.setVisibility(View.GONE);
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Intent intent = new Intent(OrdersListActivity.this, OrderViewUser.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("orderViewConfig", "restaurent");
+                                bundle.putString("orderId",orderItemArrayList.get(i).getOrderId());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
     private void getListViewSize(ListView myListView) {
         ListAdapter myListAdapter = myListView.getAdapter();

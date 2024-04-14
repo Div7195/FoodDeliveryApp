@@ -365,7 +365,19 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (actionAddOrEdit.equals("add")) {
-                    progressBarAdd.setVisibility(View.VISIBLE);
+                    addNewItem();
+                } else {
+                    updateMenuItem();
+                }
+            }
+        });
+
+
+
+    }
+//    *****END of oncreate() method
+    private void addNewItem(){
+        progressBarAdd.setVisibility(View.VISIBLE);
 //                    if (filePath == null || downloadableImageUrl == null) {
 //                        Uri defaultUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
 //                                + "://" + AddItemActivity.this.getResources().getResourcePackageName(R.drawable.default_food)
@@ -375,102 +387,43 @@ public class AddItemActivity extends AppCompatActivity {
 //                    }
 //                String generatedDishId = RandomStringGenerator.generateRandomString(13);
 //                ************START updating dishes node in database************
-                    databaseReference.child("dishes").push().addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("dishes").push().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.child("title").getRef().setValue(dishTitleView.getText().toString());
+                snapshot.child("dishTag").getRef().setValue(dishTypeView.getText().toString());
+                snapshot.child("price").getRef().setValue(priceView.getText().toString());
+                snapshot.child("perquantity").getRef().setValue(quantityForUse);
+                snapshot.child("imageurl").getRef().setValue(downloadableImageUrl);
+                snapshot.child("rating").getRef().setValue(0.0);
+                snapshot.child("timesOrdered").getRef().setValue(0);
+                snapshot.child("restaurentId").getRef().setValue(restaurentIdForUse);
+                snapshot.child("category").getRef().setValue(menuCategoryView.getText().toString());
+                snapshot.child("instock").getRef().setValue(true);
+                snapshot.child("restaurentName").getRef().setValue(restaurentNameForUse);
+//                        snapshot.child("menu").child("category").getRef().setValue(menuCategoryView.getText().toString());
+                dishIdForUse = snapshot.getRef().getKey();
+
+                int selectedId = vegNonvegGroup.getCheckedRadioButtonId();
+                vegnonvegButton = (RadioButton) findViewById(selectedId);
+                if (vegnonvegButton.getText().toString().equals("VEG")) {
+                    snapshot.child("vegOrNonveg").getRef().setValue("VEG");
+                } else {
+                    snapshot.child("vegOrNonveg").getRef().setValue("NONVEG");
+                }
+                progressBarAdd.setVisibility(View.INVISIBLE);
+                Toast.makeText(AddItemActivity.this, "Added New Dish", Toast.LENGTH_SHORT).show();
+
+                //                 *********START updating dishtags nodes in database********
+                if (!dishTypeView.getText().toString().equals(dishTypeInSpinner) || !dishtypeItemClicked) {
+                    databaseReference.child("dishtags").push().addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            snapshot.child("title").getRef().setValue(dishTitleView.getText().toString());
-                            snapshot.child("dishTag").getRef().setValue(dishTypeView.getText().toString());
-                            snapshot.child("price").getRef().setValue(priceView.getText().toString());
-                            snapshot.child("perquantity").getRef().setValue(quantityForUse);
+                            snapshot.child("title").getRef().setValue(dishTypeView.getText().toString());
                             snapshot.child("imageurl").getRef().setValue(downloadableImageUrl);
-                            snapshot.child("rating").getRef().setValue(0.0);
-                            snapshot.child("timesOrdered").getRef().setValue(0);
-                            snapshot.child("restaurentId").getRef().setValue(restaurentIdForUse);
-                            snapshot.child("category").getRef().setValue(menuCategoryView.getText().toString());
-                            snapshot.child("instock").getRef().setValue(true);
-                            snapshot.child("restaurentName").getRef().setValue(restaurentNameForUse);
-//                        snapshot.child("menu").child("category").getRef().setValue(menuCategoryView.getText().toString());
-                            dishIdForUse = snapshot.getRef().getKey();
-
-                            int selectedId = vegNonvegGroup.getCheckedRadioButtonId();
-                            vegnonvegButton = (RadioButton) findViewById(selectedId);
-                            if (vegnonvegButton.getText().toString().equals("VEG")) {
-                                snapshot.child("vegOrNonveg").getRef().setValue("VEG");
-                            } else {
-                                snapshot.child("vegOrNonveg").getRef().setValue("NONVEG");
-                            }
-                            progressBarAdd.setVisibility(View.INVISIBLE);
-                            Toast.makeText(AddItemActivity.this, "Added New Dish", Toast.LENGTH_SHORT).show();
-
-                            //                 *********START updating dishtags nodes in database********
-                            if (!dishTypeView.getText().toString().equals(dishTypeInSpinner) || !dishtypeItemClicked) {
-                                databaseReference.child("dishtags").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        snapshot.child("title").getRef().setValue(dishTypeView.getText().toString());
-                                        snapshot.child("imageurl").getRef().setValue(downloadableImageUrl);
-                                        DatabaseReference dishReference = databaseReference.child("dishtags").child(snapshot.getKey()).child("dishIds").push();
-                                        dishReference.child("value").setValue(dishIdForUse);
+                            DatabaseReference dishReference = databaseReference.child("dishtags").child(snapshot.getKey()).child("dishIds").push();
+                            dishReference.child("value").setValue(dishIdForUse);
 //                                        Toast.makeText(AddItemActivity.this, "Updated dishtags", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                            }else{
-                                databaseReference.child("dishtags").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                            if(dishTypeView.getText().toString().equals(dataSnapshot.child("title").getValue(String.class))){
-                                                DatabaseReference ds = dataSnapshot.child("dishIds").getRef().push();
-                                                ds.child("value").setValue(dishIdForUse);
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                            }
-//              **********END****************
-                            //               ********START updating restaurents nodes in database********
-                            if (!menuCategoryView.getText().toString().equals(categoryInSpinner) || !categoryItemClicked) {
-                                databaseReference.child("restaurents").child(restaurentIdForUse).child("menucategories").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        snapshot.child("categoryName").getRef().setValue(menuCategoryView.getText().toString());
-//                                        Toast.makeText(AddItemActivity.this, "Updated menu categories", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                            }
-
-                            databaseReference.child("restaurents").child(restaurentIdForUse).child("fooditems").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    snapshot.child("dishId").getRef().setValue(dishIdForUse);
-//                                    Toast.makeText(AddItemActivity.this, "Updated dishes in your menu", Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-//                *********END******************
-
-
-
-
                         }
 
                         @Override
@@ -478,323 +431,369 @@ public class AddItemActivity extends AppCompatActivity {
 
                         }
                     });
-//                ***********END*****************
-
-
-                } else {
-                    progressBarAdd.setVisibility(View.VISIBLE);
-                    if (!menuCategoryView.getText().toString().equals(dishObj.getCategory())) {
-                        if (!menuCategoryView.getText().toString().equals(categoryInSpinner)) {
-                            updateRequestCount = updateRequestCount + 2;
-                        } else {
-                            updateRequestCount = updateRequestCount + 1;
+                }else{
+                    databaseReference.child("dishtags").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                if(dishTypeView.getText().toString().equals(dataSnapshot.child("title").getValue(String.class))){
+                                    DatabaseReference ds = dataSnapshot.child("dishIds").getRef().push();
+                                    ds.child("value").setValue(dishIdForUse);
+                                }
+                            }
                         }
-                    }
-                    if (!dishTypeView.getText().toString().equals(dishObj.getDishTag())) {
-                        if (!dishTypeView.getText().toString().equals(dishTypeInSpinner)) {
-                            updateRequestCount = updateRequestCount + 4;
-                        } else {
-                            updateRequestCount = updateRequestCount + 3;
-                        }
-                    }
-                    if (!dishTitleView.getText().toString().equals(dishObj.getTitle())) {
-                        updateRequestCount = updateRequestCount + 1;
-                    }
-                    if (vegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("NONVEG") || nonvegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("VEG")) {
-                        updateRequestCount = updateRequestCount + 1;
-                    }
-                    if (!priceView.getText().toString().equals(dishObj.getPrice())) {
-                        updateRequestCount = updateRequestCount + 1;
-                    }
-                    if (!quantityForUse.equals(dishObj.getPerQuantity())) {
-                        updateRequestCount = updateRequestCount + 1;
-                    }
 
-                    if (downloadableImageUrl != null){
-                        if (!downloadableImageUrl.equals(dishObj.getImageUrl())) {
-                            updateRequestCount = updateRequestCount + 1;
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
                         }
+                    });
+                }
+//              **********END****************
+                //               ********START updating restaurents nodes in database********
+                if (!menuCategoryView.getText().toString().equals(categoryInSpinner) || !categoryItemClicked) {
+                    databaseReference.child("restaurents").child(restaurentIdForUse).child("menucategories").push().addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            snapshot.child("categoryName").getRef().setValue(menuCategoryView.getText().toString());
+//                                        Toast.makeText(AddItemActivity.this, "Updated menu categories", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
 
-
-                    if(outOfStockButton.isChecked()){
-                        updateRequestCount = updateRequestCount + 1;
+                databaseReference.child("restaurents").child(restaurentIdForUse).child("fooditems").push().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        snapshot.child("dishId").getRef().setValue(dishIdForUse);
+//                                    Toast.makeText(AddItemActivity.this, "Updated dishes in your menu", Toast.LENGTH_SHORT).show();
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-
-
-                    if (!menuCategoryView.getText().toString().equals(dishObj.getCategory())) {
-                        if (!menuCategoryView.getText().toString().equals(categoryInSpinner)) {
-                            DatabaseReference nodeRef1 = databaseReference.child("restaurents").child(dishObj.getRestaurentId()).child("menucategories").push();
-                            nodeRef1.child("categoryName").setValue(menuCategoryView.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    updateCompleteCount = updateCompleteCount + 1;
-                                    if(updateCompleteCount == updateRequestCount){
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                            DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("category",menuCategoryView.getText().toString());
-                            nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    updateCompleteCount = updateCompleteCount + 1;
-                                    if(updateCompleteCount == updateRequestCount){
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("category",menuCategoryView.getText().toString());
-                            nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    updateCompleteCount = updateCompleteCount + 1;
-                                    if(updateCompleteCount == updateRequestCount){
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
                     }
-
-                    if (!dishTypeView.getText().toString().equals(dishObj.getDishTag())) {
-                        if (!dishTypeView.getText().toString().equals(dishTypeInSpinner)) {
-                            DatabaseReference nodeRef1 = databaseReference.child("dishtags").push();
-                            Map<String, Object> updates1 = new HashMap<>();
-                            updates1.put("title",dishTypeView.getText().toString());
-                            updates1.put("imageurl",downloadableImageUrl);
-                            nodeRef1.updateChildren(updates1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    DatabaseReference nodeRef4 = nodeRef1.child("dishIds").push();
-                                    Map<String, Object> updates1 = new HashMap<>();
-                                    updates1.put("value",dishObj.getDishId());
-                                    nodeRef4.updateChildren(updates1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            updateCompleteCount = updateCompleteCount + 2;
-                                            if(updateCompleteCount == updateRequestCount){
-                                                progressBarAdd.setVisibility(View.INVISIBLE);
-                                                Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-
-                                }
-                            });
-                            databaseReference.child("dishtags").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                                        for(DataSnapshot snapshot2 : snapshot1.child("dishIds").getChildren()){
-                                            if(snapshot2.child("value").getValue(String.class).equals(dishObj.getDishId())){
-                                                snapshot2.getRef().removeValue();
-                                            }
-                                        }
-                                    }
-                                    updateCompleteCount = updateCompleteCount + 1;
-                                    if(updateCompleteCount == updateRequestCount){
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
+                });
+//                *********END******************
 
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                            DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("dishTag",dishTypeView.getText().toString());
-                            nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    updateCompleteCount = updateCompleteCount + 1;
-                                    if(updateCompleteCount == updateRequestCount){
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });;
-
-                        }else{
-                            DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("dishTag",dishTypeView.getText().toString());
-                            nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    updateCompleteCount = updateCompleteCount + 1;
-                                    if(updateCompleteCount == updateRequestCount){
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });;
-
-                                databaseReference.child("dishtags").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                                        for(DataSnapshot snapshot2 : snapshot1.child("dishIds").getChildren()){
-                                            if(snapshot2.child("value").getValue(String.class).equals(dishObj.getDishId())){
-//                                                Toast.makeText(AddItemActivity.this, "wowwow", Toast.LENGTH_SHORT).show();
-                                                snapshot2.getRef().removeValue();
-                                            }
-                                        }
-                                    }
-                                    for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                                        if(snapshot1.child("title").getValue(String.class).equals(dishTypeView.getText().toString())) {
-                                            DatabaseReference dr = snapshot1.child("dishIds").getRef().push();
-                                            Map<String, Object> updates = new HashMap<>();
-                                            updates.put("value",dishObj.getDishId());
-                                            dr.updateChildren(updates);
-                                            break;
-                                        }
-                                    }
-
-                                    updateCompleteCount = updateCompleteCount + 2;
-                                    if(updateCompleteCount == updateRequestCount){
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                        }
-                    }
-
-                    if(!dishTitleView.getText().toString().equals(dishObj.getTitle())){
-                        DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("title",dishTitleView.getText().toString());
-                        nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                updateCompleteCount = updateCompleteCount + 1;
-                                if(updateCompleteCount == updateRequestCount){
-                                    progressBarAdd.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });;
-                    }
-
-                    if(vegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("NONVEG") || nonvegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("VEG")){
-                        DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
-                        Map<String, Object> updates = new HashMap<>();
-                        String s;
-                        if(vegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("NONVEG")){
-                             s = "VEG";
-                        }else{
-                            s = "NONVEG";
-                        }
-                        updates.put("vegOrNonveg",s);
-                        nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                updateCompleteCount = updateCompleteCount + 1;
-                                if(updateCompleteCount == updateRequestCount){
-                                    progressBarAdd.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });;
-                    }
-
-                    if(!priceView.getText().toString().equals(dishObj.getPrice())){
-                        DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("price",priceView.getText().toString());
-                        nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                updateCompleteCount = updateCompleteCount + 1;
-                                if(updateCompleteCount == updateRequestCount){
-                                    progressBarAdd.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });;
-                    }
-
-                    if(!quantityForUse.equals(dishObj.getPerQuantity())){
-                        DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("perquantity",quantityForUse);
-                        nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                updateCompleteCount = updateCompleteCount + 1;
-                                if(updateCompleteCount == updateRequestCount){
-                                    progressBarAdd.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                    if(downloadableImageUrl!=null) {
-                        if (!downloadableImageUrl.equals(dishObj.getImageUrl())) {
-                            DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("imageurl", downloadableImageUrl);
-                            nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    updateCompleteCount = updateCompleteCount + 1;
-                                    if (updateCompleteCount == updateRequestCount) {
-                                        progressBarAdd.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
-                    }
-
-                    if(outOfStockButton.isChecked()){
-                        DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("instock",false);
-                        nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                updateCompleteCount = updateCompleteCount + 1;
-                                if(updateCompleteCount == updateRequestCount){
-                                    progressBarAdd.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
 
 
-                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-
-
-
     }
-//    *****END of oncreate() method
+    private void updateMenuItem(){
+        progressBarAdd.setVisibility(View.VISIBLE);
+        if (!menuCategoryView.getText().toString().equals(dishObj.getCategory())) {
+            if (!menuCategoryView.getText().toString().equals(categoryInSpinner)) {
+                updateRequestCount = updateRequestCount + 2;
+            } else {
+                updateRequestCount = updateRequestCount + 1;
+            }
+        }
+        if (!dishTypeView.getText().toString().equals(dishObj.getDishTag())) {
+            if (!dishTypeView.getText().toString().equals(dishTypeInSpinner)) {
+                updateRequestCount = updateRequestCount + 4;
+            } else {
+                updateRequestCount = updateRequestCount + 3;
+            }
+        }
+        if (!dishTitleView.getText().toString().equals(dishObj.getTitle())) {
+            updateRequestCount = updateRequestCount + 1;
+        }
+        if (vegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("NONVEG") || nonvegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("VEG")) {
+            updateRequestCount = updateRequestCount + 1;
+        }
+        if (!priceView.getText().toString().equals(dishObj.getPrice())) {
+            updateRequestCount = updateRequestCount + 1;
+        }
+        if (!quantityForUse.equals(dishObj.getPerQuantity())) {
+            updateRequestCount = updateRequestCount + 1;
+        }
+
+        if (downloadableImageUrl != null){
+            if (!downloadableImageUrl.equals(dishObj.getImageUrl())) {
+                updateRequestCount = updateRequestCount + 1;
+            }
+        }
 
 
+        if(outOfStockButton.isChecked()){
+            updateRequestCount = updateRequestCount + 1;
+        }
+
+
+
+
+        if (!menuCategoryView.getText().toString().equals(dishObj.getCategory())) {
+            if (!menuCategoryView.getText().toString().equals(categoryInSpinner)) {
+                DatabaseReference nodeRef1 = databaseReference.child("restaurents").child(dishObj.getRestaurentId()).child("menucategories").push();
+                nodeRef1.child("categoryName").setValue(menuCategoryView.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        updateCompleteCount = updateCompleteCount + 1;
+                        if(updateCompleteCount == updateRequestCount){
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("category",menuCategoryView.getText().toString());
+                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        updateCompleteCount = updateCompleteCount + 1;
+                        if(updateCompleteCount == updateRequestCount){
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            } else {
+                DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("category",menuCategoryView.getText().toString());
+                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        updateCompleteCount = updateCompleteCount + 1;
+                        if(updateCompleteCount == updateRequestCount){
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }
+
+        if (!dishTypeView.getText().toString().equals(dishObj.getDishTag())) {
+            if (!dishTypeView.getText().toString().equals(dishTypeInSpinner)) {
+                DatabaseReference nodeRef1 = databaseReference.child("dishtags").push();
+                Map<String, Object> updates1 = new HashMap<>();
+                updates1.put("title",dishTypeView.getText().toString());
+                updates1.put("imageurl",downloadableImageUrl);
+                nodeRef1.updateChildren(updates1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        DatabaseReference nodeRef4 = nodeRef1.child("dishIds").push();
+                        Map<String, Object> updates1 = new HashMap<>();
+                        updates1.put("value",dishObj.getDishId());
+                        nodeRef4.updateChildren(updates1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                updateCompleteCount = updateCompleteCount + 2;
+                                if(updateCompleteCount == updateRequestCount){
+                                    progressBarAdd.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    }
+                });
+                databaseReference.child("dishtags").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                            for(DataSnapshot snapshot2 : snapshot1.child("dishIds").getChildren()){
+                                if(snapshot2.child("value").getValue(String.class).equals(dishObj.getDishId())){
+                                    snapshot2.getRef().removeValue();
+                                }
+                            }
+                        }
+                        updateCompleteCount = updateCompleteCount + 1;
+                        if(updateCompleteCount == updateRequestCount){
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("dishTag",dishTypeView.getText().toString());
+                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        updateCompleteCount = updateCompleteCount + 1;
+                        if(updateCompleteCount == updateRequestCount){
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });;
+
+            }else{
+                DatabaseReference nodeRef2 = databaseReference.child("dishes").child(dishObj.getDishId());
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("dishTag",dishTypeView.getText().toString());
+                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        updateCompleteCount = updateCompleteCount + 1;
+                        if(updateCompleteCount == updateRequestCount){
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });;
+
+                databaseReference.child("dishtags").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                            for(DataSnapshot snapshot2 : snapshot1.child("dishIds").getChildren()){
+                                if(snapshot2.child("value").getValue(String.class).equals(dishObj.getDishId())){
+//                                                Toast.makeText(AddItemActivity.this, "wowwow", Toast.LENGTH_SHORT).show();
+                                    snapshot2.getRef().removeValue();
+                                }
+                            }
+                        }
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                            if(snapshot1.child("title").getValue(String.class).equals(dishTypeView.getText().toString())) {
+                                DatabaseReference dr = snapshot1.child("dishIds").getRef().push();
+                                Map<String, Object> updates = new HashMap<>();
+                                updates.put("value",dishObj.getDishId());
+                                dr.updateChildren(updates);
+                                break;
+                            }
+                        }
+
+                        updateCompleteCount = updateCompleteCount + 2;
+                        if(updateCompleteCount == updateRequestCount){
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }
+
+        if(!dishTitleView.getText().toString().equals(dishObj.getTitle())){
+            DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("title",dishTitleView.getText().toString());
+            nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    updateCompleteCount = updateCompleteCount + 1;
+                    if(updateCompleteCount == updateRequestCount){
+                        progressBarAdd.setVisibility(View.INVISIBLE);
+                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });;
+        }
+
+        if(vegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("NONVEG") || nonvegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("VEG")){
+            DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
+            Map<String, Object> updates = new HashMap<>();
+            String s;
+            if(vegRadioButton.isChecked() && dishObj.getVegOrNonveg().equals("NONVEG")){
+                s = "VEG";
+            }else{
+                s = "NONVEG";
+            }
+            updates.put("vegOrNonveg",s);
+            nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    updateCompleteCount = updateCompleteCount + 1;
+                    if(updateCompleteCount == updateRequestCount){
+                        progressBarAdd.setVisibility(View.INVISIBLE);
+                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });;
+        }
+
+        if(!priceView.getText().toString().equals(dishObj.getPrice())){
+            DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("price",priceView.getText().toString());
+            nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    updateCompleteCount = updateCompleteCount + 1;
+                    if(updateCompleteCount == updateRequestCount){
+                        progressBarAdd.setVisibility(View.INVISIBLE);
+                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });;
+        }
+
+        if(!quantityForUse.equals(dishObj.getPerQuantity())){
+            DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("perquantity",quantityForUse);
+            nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    updateCompleteCount = updateCompleteCount + 1;
+                    if(updateCompleteCount == updateRequestCount){
+                        progressBarAdd.setVisibility(View.INVISIBLE);
+                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+        if(downloadableImageUrl!=null) {
+            if (!downloadableImageUrl.equals(dishObj.getImageUrl())) {
+                DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("imageurl", downloadableImageUrl);
+                nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        updateCompleteCount = updateCompleteCount + 1;
+                        if (updateCompleteCount == updateRequestCount) {
+                            progressBarAdd.setVisibility(View.INVISIBLE);
+                            Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }
+
+        if(outOfStockButton.isChecked()){
+            DatabaseReference nodeRef1 = databaseReference.child("dishes").child(dishObj.getDishId());
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("instock",false);
+            nodeRef1.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    updateCompleteCount = updateCompleteCount + 1;
+                    if(updateCompleteCount == updateRequestCount){
+                        progressBarAdd.setVisibility(View.INVISIBLE);
+                        Toast.makeText(AddItemActivity.this, "Details Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
 
 //   definitions of selectImage() and uploadImage()
     private void selectImage() {

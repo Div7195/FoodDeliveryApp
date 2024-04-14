@@ -155,106 +155,7 @@ public class OrderViewUser extends AppCompatActivity {
 
             Toast.makeText(OrderViewUser.this, "Place order now!", Toast.LENGTH_SHORT).show();
         }else{
-            orderViewConfig = intent.getStringExtra("orderViewConfig");
-            orderIdIntent = getIntent().getStringExtra("orderId");
-            deliveryIdIntent = getIntent().getStringExtra("deliveryBoyId");
-            customerAddressView.setFocusable(false);
-            databaseReference.child("orders").child(orderIdIntent).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    fDeliveryBoyId = snapshot.child("deliveryboyid").getValue(String.class);
-                    fCustomerName = snapshot.child("customername").getValue(String.class);
-                    fDeliveryBoyName = snapshot.child("deliveryboyname").getValue(String.class);
-                    fRestaurentName = snapshot.child("restaurentname").getValue(String.class);
-                    fCustomerContact = snapshot.child("customercontact").getValue(String.class);
-                    fRestaurentContact = snapshot.child("restaurentcontact").getValue(String.class);
-                    fDeliveryBoyContact = snapshot.child("deliveryboycontact").getValue(String.class);
-                    fCustomerAddress = snapshot.child("customeraddress").getValue(String.class);
-                    fRestaurentAddress = snapshot.child("restaurentaddress").getValue(String.class);
-                    fStatus = snapshot.child("status").getValue(String.class);
-                    fDate = snapshot.child("date").getValue(String.class);
-                    fRating = snapshot.child("rating").getValue(Double.class);
-                    fTotalPrice = snapshot.child("totalprice").getValue(Double.class);
-                    fTotalBill = snapshot.child("totalbill").getValue(Double.class);
-                    fTaxes = snapshot.child("taxes").getValue(Double.class);
-                    fDeliveryFee = 30.0;
-                    fetchedCartItems = new ArrayList<CartItemInfo>();
-                    for(DataSnapshot snapshot1 : snapshot.child("items").getChildren()){
-                        fetchedCartItems.add(new CartItemInfo(snapshot1.child("dishid").getValue(String.class)
-                        ,snapshot1.child("restaurentid").getValue(String.class)
-                        ,snapshot1.child("dishname").getValue(String.class)
-                        ,snapshot1.child("quantity").getValue(Integer.class)
-                        ,snapshot1.child("price").getValue(Double.class)
-                        ,snapshot1.child("single").getValue(Double.class)
-                        ,snapshot1.child("vegnonveg").getValue(String.class)));
-                    }
-                    restaurentNameView.setText(fRestaurentName);
-                    restaurentAddressView.setText(fRestaurentAddress);
-                    customerAddressView.setText(fCustomerAddress);
-                    totalBillView.setText(String.valueOf(fTotalBill.floatValue()));
-                    priceView.setText(String.valueOf(fTotalPrice.floatValue()));
-                    taxView.setText(String.valueOf(fTaxes.floatValue()));
-                    deliveryFeeView.setText(String.valueOf(fDeliveryFee.floatValue()));
-                    dateView.setText(fDate);
-                    statusView.setText(fStatus);
-
-                    if(orderViewConfig.equals("customer")){
-                    contactOfWhoView.setText("Delivery Partner Contact");
-                    if(fDeliveryBoyName == null){
-                        contactOfuserOrDelView.setText("Delivery Partner will be assigned shortly");
-                    }else{
-                        contactOfuserOrDelView.setText(fDeliveryBoyContact);
-                    }
-                    if(fStatus.equals("Delivered")){
-                        if(fRating == null){
-                            llratingSectionView.setVisibility(View.VISIBLE);
-                        }else{
-                            llSubmittedRatingSectionView.setVisibility(View.VISIBLE);
-
-                            submittedRatingBar.setRating(fRating.floatValue());
-                        }
-
-                    }
-
-
-                    } else if (orderViewConfig.equals("restaurent")) {
-                        contactOfWhoView.setText("Customer Contact");
-                        contactOfuserOrDelView.setText(fCustomerContact);
-
-
-                    } else if (orderViewConfig.equals("deliveryboy")) {
-                        contactOfWhoView.setText("Customer Contact");
-                        contactOfuserOrDelView.setText(fCustomerContact);
-                        if(fDeliveryBoyName == null){
-                            llgetAssignedSectionView.setVisibility(View.VISIBLE);
-                        } else if (fStatus.equals("Picked Up")) {
-                            lldeliveredSectionView.setVisibility(View.VISIBLE);
-                        } else if (fStatus.equals("Being Prepared")) {
-                            llpickupSectionView.setVisibility(View.VISIBLE);
-                        }
-
-
-                    }
-
-
-
-
-                    AfterOrderCartAdapter adapter = new AfterOrderCartAdapter(OrderViewUser.this, fetchedCartItems);
-                    // Attach the adapter to a ListView
-                    ListView listView = (ListView) findViewById(R.id.itemsOrderedList);
-                    listView.setAdapter(adapter);
-                    listView.setTag(ll);
-                    getListViewSize(listView);
-                    progressBar.setVisibility(View.GONE);
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
+            viewOrder(intent);
         }
         setAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,266 +166,34 @@ public class OrderViewUser extends AppCompatActivity {
         placeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Double.valueOf(totalBillView.getText().toString()) == 0.0){
-                    Toast.makeText(OrderViewUser.this, "Your Cart is empty, can't place order", Toast.LENGTH_SHORT).show();
-                }else{
-                    progressBarPlaceOrder.setVisibility(View.VISIBLE);
-                    databaseReference.child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            snapshot.child("customerid").getRef().setValue(customerIdForUse);
-                            snapshot.child("restaurentid").getRef().setValue(restaurentIdIntent);
-                            snapshot.child("customername").getRef().setValue(customerNameIntent);
-                            snapshot.child("restaurentname").getRef().setValue(restaurentNameIntent);
-                            snapshot.child("customeraddress").getRef().setValue(customerAddressView.getText().toString());
-                            snapshot.child("restaurentaddress").getRef().setValue(restaurentAddressIntent);
-                            snapshot.child("restaurentcontact").getRef().setValue(restaurentContactIntent);
-                            snapshot.child("customercontact").getRef().setValue(customerContactIntent);
-                            snapshot.child("status").getRef().setValue("Being Prepared");
-                            snapshot.child("date").getRef().setValue(new Date().toString());
-                            snapshot.child("totalprice").getRef().setValue(Double.valueOf(priceView.getText().toString()));
-                            snapshot.child("taxes").getRef().setValue(Double.valueOf(taxView.getText().toString()));
-                            snapshot.child("deliveryfee").getRef().setValue(30.0);
-                            snapshot.child("totalbill").getRef().setValue(Double.valueOf(totalBillView.getText().toString()));
-                            orderIdForUse = snapshot.getKey();
-                            databaseReference.child("customers").child(customerIdForUse).child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    snapshot.child("value").getRef().setValue(orderIdForUse);
-                                    databaseReference.child("restaurents").child(restaurentIdIntent).child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            snapshot.child("value").getRef().setValue(orderIdForUse);
-
-                                            for(CartItemInfo obj : cartItemInfoArrayList){
-                                                databaseReference.child("orders").child(orderIdForUse).child("items").getRef().push().addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                                        snapshot.child("dishid").getRef().setValue(obj.getDishId());
-                                                        snapshot.child("restaurentid").getRef().setValue(obj.getRestaurentId());
-                                                        snapshot.child("dishname").getRef().setValue(obj.getDishName());
-                                                        snapshot.child("quantity").getRef().setValue(obj.getQuanity());
-                                                        snapshot.child("price").getRef().setValue(obj.getPrice());
-                                                        snapshot.child("single").getRef().setValue(obj.getSingleItemPrice());
-                                                        snapshot.child("vegnonveg").getRef().setValue(obj.getVegNonVeg());
-                                                        progressBarPlaceOrder.setVisibility(View.INVISIBLE);
-                                                        llplaceOrderSectionView.setVisibility(View.GONE);
-
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                                    }
-                                                });
-                                            }
-                                            Toast.makeText(OrderViewUser.this, "Order Placed!", Toast.LENGTH_SHORT).show();
-                                            customerMsgBody = "";
-                                            customerMsgBody +="Your order from "+restaurentNameIntent+" has been confirmed. Please visit app for more order details. Ignore if you didn't order.\n";
-                                            restaurentMsgBody = "";
-                                            restaurentMsgBody +="New order received from "+customerNameIntent+". Please visit app for more order details. Ignore if sent by mistake.\n";
-                                            if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
-                                                sendPlacedOrderSms();
-                                            }else{
-                                                askPermissionForSms();
-
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
-
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
+                placeOrder();
             }
         });
 
         getAssignedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBarAssigned.setVisibility(View.VISIBLE);
-                databaseReference.child("deliveryboys").child(deliveryIdIntent).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String name = snapshot.child("name").getValue(String.class);
-                        String contact = snapshot.child("contact").getValue(String.class);
-                        databaseReference.child("deliveryboys").child(deliveryIdIntent).child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.child("value").getRef().setValue(orderIdIntent);
-                                DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("deliveryboyid", deliveryIdIntent);
-                                updates.put("deliveryboycontact", contact);
-                                updates.put("deliveryboyname", name);
-                                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        llgetAssignedSectionView.setVisibility(View.GONE);
-                                        llpickupSectionView.setVisibility(View.VISIBLE);
-                                        progressBarAssigned.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(OrderViewUser.this, "Order is assigned to you!", Toast.LENGTH_SHORT).show();
-                                        customerMsgBody = "";
-                                        deliveryMsgBody = "";
-                                        customerMsgBody += "Your order has been assigned to "+name+" as the delivery partner. Please visit app for more information. Ignore if you didn't order.";
-                                        deliveryMsgBody +="Your order assignment from "+fRestaurentName+" has been confirmed. Please visit app for more order details. Ignore if you didn't assign.\n";
-                                        if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
-                                            fDeliveryBoyContact = contact;
-                                            fDeliveryBoyName = name;
-                                            sendAssignedOrderSms(contact);
-                                        }else{
-                                            askPermissionForSms();
-
-                                        }
-//
-
-
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                assignOrder();
             }
         });
 
         pickupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBarPickup.setVisibility(View.VISIBLE);
-                DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("status", "Picked Up");
-                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        llpickupSectionView.setVisibility(View.GONE);
-                        lldeliveredSectionView.setVisibility(View.VISIBLE);
-                        progressBarPickup.setVisibility(View.INVISIBLE);
-                        Toast.makeText(OrderViewUser.this, "Order is picked up!", Toast.LENGTH_SHORT).show();
-                        customerMsgBody = "";
-                        restaurentMsgBody = "";
-                        deliveryMsgBody = "";
-                        customerMsgBody += "Your order has been picked up by "+fDeliveryBoyName+" and its on the way. Please visit app for more information. Ignore if you didn't order.";
-                        restaurentMsgBody += "The order is picked by "+fDeliveryBoyName+". Please visit app for more information. Ignore if not picked up.";
-                        deliveryMsgBody +="You picked the order from "+fRestaurentName+". Please visit app for more order details. Ignore if you didn't pick up.\n";
-                        if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
-                            sendPickedUpMsg(fDeliveryBoyContact);
-                        }else{
-                            askPermissionForSms();
-
-                        }
-
-                    }
-                });
+                pickupOrder();
             }
         });
 
         deliveredButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBarDelivered.setVisibility(View.VISIBLE);
-                DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("status", "Delivered");
-                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        lldeliveredSectionView.setVisibility(View.GONE);
-                        progressBarDelivered.setVisibility(View.INVISIBLE);
-                        Toast.makeText(OrderViewUser.this, "Order is delivered!", Toast.LENGTH_SHORT).show();
-                        customerMsgBody = "";
-                        deliveryMsgBody = "";
-                        customerMsgBody += "Your order has been delivered by "+fDeliveryBoyName+". Thanks for ordering. Please visit app for more information";
-                        deliveryMsgBody +="You delivered the order to "+fCustomerName+". Please visit app for more order details. Ignore if you didn't deliver.\n";
-                        sendDeliveredMsg(fDeliveryBoyContact);
-                    }
-                });
+                deliverOrder();
             }
         });
-
-
-
-
         submitRatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBarRating.setVisibility(View.VISIBLE);
-                Double BarRating = Double.valueOf(materialRatingBar.getRating());
-                DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("rating", BarRating.floatValue());
-                nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        databaseReference.child("dishes").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(CartItemInfo obj : fetchedCartItems){
-                                    Integer timesRated;
-                                    Double rating;
-                                    timesRated = snapshot.child(obj.getDishId()).child("timesOrdered").getValue(Integer.class);
-                                    rating = snapshot.child(obj.getDishId()).child("rating").getValue(Double.class) * timesRated;
-                                    timesRated = timesRated + 1;
-                                    rating = rating + BarRating.floatValue();
-                                    rating = rating / timesRated;
-                                    DatabaseReference nodeRef2 = databaseReference.child("dishes").child(obj.getDishId());
-                                    Map<String, Object> updates = new HashMap<>();
-                                    updates.put("rating", rating);
-                                    updates.put("timesOrdered", timesRated);
-                                    nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            llratingSectionView.setVisibility(View.GONE);
-                                            progressBarRating.setVisibility(View.INVISIBLE);
-                                            Toast.makeText(OrderViewUser.this, "Thanks for your feedback!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-                });
+                rateOrder();
             }
         });
 
@@ -592,6 +261,350 @@ public class OrderViewUser extends AppCompatActivity {
         }
 
     }
+    private void viewOrder(Intent intent){
+        orderViewConfig = intent.getStringExtra("orderViewConfig");
+        orderIdIntent = getIntent().getStringExtra("orderId");
+        deliveryIdIntent = getIntent().getStringExtra("deliveryBoyId");
+        customerAddressView.setFocusable(false);
+        databaseReference.child("orders").child(orderIdIntent).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                fDeliveryBoyId = snapshot.child("deliveryboyid").getValue(String.class);
+                fCustomerName = snapshot.child("customername").getValue(String.class);
+                fDeliveryBoyName = snapshot.child("deliveryboyname").getValue(String.class);
+                fRestaurentName = snapshot.child("restaurentname").getValue(String.class);
+                fCustomerContact = snapshot.child("customercontact").getValue(String.class);
+                fRestaurentContact = snapshot.child("restaurentcontact").getValue(String.class);
+                fDeliveryBoyContact = snapshot.child("deliveryboycontact").getValue(String.class);
+                fCustomerAddress = snapshot.child("customeraddress").getValue(String.class);
+                fRestaurentAddress = snapshot.child("restaurentaddress").getValue(String.class);
+                fStatus = snapshot.child("status").getValue(String.class);
+                fDate = snapshot.child("date").getValue(String.class);
+                fRating = snapshot.child("rating").getValue(Double.class);
+                fTotalPrice = snapshot.child("totalprice").getValue(Double.class);
+                fTotalBill = snapshot.child("totalbill").getValue(Double.class);
+                fTaxes = snapshot.child("taxes").getValue(Double.class);
+                fDeliveryFee = 30.0;
+                fetchedCartItems = new ArrayList<CartItemInfo>();
+                for(DataSnapshot snapshot1 : snapshot.child("items").getChildren()){
+                    fetchedCartItems.add(new CartItemInfo(snapshot1.child("dishid").getValue(String.class)
+                            ,snapshot1.child("restaurentid").getValue(String.class)
+                            ,snapshot1.child("dishname").getValue(String.class)
+                            ,snapshot1.child("quantity").getValue(Integer.class)
+                            ,snapshot1.child("price").getValue(Double.class)
+                            ,snapshot1.child("single").getValue(Double.class)
+                            ,snapshot1.child("vegnonveg").getValue(String.class)));
+                }
+                restaurentNameView.setText(fRestaurentName);
+                restaurentAddressView.setText(fRestaurentAddress);
+                customerAddressView.setText(fCustomerAddress);
+                totalBillView.setText(String.valueOf(fTotalBill.floatValue()));
+                priceView.setText(String.valueOf(fTotalPrice.floatValue()));
+                taxView.setText(String.valueOf(fTaxes.floatValue()));
+                deliveryFeeView.setText(String.valueOf(fDeliveryFee.floatValue()));
+                dateView.setText(fDate);
+                statusView.setText(fStatus);
+
+                if(orderViewConfig.equals("customer")){
+                    contactOfWhoView.setText("Delivery Partner Contact");
+                    if(fDeliveryBoyName == null){
+                        contactOfuserOrDelView.setText("Delivery Partner will be assigned shortly");
+                    }else{
+                        contactOfuserOrDelView.setText(fDeliveryBoyContact);
+                    }
+                    if(fStatus.equals("Delivered")){
+                        if(fRating == null){
+                            llratingSectionView.setVisibility(View.VISIBLE);
+                        }else{
+                            llSubmittedRatingSectionView.setVisibility(View.VISIBLE);
+
+                            submittedRatingBar.setRating(fRating.floatValue());
+                        }
+
+                    }
+
+
+                } else if (orderViewConfig.equals("restaurent")) {
+                    contactOfWhoView.setText("Customer Contact");
+                    contactOfuserOrDelView.setText(fCustomerContact);
+
+
+                } else if (orderViewConfig.equals("deliveryboy")) {
+                    contactOfWhoView.setText("Customer Contact");
+                    contactOfuserOrDelView.setText(fCustomerContact);
+                    if(fDeliveryBoyName == null){
+                        llgetAssignedSectionView.setVisibility(View.VISIBLE);
+                    } else if (fStatus.equals("Picked Up")) {
+                        lldeliveredSectionView.setVisibility(View.VISIBLE);
+                    } else if (fStatus.equals("Being Prepared")) {
+                        llpickupSectionView.setVisibility(View.VISIBLE);
+                    }
+
+
+                }
+
+
+
+
+                AfterOrderCartAdapter adapter = new AfterOrderCartAdapter(OrderViewUser.this, fetchedCartItems);
+                // Attach the adapter to a ListView
+                ListView listView = (ListView) findViewById(R.id.itemsOrderedList);
+                listView.setAdapter(adapter);
+                listView.setTag(ll);
+                getListViewSize(listView);
+                progressBar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void rateOrder(){
+        progressBarRating.setVisibility(View.VISIBLE);
+        Double BarRating = Double.valueOf(materialRatingBar.getRating());
+        DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("rating", BarRating.floatValue());
+        nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                databaseReference.child("dishes").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(CartItemInfo obj : fetchedCartItems){
+                            Integer timesRated;
+                            Double rating;
+                            timesRated = snapshot.child(obj.getDishId()).child("timesOrdered").getValue(Integer.class);
+                            rating = snapshot.child(obj.getDishId()).child("rating").getValue(Double.class) * timesRated;
+                            timesRated = timesRated + 1;
+                            rating = rating + BarRating.floatValue();
+                            rating = rating / timesRated;
+                            DatabaseReference nodeRef2 = databaseReference.child("dishes").child(obj.getDishId());
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("rating", rating);
+                            updates.put("timesOrdered", timesRated);
+                            nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    llratingSectionView.setVisibility(View.GONE);
+                                    progressBarRating.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(OrderViewUser.this, "Thanks for your feedback!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+    }
+    private void deliverOrder(){
+        progressBarDelivered.setVisibility(View.VISIBLE);
+        DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("status", "Delivered");
+        nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                lldeliveredSectionView.setVisibility(View.GONE);
+                progressBarDelivered.setVisibility(View.INVISIBLE);
+                Toast.makeText(OrderViewUser.this, "Order is delivered!", Toast.LENGTH_SHORT).show();
+                customerMsgBody = "";
+                deliveryMsgBody = "";
+                customerMsgBody += "Your order has been delivered by "+fDeliveryBoyName+". Thanks for ordering. Please visit app for more information";
+                deliveryMsgBody +="You delivered the order to "+fCustomerName+". Please visit app for more order details. Ignore if you didn't deliver.\n";
+                sendDeliveredMsg(fDeliveryBoyContact);
+            }
+        });
+    }
+    private void pickupOrder(){
+        progressBarPickup.setVisibility(View.VISIBLE);
+        DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("status", "Picked Up");
+        nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                llpickupSectionView.setVisibility(View.GONE);
+                lldeliveredSectionView.setVisibility(View.VISIBLE);
+                progressBarPickup.setVisibility(View.INVISIBLE);
+                Toast.makeText(OrderViewUser.this, "Order is picked up!", Toast.LENGTH_SHORT).show();
+                customerMsgBody = "";
+                restaurentMsgBody = "";
+                deliveryMsgBody = "";
+                customerMsgBody += "Your order has been picked up by "+fDeliveryBoyName+" and its on the way. Please visit app for more information. Ignore if you didn't order.";
+                restaurentMsgBody += "The order is picked by "+fDeliveryBoyName+". Please visit app for more information. Ignore if not picked up.";
+                deliveryMsgBody +="You picked the order from "+fRestaurentName+". Please visit app for more order details. Ignore if you didn't pick up.\n";
+                if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                    sendPickedUpMsg(fDeliveryBoyContact);
+                }else{
+                    askPermissionForSms();
+
+                }
+
+            }
+        });
+    }
+    private void assignOrder(){
+        progressBarAssigned.setVisibility(View.VISIBLE);
+        databaseReference.child("deliveryboys").child(deliveryIdIntent).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name = snapshot.child("name").getValue(String.class);
+                String contact = snapshot.child("contact").getValue(String.class);
+                databaseReference.child("deliveryboys").child(deliveryIdIntent).child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        snapshot.child("value").getRef().setValue(orderIdIntent);
+                        DatabaseReference nodeRef2 = databaseReference.child("orders").child(orderIdIntent);
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("deliveryboyid", deliveryIdIntent);
+                        updates.put("deliveryboycontact", contact);
+                        updates.put("deliveryboyname", name);
+                        nodeRef2.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                llgetAssignedSectionView.setVisibility(View.GONE);
+                                llpickupSectionView.setVisibility(View.VISIBLE);
+                                progressBarAssigned.setVisibility(View.INVISIBLE);
+                                Toast.makeText(OrderViewUser.this, "Order is assigned to you!", Toast.LENGTH_SHORT).show();
+                                customerMsgBody = "";
+                                deliveryMsgBody = "";
+                                customerMsgBody += "Your order has been assigned to "+name+" as the delivery partner. Please visit app for more information. Ignore if you didn't order.";
+                                deliveryMsgBody +="Your order assignment from "+fRestaurentName+" has been confirmed. Please visit app for more order details. Ignore if you didn't assign.\n";
+                                if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                                    fDeliveryBoyContact = contact;
+                                    fDeliveryBoyName = name;
+                                    sendAssignedOrderSms(contact);
+                                }else{
+                                    askPermissionForSms();
+
+                                }
+//
+
+
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void placeOrder(){
+        if(Double.valueOf(totalBillView.getText().toString()) == 0.0){
+            Toast.makeText(OrderViewUser.this, "Your Cart is empty, can't place order", Toast.LENGTH_SHORT).show();
+        }else{
+            progressBarPlaceOrder.setVisibility(View.VISIBLE);
+            databaseReference.child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    snapshot.child("customerid").getRef().setValue(customerIdForUse);
+                    snapshot.child("restaurentid").getRef().setValue(restaurentIdIntent);
+                    snapshot.child("customername").getRef().setValue(customerNameIntent);
+                    snapshot.child("restaurentname").getRef().setValue(restaurentNameIntent);
+                    snapshot.child("customeraddress").getRef().setValue(customerAddressView.getText().toString());
+                    snapshot.child("restaurentaddress").getRef().setValue(restaurentAddressIntent);
+                    snapshot.child("restaurentcontact").getRef().setValue(restaurentContactIntent);
+                    snapshot.child("customercontact").getRef().setValue(customerContactIntent);
+                    snapshot.child("status").getRef().setValue("Being Prepared");
+                    snapshot.child("date").getRef().setValue(new Date().toString());
+                    snapshot.child("totalprice").getRef().setValue(Double.valueOf(priceView.getText().toString()));
+                    snapshot.child("taxes").getRef().setValue(Double.valueOf(taxView.getText().toString()));
+                    snapshot.child("deliveryfee").getRef().setValue(30.0);
+                    snapshot.child("totalbill").getRef().setValue(Double.valueOf(totalBillView.getText().toString()));
+                    orderIdForUse = snapshot.getKey();
+                    databaseReference.child("customers").child(customerIdForUse).child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            snapshot.child("value").getRef().setValue(orderIdForUse);
+                            databaseReference.child("restaurents").child(restaurentIdIntent).child("orders").push().addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.child("value").getRef().setValue(orderIdForUse);
+
+                                    for(CartItemInfo obj : cartItemInfoArrayList){
+                                        databaseReference.child("orders").child(orderIdForUse).child("items").getRef().push().addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                snapshot.child("dishid").getRef().setValue(obj.getDishId());
+                                                snapshot.child("restaurentid").getRef().setValue(obj.getRestaurentId());
+                                                snapshot.child("dishname").getRef().setValue(obj.getDishName());
+                                                snapshot.child("quantity").getRef().setValue(obj.getQuanity());
+                                                snapshot.child("price").getRef().setValue(obj.getPrice());
+                                                snapshot.child("single").getRef().setValue(obj.getSingleItemPrice());
+                                                snapshot.child("vegnonveg").getRef().setValue(obj.getVegNonVeg());
+                                                progressBarPlaceOrder.setVisibility(View.INVISIBLE);
+                                                llplaceOrderSectionView.setVisibility(View.GONE);
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+                                    Toast.makeText(OrderViewUser.this, "Order Placed!", Toast.LENGTH_SHORT).show();
+                                    customerMsgBody = "";
+                                    customerMsgBody +="Your order from "+restaurentNameIntent+" has been confirmed. Please visit app for more order details. Ignore if you didn't order.\n";
+                                    restaurentMsgBody = "";
+                                    restaurentMsgBody +="New order received from "+customerNameIntent+". Please visit app for more order details. Ignore if sent by mistake.\n";
+                                    if(ContextCompat.checkSelfPermission(OrderViewUser.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                                        sendPlacedOrderSms();
+                                    }else{
+                                        askPermissionForSms();
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
 
     private void getLastLocation() {
         LocationRequest mLocationRequest = LocationRequest.create();

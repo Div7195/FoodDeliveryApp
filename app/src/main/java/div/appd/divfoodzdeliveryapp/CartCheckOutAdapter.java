@@ -65,52 +65,56 @@ public class CartCheckOutAdapter extends ArrayAdapter<CartItemInfo> {
         subtractView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (cartItemInfo.getQuanity() >= 1) {
-                    Integer quantity = cartItemInfo.getQuanity() - 1;
-                    Double newPrice = cartItemInfo.getPrice() - cartItemInfo.getSingleItemPrice();
-                    Double newTotalPrice = Double.valueOf(totalPriceView.getText().toString()) - cartItemInfo.getSingleItemPrice();
-                    Double newTax = 0.18 * newTotalPrice;
-                    Double deliveryFee = 30.0;
-                    Double newBillAmount = newTotalPrice + newTax + deliveryFee;
-                    cartItemInfo.setQuanity(quantity);
-                    if(quantity == 0){
-                        remove(getItem(position));
-                    }else {
-                        cartItemInfo.setPrice(newPrice);
-                    }
-                    notifyDataSetChanged();
-                    if(newTotalPrice.floatValue() == 0){
-                        newBillAmount = 0.0;
-                        deliveryFeeView.setText("0.0");
-                    }
-                    totalPriceView.setText(String.valueOf(newTotalPrice.floatValue()));
-                    taxView.setText(String.valueOf(newTax.floatValue()));
-                    totalBillView.setText(String.valueOf(newBillAmount.floatValue()));
-
-                }
-
+                subtractFromCartList(cartItemInfo, totalPriceView, position, deliveryFeeView, taxView, totalBillView);
             }
         });
         addView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Integer quantity = cartItemInfo.getQuanity() + 1;
-                Double newPrice = cartItemInfo.getPrice() + cartItemInfo.getSingleItemPrice();
-                Double newTotalPrice = Double.valueOf(totalPriceView.getText().toString()) + cartItemInfo.getSingleItemPrice();
-                Double newTax = 0.18 * newTotalPrice;
-                Double deliveryFee = 30.0;
-                Double newBillAmount = newTotalPrice + newTax + deliveryFee;
-                cartItemInfo.setQuanity(quantity);
-                cartItemInfo.setPrice(newPrice);
-                notifyDataSetChanged();
-                totalPriceView.setText(String.valueOf(newTotalPrice.floatValue()));
-                taxView.setText(String.valueOf(newTax.floatValue()));
-                totalBillView.setText(String.valueOf(newBillAmount.floatValue()));
+                addToCartList(cartItemInfo, totalPriceView, taxView, totalBillView);
             }
         });
 
         return convertView;
     }
+    private void subtractFromCartList(CartItemInfo cartItemInfo, TextView totalPriceView, int position, TextView deliveryFeeView, TextView taxView, TextView totalBillView){
+        if (cartItemInfo.getQuanity() >= 1) {
+            Integer quantity = cartItemInfo.getQuanity() - 1;
+            Double newPrice = cartItemInfo.getPrice() - cartItemInfo.getSingleItemPrice();
+            Double newTotalPrice = Double.valueOf(totalPriceView.getText().toString()) - cartItemInfo.getSingleItemPrice();
+            Double newTax = 0.18 * newTotalPrice;
+            Double deliveryFee = 30.0;
+            Double newBillAmount = newTotalPrice + newTax + deliveryFee;
+            cartItemInfo.setQuanity(quantity);
+            if(quantity == 0){
+                remove(getItem(position));
+            }else {
+                cartItemInfo.setPrice(newPrice);
+            }
+            notifyDataSetChanged();
+            if(newTotalPrice.floatValue() == 0){
+                newBillAmount = 0.0;
+                deliveryFeeView.setText("0.0");
+            }
+            totalPriceView.setText(String.valueOf(newTotalPrice.floatValue()));
+            taxView.setText(String.valueOf(newTax.floatValue()));
+            totalBillView.setText(String.valueOf(newBillAmount.floatValue()));
+
+        }
+    }
+    private void addToCartList(CartItemInfo cartItemInfo, TextView totalPriceView, TextView taxView, TextView totalBillView){
+        Integer quantity = cartItemInfo.getQuanity() + 1;
+        Double newPrice = cartItemInfo.getPrice() + cartItemInfo.getSingleItemPrice();
+        Double newTotalPrice = Double.valueOf(totalPriceView.getText().toString()) + cartItemInfo.getSingleItemPrice();
+        Double newTax = 0.18 * newTotalPrice;
+        Double deliveryFee = 30.0;
+        Double newBillAmount = newTotalPrice + newTax + deliveryFee;
+        cartItemInfo.setQuanity(quantity);
+        cartItemInfo.setPrice(newPrice);
+        notifyDataSetChanged();
+        totalPriceView.setText(String.valueOf(newTotalPrice.floatValue()));
+        taxView.setText(String.valueOf(newTax.floatValue()));
+        totalBillView.setText(String.valueOf(newBillAmount.floatValue()));
+    }
+
 }

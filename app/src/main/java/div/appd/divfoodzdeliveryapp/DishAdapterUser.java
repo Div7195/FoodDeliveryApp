@@ -31,6 +31,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -139,86 +140,20 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
         addButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(resId.equals("") || resId.equals(dish.getRestaurentId())){
-                        viewFlipper.showNext();
-                        if(layout2 != null) {
-                            if(hashMapSameDish.size() == 0) {
-                                ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                                int h = layout1.getHeight() - 169;
-                                int w = params1.width;
-                                params1.height = h;
-                                params1.width = w;
-                                layout1.setLayoutParams(params1);
-                                layout2.setVisibility(View.VISIBLE);
-
-                            }
-                            hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0,Double.valueOf(dish.getPrice()), dish.getVegOrNonveg()));
-                            resId = dish.getRestaurentId();
-                            CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
-                            Integer quantity = cartItemInfo.getQuanity() + 1;
-                            Double price = cartItemInfo.getPrice() + Double.valueOf(dish.getPrice());
-                            cartItemInfo.setQuanity(quantity);
-                            cartItemInfo.setPrice(price);
-                            d = d + Double.valueOf(dish.getPrice());
-                            q = q + 1;
-                            cartTotalPriceView.setText(String.valueOf(d));
-                            cartTotalItemsView.setText(String.valueOf(q));
-                            quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
-                        }else{
-                            Toast.makeText(getContext(), "fsadf", Toast.LENGTH_SHORT).show();
-                        }
-                }else{
-                    Toast.makeText(getContext(), "Select same restaurent", Toast.LENGTH_SHORT).show();
-                }
-
-
-
+                addToCart(layout1, layout2, dish, viewFlipper, cartTotalPriceView, cartTotalItemsView, quantityView);
             }
         });
 
         imageButtonSubView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
-                Integer quantity = cartItemInfo.getQuanity() - 1;
-                Double price = cartItemInfo.getPrice() - Double.valueOf(dish.getPrice());
-                cartItemInfo.setQuanity(quantity);
-                cartItemInfo.setPrice(price);
-                d = d - Double.valueOf(dish.getPrice());
-                q = q - 1;
-                cartTotalPriceView.setText(String.valueOf(d));
-                cartTotalItemsView.setText(String.valueOf(q));
-                quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
-                if(cartItemInfo.getQuanity() == 0){
-                    viewFlipper.showPrevious();
-                    hashMapSameDish.remove(dish.getDishId());
-                    if(hashMapSameDish.size() == 0){
-                        resId = "";
-                        ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
-                        int h = layout1.getHeight() + 169;
-                        int w = params1.width;
-                        layout2.setVisibility(View.GONE);
-                        params1.height = h;
-                        params1.width = w;
-                        layout1.setLayoutParams(params1);
-                    }
-                }
+                removeFromCart(dish, cartTotalPriceView, cartTotalItemsView, quantityView, viewFlipper, layout1, layout2);
             }
         });
         imageButtonAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
-                    Integer quantity = cartItemInfo.getQuanity() + 1;
-                    Double price = cartItemInfo.getPrice() + Double.valueOf(dish.getPrice());
-                    cartItemInfo.setQuanity(quantity);
-                    cartItemInfo.setPrice(price);
-                    d = d + Double.valueOf(dish.getPrice());
-                    q = q + 1;
-                    cartTotalPriceView.setText(String.valueOf(d));
-                    cartTotalItemsView.setText(String.valueOf(q));
-                    quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
-
+                addToExistingCart(dish, cartTotalPriceView, cartTotalItemsView, quantityView);
             }
         });
         layout2.setOnClickListener(new View.OnClickListener() {
@@ -290,8 +225,82 @@ public class DishAdapterUser extends ArrayAdapter<Dish> {
         });
 
 
+
         return convertView;
     }
+    private void removeFromCart(Dish dish, TextView cartTotalPriceView, TextView cartTotalItemsView, TextView quantityView, ViewFlipper viewFlipper, LinearLayout layout1, LinearLayout layout2){
+        CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
+        Integer quantity = cartItemInfo.getQuanity() - 1;
+        Double price = cartItemInfo.getPrice() - Double.valueOf(dish.getPrice());
+        cartItemInfo.setQuanity(quantity);
+        cartItemInfo.setPrice(price);
+        d = d - Double.valueOf(dish.getPrice());
+        q = q - 1;
+        cartTotalPriceView.setText(String.valueOf(d));
+        cartTotalItemsView.setText(String.valueOf(q));
+        quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
+        if(cartItemInfo.getQuanity() == 0){
+            viewFlipper.showPrevious();
+            hashMapSameDish.remove(dish.getDishId());
+            if(hashMapSameDish.size() == 0){
+                resId = "";
+                ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
+                int h = layout1.getHeight() + 169;
+                int w = params1.width;
+                layout2.setVisibility(View.GONE);
+                params1.height = h;
+                params1.width = w;
+                layout1.setLayoutParams(params1);
+            }
+        }
+    }
+
+    private void addToCart(LinearLayout layout1, LinearLayout layout2, Dish dish, ViewFlipper viewFlipper, TextView cartTotalPriceView, TextView cartTotalItemsView, TextView quantityView) {
+        if(resId.equals("") || resId.equals(dish.getRestaurentId())){
+            viewFlipper.showNext();
+            if(layout2 != null) {
+                if(hashMapSameDish.size() == 0) {
+                    ViewGroup.LayoutParams params1 = layout1.getLayoutParams();
+                    int h = layout1.getHeight() - 169;
+                    int w = params1.width;
+                    params1.height = h;
+                    params1.width = w;
+                    layout1.setLayoutParams(params1);
+                    layout2.setVisibility(View.VISIBLE);
+
+                }
+                hashMapSameDish.put(dish.getDishId(), new CartItemInfo(dish.getDishId(), dish.getRestaurentId(), dish.getTitle(), 0, 0.0,Double.valueOf(dish.getPrice()), dish.getVegOrNonveg()));
+                resId = dish.getRestaurentId();
+                CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
+                Integer quantity = cartItemInfo.getQuanity() + 1;
+                Double price = cartItemInfo.getPrice() + Double.valueOf(dish.getPrice());
+                cartItemInfo.setQuanity(quantity);
+                cartItemInfo.setPrice(price);
+                d = d + Double.valueOf(dish.getPrice());
+                q = q + 1;
+                cartTotalPriceView.setText(String.valueOf(d));
+                cartTotalItemsView.setText(String.valueOf(q));
+                quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
+            }else{
+                Toast.makeText(getContext(), "fsadf", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(getContext(), "Select same restaurent", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void addToExistingCart(Dish dish, TextView cartTotalPriceView, TextView cartTotalItemsView, TextView quantityView){
+        CartItemInfo cartItemInfo = hashMapSameDish.get(dish.getDishId());
+        Integer quantity = cartItemInfo.getQuanity() + 1;
+        Double price = cartItemInfo.getPrice() + Double.valueOf(dish.getPrice());
+        cartItemInfo.setQuanity(quantity);
+        cartItemInfo.setPrice(price);
+        d = d + Double.valueOf(dish.getPrice());
+        q = q + 1;
+        cartTotalPriceView.setText(String.valueOf(d));
+        cartTotalItemsView.setText(String.valueOf(q));
+        quantityView.setText(String.valueOf(cartItemInfo.getQuanity()));
+    }
+
     private void saveMap(HashMap<String, CartItemInfo> inputMap) {
         SharedPreferences pSharedPref = getContext().getSharedPreferences("MyVariables", Context.MODE_PRIVATE);
         if (pSharedPref != null) {
